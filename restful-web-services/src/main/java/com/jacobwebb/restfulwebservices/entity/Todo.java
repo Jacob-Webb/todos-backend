@@ -1,4 +1,4 @@
-package com.jacobwebb.restfulwebservices.todo;
+package com.jacobwebb.restfulwebservices.entity;
 
 import java.util.Date;
 

@@ -12,9 +12,7 @@ export class HttpInterceptorBasicAuthService implements HttpInterceptor{
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
-    // let username = '';
-    // let password = 'dummy';
-    //
+
     let basicAuthHeaderString = this.basicAuthenticationService.getAuthenticatedToken();
     let username = this.basicAuthenticationService.getAuthenticatedUser();
 

@@ -1,4 +1,4 @@
-package com.jacobwebb.restfulwebservices.controller.helloworld;
+package com.jacobwebb.restfulwebservices.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +9,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins="http://localhost:4200")
 public class HelloWorldController {
+	
+	public class HelloWorldBean {
+		
+		private String message;
+		
+		public HelloWorldBean(String message) {
+			this.message = message;
+		}
+
+		public String getMessage() {
+			return message;
+		}
+
+		public void setMessage(String message) {
+			this.message = message;
+		}
+
+		@Override
+		public String toString() {
+			return "HelloWorldBean [message=" + message + "]";
+		}
+	}
 	
 	// get
 	//Uri - /hello-world
