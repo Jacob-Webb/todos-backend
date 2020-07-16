@@ -6,4 +6,5 @@ import com.jacobwebb.restfulwebservices.entity.User;
 
 public interface UserJpaRepository extends JpaRepository<User, Long>{
 
+	User findByUsername(String username);
 }

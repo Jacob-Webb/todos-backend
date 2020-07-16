@@ -35,19 +35,20 @@ public class User {
 	private String role;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="user_contact_id")
+	@JoinColumn(name="contact_id", unique=true)
 	private UserContact userContact;
-	
+
 	public User() {
 		
 	}
 
-	public User(String username, String password, String firstName, String lastName, String role) {
+	public User(String username, String password, String firstName, String lastName, String role, UserContact contact) {
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.role = role;
+		this.userContact.setUser(this);
 	}
 
 	public Long getUserId() {
@@ -96,6 +97,14 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+	
+	public UserContact getUserContact() {
+		return userContact;
+	}
+
+	public void setUserContact(UserContact userContact) {
+		this.userContact = userContact;
 	}
 	
 	@Override
