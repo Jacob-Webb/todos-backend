@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="contact_info")
-public class UserContact {
+public class Contact {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -23,14 +23,14 @@ public class UserContact {
 	@Column(name="phone")
 	private String phone;
 	
-	@OneToOne(mappedBy= "userContact")
+	@OneToOne(mappedBy= "contact")
 	private User user;
 	
-	public UserContact() {
+	public Contact() {
 		
 	}
 
-	public UserContact(String email, String phone) {
+	public Contact(String email, String phone) {
 		this.email = email;
 		this.phone = phone;
 	}

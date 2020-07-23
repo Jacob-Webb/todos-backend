@@ -16,63 +16,72 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.jacobwebb.restfulwebservices.dao.UserContactJpaRepository;
+import com.jacobwebb.restfulwebservices.entity.Contact;
 import com.jacobwebb.restfulwebservices.entity.Todo;
 import com.jacobwebb.restfulwebservices.service.TodoHardcodedService;
 
+@CrossOrigin(origins="${crossOrigin}")
 @RestController
-@CrossOrigin(origins="http://localhost:4200")
-public class TodoResources {
+public class ContactController {
 	
 	@Autowired
-	private TodoHardcodedService todoService;
+	private UserContactJpaRepository repository;
 	
-	@GetMapping("/users/{username}/todos")
-	public List<Todo> getAllTodos(@PathVariable String username) {
-		return todoService.findAll();
+	@GetMapping("/contacts")
+	public List<Contact> getAllContacts() {
+		return repository.findAll();
+		//return todoService.findAll();
 	}
-	
+/*	
 	@GetMapping("/users/{username}/todos/{id}")
 	public Todo getTodo(@PathVariable String username, @PathVariable long id) {
-		return todoService.findById(id);
+		return repository.findById(id).get();
+		//return todoService.findById(id);
 	}
 	
-	// Delete todos
 	@DeleteMapping("/users/{username}/todos/{id}")
-	public ResponseEntity<Void> deleteTodo(@PathVariable String username, 
-			@PathVariable long id) {
+	public ResponseEntity<Void> deleteTodo(
+		@PathVariable String username, @PathVariable long id) {
 		
-		Todo todo = todoService.deleteById(id);
-		if(todo!=null ) {
-			return ResponseEntity.noContent().build();
-		}
+		//Todo todo = todoService.deleteById(id);
+		repository.deleteById(id);
 		
-		return ResponseEntity.notFound().build();
+		return ResponseEntity.noContent().build();
+		
+//		if(todo != null) {
+//			return ResponseEntity.noContent().build();
+//		}
+//		
+//		return ResponseEntity.notFound().build();
 	}
 	
-	//Edit/Update a Todo
-	//PUT /users/{user_name}/todos/{todo_id}
 	@PutMapping("/users/{username}/todos/{id}")
 	public ResponseEntity<Todo> updateTodo(
-			@PathVariable String username, @PathVariable long id, 
-			@RequestBody Todo todo) {
-		Todo todoUpdate = todoService.save(todo);
+			@PathVariable String username,
+			@PathVariable long id, @RequestBody Todo todo) {
+		
+		//Todo todoUpdated = todoService.save(todo);
+		Todo todoUpdated = repository.save(todo);
+		
 		return new ResponseEntity<Todo>(todo, HttpStatus.OK);
 	}
-	
+*/	
 	// Create a new Todo
 	//POST
-	@PostMapping("/users/{username}/todos")
-	public ResponseEntity<Void> createTodo(
-			@PathVariable String username, @RequestBody Todo todo) {
-		Todo createdTodo = todoService.save(todo);
+	@PostMapping("/contacts")
+	public ResponseEntity<Void> createContact(@RequestBody Contact contact) {
+		
+		//Todo createdTodo = todoService.save(todo);
+		Contact createdContact = repository.save(contact);
 		
 		// Location
 		// Get current resource url
 		// users/{username}/todos/{id}
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-			path("/{id}").buildAndExpand(createdTodo.getId()).toUri();
+			path("/{contact_id}").buildAndExpand(createdContact.getContactId()).toUri();
 		
 		return ResponseEntity.created(uri).build();
 	}
-
+	
 }

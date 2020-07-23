@@ -20,29 +20,26 @@ import com.jacobwebb.restfulwebservices.dao.TodoJpaRepository;
 import com.jacobwebb.restfulwebservices.entity.Todo;
 import com.jacobwebb.restfulwebservices.service.TodoHardcodedService;
 
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins="${crossOrigin}")
 @RestController
-public class TodoJpaResource {
-	
-	@Autowired
-	private TodoHardcodedService todoService;
+public class TodoController {
 	
 	@Autowired
 	private TodoJpaRepository todoJpaRepository;
 	
-	@GetMapping("/jpa/users/{username}/todos")
+	@GetMapping("/users/{username}/todos")
 	public List<Todo> getAllTodos(@PathVariable String username) {
 		return todoJpaRepository.findByUsername(username);
 		//return todoService.findAll();
 	}
 	
-	@GetMapping("/jpa/users/{username}/todos/{id}")
+	@GetMapping("/users/{username}/todos/{id}")
 	public Todo getTodo(@PathVariable String username, @PathVariable long id) {
 		return todoJpaRepository.findById(id).get();
 		//return todoService.findById(id);
 	}
 	
-	@DeleteMapping("/jpa/users/{username}/todos/{id}")
+	@DeleteMapping("/users/{username}/todos/{id}")
 	public ResponseEntity<Void> deleteTodo(
 		@PathVariable String username, @PathVariable long id) {
 		
@@ -58,7 +55,7 @@ public class TodoJpaResource {
 //		return ResponseEntity.notFound().build();
 	}
 	
-	@PutMapping("/jpa/users/{username}/todos/{id}")
+	@PutMapping("/users/{username}/todos/{id}")
 	public ResponseEntity<Todo> updateTodo(
 			@PathVariable String username,
 			@PathVariable long id, @RequestBody Todo todo) {
@@ -71,7 +68,7 @@ public class TodoJpaResource {
 	
 	// Create a new Todo
 	//POST
-	@PostMapping("/jpa/users/{username}/todos")
+	@PostMapping("/users/{username}/todos")
 	public ResponseEntity<Void> createTodo(
 			@PathVariable String username, @RequestBody Todo todo) {
 		

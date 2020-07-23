@@ -20,50 +20,49 @@ import com.jacobwebb.restfulwebservices.dao.TodoJpaRepository;
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
 import com.jacobwebb.restfulwebservices.entity.Todo;
 import com.jacobwebb.restfulwebservices.entity.User;
-import com.jacobwebb.restfulwebservices.entity.UserContact;
+import com.jacobwebb.restfulwebservices.entity.Contact;
 import com.jacobwebb.restfulwebservices.service.TodoHardcodedService;
 
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins="${crossOrigin}")
 @RestController
-public class TestUserCreator {
+public class UserController {
 
 	@Autowired
 	private UserJpaRepository repository;
 	
-	@GetMapping("/jpa/users")
+	@GetMapping("/users")
 	public List<User> getAllUsers() {
 		return repository.findAll();
 		//return todoService.findAll();
 	}
 	
-	@GetMapping("/jpa/users/{username}")
-	public User getUser(@PathVariable String username) {
-		return repository.findByUsername(username);
+	@GetMapping("/users/{id}")
+	public User getUser(@PathVariable long id) {
+		return repository.findById(id).get();
 		//return todoService.findById(id);
 	}
 	
-//	@DeleteMapping("/jpa/users/{username}/todos/{id}")
-//	public ResponseEntity<Void> deleteTodo(
-//		@PathVariable String username, @PathVariable long id) {
-//		
-//		todoJpaRepository.deleteById(id);
-//		
-//		return ResponseEntity.noContent().build();
-//	}
+	@DeleteMapping("/users/{id}")
+	public ResponseEntity<Void> deleteUser(
+		@PathVariable String username, @PathVariable long id) {
+		
+		repository.deleteById(id);
+		
+		return ResponseEntity.noContent().build();
+	}
 	
-//	@PutMapping("/jpa/users/{username}/todos/{id}")
-//	public ResponseEntity<Todo> updateTodo(
-//			@PathVariable String username,
-//			@PathVariable long id, @RequestBody Todo todo) {
-//		
-//		Todo todoUpdated = todoJpaRepository.save(todo);
-//		
-//		return new ResponseEntity<Todo>(todo, HttpStatus.OK);
-//	}
+	@PutMapping("/users/{id}")
+	public ResponseEntity<User> updateUser(
+			@PathVariable long id, @RequestBody User user) {
+		
+		User userUpdated = repository.save(user);
+		
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
 	
 	// Create a new Todo
 	//POST
-	@PostMapping("/jpa/users")
+	@PostMapping("/users")
 	public ResponseEntity<Void> createUser(@RequestBody User user) {
 
 		User createUser = repository.save(user);

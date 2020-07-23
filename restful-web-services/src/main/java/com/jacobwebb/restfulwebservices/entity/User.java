@@ -2,6 +2,7 @@ package com.jacobwebb.restfulwebservices.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="user")
@@ -36,19 +39,19 @@ public class User {
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="contact_id", unique=true)
-	private UserContact userContact;
+	private Contact contact;
 
 	public User() {
 		
 	}
 
-	public User(String username, String password, String firstName, String lastName, String role, UserContact contact) {
+	public User(String username, String password, String firstName, String lastName, String role, Contact contact) {	// maybe add Contact contact back in when this gets figurd out
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.role = role;
-		this.userContact.setUser(this);
+		this.contact.setUser(this);
 	}
 
 	public Long getUserId() {
@@ -99,12 +102,12 @@ public class User {
 		this.role = role;
 	}
 	
-	public UserContact getUserContact() {
-		return userContact;
+	public Contact getContact() {
+		return contact;
 	}
 
-	public void setUserContact(UserContact userContact) {
-		this.userContact = userContact;
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 	
 	@Override
