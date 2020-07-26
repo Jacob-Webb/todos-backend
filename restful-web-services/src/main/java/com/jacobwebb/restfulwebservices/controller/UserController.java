@@ -18,9 +18,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jacobwebb.restfulwebservices.dao.TodoJpaRepository;
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
-import com.jacobwebb.restfulwebservices.entity.Todo;
-import com.jacobwebb.restfulwebservices.entity.User;
-import com.jacobwebb.restfulwebservices.entity.Contact;
+import com.jacobwebb.restfulwebservices.model.Contact;
+import com.jacobwebb.restfulwebservices.model.Todo;
+import com.jacobwebb.restfulwebservices.model.User;
 import com.jacobwebb.restfulwebservices.service.TodoHardcodedService;
 
 @CrossOrigin(origins="${crossOrigin}")

@@ -1,17 +1,12 @@
-package com.jacobwebb.restfulwebservices.entity;
+package com.jacobwebb.restfulwebservices.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="user")
@@ -20,7 +15,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="user_id")
-	private Long userId;
+	private Long id;
 	
 	@Column(name="username")
 	private String username;
@@ -37,8 +32,7 @@ public class User {
 	@Column(name="role")
 	private String role;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="contact_id", unique=true)
+	@Embedded
 	private Contact contact;
 
 	public User() {
@@ -51,15 +45,15 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.role = role;
-		this.contact.setUser(this);
+		this.contact = contact;
 	}
 
 	public Long getUserId() {
-		return userId;
+		return id;
 	}
 
 	public void setUserId(Long userId) {
-		this.userId = userId;
+		this.id = userId;
 	}
 
 	public String getUsername() {
@@ -112,8 +106,30 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
+		return "User [userId=" + id + ", username=" + username + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", role=" + role + ", contactId=" + "]";
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 	
 }

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jacobwebb.restfulwebservices.dao.TodoJpaRepository;
-import com.jacobwebb.restfulwebservices.entity.Todo;
+import com.jacobwebb.restfulwebservices.model.Todo;
 import com.jacobwebb.restfulwebservices.service.TodoHardcodedService;
 
 @CrossOrigin(origins="${crossOrigin}")

@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.jacobwebb.restfulwebservices.entity.Todo;
+import com.jacobwebb.restfulwebservices.model.Todo;
 
 @Service
 public class TodoHardcodedService {

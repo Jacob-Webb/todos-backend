@@ -1,4 +1,4 @@
-package com.jacobwebb.restfulwebservices.entity;
+package com.jacobwebb.restfulwebservices.model;
 
 import java.util.Date;
 
