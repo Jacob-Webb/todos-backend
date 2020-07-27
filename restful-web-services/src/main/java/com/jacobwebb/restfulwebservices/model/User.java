@@ -6,10 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user")
+@Table(name="users")
 public class User {
 	
 	@Id
@@ -29,8 +31,9 @@ public class User {
 	@Column(name="last_name")
 	private String lastName;
 	
-	@Column(name="role")
-	private String role;
+	@ManyToOne( targetEntity = Role.class)
+	@JoinColumn(name = "role_id", nullable = false)
+	private Role role;
 	
 	@Embedded
 	private Contact contact;
@@ -39,7 +42,7 @@ public class User {
 		
 	}
 
-	public User(String username, String password, String firstName, String lastName, String role, Contact contact) {	// maybe add Contact contact back in when this gets figurd out
+	public User(String username, String password, String firstName, String lastName, Role role, Contact contact) {	// maybe add Contact contact back in when this gets figurd out
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
@@ -88,11 +91,11 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 	

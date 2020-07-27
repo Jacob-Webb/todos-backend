@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="todo")
+@Table(name="todos")
 public class Todo {
 	
 	@Id

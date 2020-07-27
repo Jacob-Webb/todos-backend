@@ -1,19 +1,23 @@
 package com.jacobwebb.restfulwebservices.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="permission")
-public class Permission {
+@Table(name="roles")
+public class Role {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="permission_id")
+	@Column(name="role_id")
 	private Long id;
 	
 	@Column(name="title")
@@ -25,11 +29,14 @@ public class Permission {
 	@Column(name="view_todos")
 	private boolean viewTodos;
 	
-	public Permission() {
+	@OneToMany(mappedBy = "role")
+	private Set<User> users = new HashSet<User>();
+	
+	public Role() {
 		
 	}
 	
-	public Permission(String new_role, boolean canEdit, boolean canView) {
+	public Role(String new_role, boolean canEdit, boolean canView) {
 		roleTitle = new_role;
 		editTodos = canEdit;
 		viewTodos = canView;
@@ -67,6 +74,19 @@ public class Permission {
 		this.viewTodos = viewTodos;
 	}
 	
+	public void setUsers(Set users) {
+		this.users = users;
+	}
+	
+	public Set getUsers() {
+		return users;
+	}
+	
+	public void addUser(User user) {
+		user.setRole(this);
+		users.add(user);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -83,10 +103,18 @@ public class Permission {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Permission other = (Permission) obj;
+		Role other = (Role) obj;
 		if (id != other.id)
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", roleTitle=" + roleTitle + ", editTodos=" + editTodos + ", viewTodos=" + viewTodos
+				+ ", users=" + users + "]";
+	}
+	
+	
 
 }
