@@ -18,7 +18,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jacobwebb.restfulwebservices.dao.TodoJpaRepository;
 import com.jacobwebb.restfulwebservices.model.Todo;
-import com.jacobwebb.restfulwebservices.service.TodoHardcodedService;
 
 @CrossOrigin(origins="${crossOrigin}")
 @RestController

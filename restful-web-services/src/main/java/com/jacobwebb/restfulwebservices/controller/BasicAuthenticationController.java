@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 //Controller
 @RestController
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins="${crossOrigin}")
 public class BasicAuthenticationController {
 	
 	private class AuthenticationBean {
