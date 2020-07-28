@@ -31,10 +31,6 @@ public class User {
 	@Column(name="last_name")
 	private String lastName;
 	
-	@ManyToOne( targetEntity = Role.class)
-	@JoinColumn(name = "role_id", nullable = false)
-	private Role role;
-	
 	@Embedded
 	private Contact contact;
 
@@ -42,12 +38,11 @@ public class User {
 		
 	}
 
-	public User(String username, String password, String firstName, String lastName, Role role, Contact contact) {	// maybe add Contact contact back in when this gets figurd out
+	public User(String username, String password, String firstName, String lastName, Contact contact) {	// maybe add Contact contact back in when this gets figurd out
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.role = role;
 		this.contact = contact;
 	}
 
@@ -90,14 +85,6 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
 	
 	public Contact getContact() {
 		return contact;
@@ -110,7 +97,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [userId=" + id + ", username=" + username + ", password=" + password + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", role=" + role + ", contactId=" + "]";
+				+ firstName + ", lastName=" + lastName + ",  contactId=" + "]";
 	}
 	
 	@Override
