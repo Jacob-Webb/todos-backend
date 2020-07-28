@@ -1,4 +1,4 @@
-package com.jacobwebb.restfulwebservices.todo;
+package com.jacobwebb.restfulwebservices.model;
 
 import java.util.Date;
 
@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="todo")
+@Table(name="todos")
 public class Todo {
 	
 	@Id

@@ -1,10 +1,12 @@
-package com.jacobwebb.restfulwebservices.todo;
+package com.jacobwebb.restfulwebservices.service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
+import com.jacobwebb.restfulwebservices.model.Todo;
 
 @Service
 public class TodoHardcodedService {
