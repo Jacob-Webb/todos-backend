@@ -21,13 +21,14 @@ import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
 import com.jacobwebb.restfulwebservices.model.Contact;
 import com.jacobwebb.restfulwebservices.model.Todo;
 import com.jacobwebb.restfulwebservices.model.User;
+import com.jacobwebb.restfulwebservices.service.UserService;
 
 @CrossOrigin(origins="${crossOrigin}")
 @RestController
 public class UserController {
 
 	@Autowired
-	private UserJpaRepository repository;
+	private UserService userService;
 	
 	@GetMapping("/users")
 	public List<User> getAllUsers() {

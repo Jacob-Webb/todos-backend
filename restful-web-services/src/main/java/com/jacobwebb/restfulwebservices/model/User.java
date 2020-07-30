@@ -1,8 +1,12 @@
 package com.jacobwebb.restfulwebservices.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -33,6 +37,10 @@ public class User {
 	
 	@Embedded
 	private Contact contact;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="role")
+	private Role role;
 
 	public User() {
 		
@@ -94,12 +102,32 @@ public class User {
 		this.contact = contact;
 	}
 	
+	
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	
+	
 	@Override
 	public String toString() {
-		return "User [userId=" + id + ", username=" + username + ", password=" + password + ", firstName="
-				+ firstName + ", lastName=" + lastName + ",  contactId=" + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", contact=" + contact + ", role=" + role + "]";
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

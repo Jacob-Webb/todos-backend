@@ -1,5 +1,7 @@
 package com.jacobwebb.restfulwebservices.model;
 
-public class Role {
+public enum Role {
+	USER,
+	ADMIN
 
 }
