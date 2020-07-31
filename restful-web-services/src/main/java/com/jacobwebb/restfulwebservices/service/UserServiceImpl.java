@@ -5,7 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 	private UserJpaRepository repository;
 	
 	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public User saveUser(User user) {
@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
 		return repository.save(user);
 	}
 	
+	@Override
 	public User findByUsername(String username) {
 		return repository.findByUsername(username).orElse(null);
 	}
