@@ -46,10 +46,13 @@ public class JwtAuthenticationRestController {
 
     authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
+    // change this to get details from server
     final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
+    
+    // for roles, in generateToken evaluate the roles of userDetails
     final String token = jwtTokenUtil.generateToken(userDetails);
 
+    // returns the token as a ResponseEntity
     return ResponseEntity.ok(new JwtTokenResponse(token));
   }
 
@@ -58,6 +61,7 @@ public class JwtAuthenticationRestController {
     String authToken = request.getHeader(tokenHeader);
     final String token = authToken.substring(7);
     String username = jwtTokenUtil.getUsernameFromToken(token);
+    // Change to database access for User
     JwtUserDetails user = (JwtUserDetails) jwtInMemoryUserDetailsService.loadUserByUsername(username);
 
     if (jwtTokenUtil.canTokenBeRefreshed(token)) {

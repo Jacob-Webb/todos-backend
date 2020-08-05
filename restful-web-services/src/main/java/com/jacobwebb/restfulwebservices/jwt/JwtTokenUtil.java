@@ -1,12 +1,21 @@
 package com.jacobwebb.restfulwebservices.jwt;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +38,9 @@ public class JwtTokenUtil implements Serializable {
 
   @Value("${jwt.token.expiration.in.seconds}")
   private Long expiration;
+  
+  @Value("${jwt.http.request.header}")
+  private String jwtHeaderString;
 
   public String getUsernameFromToken(String token) {
     return getClaimFromToken(token, Claims::getSubject);
@@ -100,5 +112,44 @@ public class JwtTokenUtil implements Serializable {
   private Date calculateExpirationDate(Date createdDate) {
     return new Date(createdDate.getTime() + expiration * 1000);
   }
+  
+  
+  
+  public Authentication getAuthentication(HttpServletRequest request){
+      String token = resolveToken(request);
+      if(token == null){
+          return null;
+      }
+      Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+      String username = claims.getSubject();
+      List<GrantedAuthority> authorities = Arrays.stream(claims.get("roles").toString().split(","))
+              .map(role -> role.startsWith("ROLE_")? role:"ROLE_"+role)
+              .map(SimpleGrantedAuthority::new)
+              .collect(Collectors.toList());
+      return username!=null ? new UsernamePasswordAuthenticationToken(username, null, authorities):null;
+  }
+
+  public boolean validateToken(HttpServletRequest request) {
+	  String token = resolveToken(request);
+	  if (token == null) {
+		  return false;
+	  }
+	  Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+	  if(claims.getExpiration().before(new Date())) {
+		  return false;
+	  }
+	  return true;
+  }
+
+	private String resolveToken(HttpServletRequest request) {
+		String bearerToken = request.getHeader(jwtHeaderString);
+		
+		if (bearerToken != null && bearerToken.startsWith("Bearer")) {
+			return bearerToken.substring(7, bearerToken.length());
+		}
+		return null;
+		
+	}
 }
+
 
