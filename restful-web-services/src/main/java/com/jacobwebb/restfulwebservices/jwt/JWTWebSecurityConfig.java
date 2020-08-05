@@ -60,6 +60,11 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling().authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
+            // These are public pages
+            .antMatchers("/resources/**", "/error", "/user/**").permitAll()
+            // These can be reachable for only Admin roles
+            .antMatchers("/admin/**").hasRole("ADMIN")
+            // All remaining paths should need authentication
             .anyRequest().authenticated();
 
        httpSecurity
