@@ -1,7 +1,5 @@
 package com.jacobwebb.restfulwebservices.dao;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.jacobwebb.restfulwebservices.model.User;
