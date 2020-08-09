@@ -19,15 +19,12 @@ public class JwtUserDetails implements UserDetails {
   private final String password;
   private final Collection<? extends GrantedAuthority> authorities;
 
-  public JwtUserDetails(Long id, String username, String password, String role) {
+  public JwtUserDetails(Long id, String username, String password, List<SimpleGrantedAuthority> roles) {
     this.id = id;
     this.username = username;
     this.password = password;
 
-    List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-    authorities.add(new SimpleGrantedAuthority(role));
-
-    this.authorities = authorities;
+    this.authorities = roles;
   }
 
   @JsonIgnore

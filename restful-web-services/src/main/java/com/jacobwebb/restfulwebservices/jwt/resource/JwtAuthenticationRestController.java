@@ -38,7 +38,8 @@ public class JwtAuthenticationRestController {
   private JwtTokenUtil jwtTokenUtil;
 
   @Autowired
-  private UserDetailsService jwtInMemoryUserDetailsService;
+  //private UserDetailsService jwtInMemoryUserDetailsService;
+  private UserDetailsService jwtUserDetailsService;
 
   @RequestMapping(value = "${jwt.get.token.uri}", method = RequestMethod.POST)
   public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)
@@ -47,7 +48,8 @@ public class JwtAuthenticationRestController {
     authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
     // change this to get details from server
-    final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+    //final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+    final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
     
     // for roles, in generateToken evaluate the roles of userDetails
     final String token = jwtTokenUtil.generateToken(userDetails);
@@ -62,8 +64,9 @@ public class JwtAuthenticationRestController {
     final String token = authToken.substring(7);
     String username = jwtTokenUtil.getUsernameFromToken(token);
     // Change to database access for User
-    JwtUserDetails user = (JwtUserDetails) jwtInMemoryUserDetailsService.loadUserByUsername(username);
-
+    //JwtUserDetails user = (JwtUserDetails) jwtInMemoryUserDetailsService.loadUserByUsername(username);
+    JwtUserDetails user = (JwtUserDetails) jwtUserDetailsService.loadUserByUsername(username);
+    
     if (jwtTokenUtil.canTokenBeRefreshed(token)) {
       String refreshedToken = jwtTokenUtil.refreshToken(token);
       return ResponseEntity.ok(new JwtTokenResponse(refreshedToken));

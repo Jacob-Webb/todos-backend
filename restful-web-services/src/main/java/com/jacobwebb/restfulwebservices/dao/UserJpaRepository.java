@@ -8,5 +8,5 @@ import com.jacobwebb.restfulwebservices.model.User;
 
 public interface UserJpaRepository extends JpaRepository<User, Long>{
 
-	Optional<User> findByUsername(String username);
+	User findByUsername(String username);
 }
