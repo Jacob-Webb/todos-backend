@@ -11,24 +11,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jacobwebb.restfulwebservices.model.Role;
+import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
 import com.jacobwebb.restfulwebservices.model.User;
-import com.jacobwebb.restfulwebservices.service.UserService;
 
 @CrossOrigin(origins="${crossOrigin}")
 @RestController
 public class UserController {
 
 	@Autowired
-	private UserService userService;
+	private UserJpaRepository userRepository;
 	
 	@PostMapping("/user/registration")
 	public ResponseEntity<?> register(@RequestBody User user) {
-		if(userService.findByUsername(user.getUsername()) != null) {
+		if(userRepository.findByUsername(user.getUsername()) != null) {
 			return new ResponseEntity<> (HttpStatus.CONFLICT);
 		}
-		user.setRole(Role.USER);
-		return new ResponseEntity<> (userService.saveUser(user), HttpStatus.CREATED);
+		//user.setRole(Role.USER);
+		return new ResponseEntity<> (userRepository.save(user), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/user/login")
@@ -37,7 +36,7 @@ public class UserController {
 			//This should be ok http status because this will be used for input path
 			return ResponseEntity.ok(principal);
 		
-		return new ResponseEntity<>(userService.findByUsername(principal.getName()), HttpStatus.OK);
+		return new ResponseEntity<>(userRepository.findByUsername(principal.getName()), HttpStatus.OK);
 	}
 	
 	
