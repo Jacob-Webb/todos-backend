@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jacobwebb.rest.basic.auth.JwtUserDetails;
 import com.jacobwebb.restfulwebservices.jwt.JwtTokenUtil;
-import com.jacobwebb.restfulwebservices.jwt.JwtUserDetails;
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200")

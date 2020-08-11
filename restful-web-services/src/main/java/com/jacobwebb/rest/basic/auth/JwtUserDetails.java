@@ -1,4 +1,4 @@
-package com.jacobwebb.restfulwebservices.jwt;
+package com.jacobwebb.rest.basic.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;

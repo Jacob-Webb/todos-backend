@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
+import com.jacobwebb.restfulwebservices.model.Role;
 import com.jacobwebb.restfulwebservices.model.User;
 
 @CrossOrigin(origins="${crossOrigin}")
@@ -22,11 +23,11 @@ public class UserController {
 	private UserJpaRepository userRepository;
 	
 	@PostMapping("/user/registration")
-	public ResponseEntity<?> register(@RequestBody User user) {
+	public ResponseEntity<?> register(@RequestBody User user, @RequestBody Role role) {
 		if(userRepository.findByUsername(user.getUsername()) != null) {
 			return new ResponseEntity<> (HttpStatus.CONFLICT);
 		}
-		//user.setRole(Role.USER);
+		user.addRole(role);
 		return new ResponseEntity<> (userRepository.save(user), HttpStatus.CREATED);
 	}
 	

@@ -1,6 +1,5 @@
 package com.jacobwebb.restfulwebservices.model;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -16,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="users")
-public class User implements Serializable{
+public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -123,6 +122,10 @@ public class User implements Serializable{
 
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
+	}
+	
+	public void addRole(Role role) {
+		this.roles.add(role);
 	}
 
 	@Override

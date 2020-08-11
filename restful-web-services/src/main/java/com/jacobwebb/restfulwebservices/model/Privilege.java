@@ -14,6 +14,7 @@ public class Privilege {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "privilege_id")
 	private Long id;
 	
 	@Column(name = "name")

@@ -1,4 +1,4 @@
-package com.jacobwebb.restfulwebservices.jwt;
+package com.jacobwebb.rest.basic.auth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 	
 	public static JwtUserDetails create(User user) {
 		List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
-		roles.add(new SimpleGrantedAuthority(user.getRole().name()));
+		roles.add(new SimpleGrantedAuthority(user.getRoles().toString()));
 		return new JwtUserDetails(user.getId(), user.getUsername(), user.getPassword(), roles);
 	}
 
