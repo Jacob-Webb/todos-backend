@@ -35,6 +35,8 @@ public class User implements Serializable{
 	@Column(name="last_name")
 	private String lastName;
 	
+	private boolean enabled;
+	
 	@Embedded
 	private Contact contact;
 	
@@ -97,6 +99,14 @@ public class User implements Serializable{
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public Contact getContact() {
