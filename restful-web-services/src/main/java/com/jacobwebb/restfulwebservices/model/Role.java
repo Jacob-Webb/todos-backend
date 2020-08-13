@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table (name="roles")
 public class Role {
 	
 	@Id
@@ -29,9 +31,9 @@ public class Role {
 	@JoinTable(
 		name = "roles_privileges",
 		joinColumns = @JoinColumn(
-			name = "role_id", referencedColumnName = "id"),
+			name = "role_id", referencedColumnName = "role_id"),
 		inverseJoinColumns = @JoinColumn(
-			name = "privilege_id", referencedColumnName = "id"))
+			name = "privilege_id", referencedColumnName = "privilege_id"))
 	private Collection<Privilege> privileges;
 	
 	public Role() {
