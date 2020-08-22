@@ -40,11 +40,8 @@ public class Role {
 		
 	}
 
-	public Role(Long id, String name, Collection<User> users, Collection<Privilege> privileges) {
-		this.id = id;
+	public Role(String name) {
 		this.name = name;
-		this.users = users;
-		this.privileges = privileges;
 	}
 
 	public Long getId() {

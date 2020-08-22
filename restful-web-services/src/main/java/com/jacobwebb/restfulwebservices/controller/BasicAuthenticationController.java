@@ -34,6 +34,7 @@ public class BasicAuthenticationController {
 		
 	}
 	
+	
 	@GetMapping(path="/basicauth")
 	public AuthenticationBean helloWorldBean() {
 	

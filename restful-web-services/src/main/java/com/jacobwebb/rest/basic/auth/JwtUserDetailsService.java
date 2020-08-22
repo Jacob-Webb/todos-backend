@@ -2,8 +2,6 @@ package com.jacobwebb.rest.basic.auth;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +18,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 	@Autowired
 	private UserJpaRepository userRepository;
 	
+	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findByUsername(username);
 		

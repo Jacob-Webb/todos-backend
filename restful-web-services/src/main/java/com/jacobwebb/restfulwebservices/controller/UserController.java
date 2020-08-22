@@ -22,6 +22,12 @@ public class UserController {
 	@Autowired
 	private UserJpaRepository userRepository;
 	
+	@PostMapping("/user/create") 
+	public ResponseEntity<?> create(@RequestBody User user) {
+		
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+	
 	@PostMapping("/user/registration")
 	public ResponseEntity<?> register(@RequestBody User user, @RequestBody Role role) {
 		if(userRepository.findByUsername(user.getUsername()) != null) {

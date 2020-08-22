@@ -31,10 +31,8 @@ public class Privilege {
 	}
 
 
-	public Privilege(Long id, String name, Collection<Role> roles) {
-		this.id = id;
+	public Privilege(String name) {
 		this.name = name;
-		this.roles = roles;
 	}
 
 

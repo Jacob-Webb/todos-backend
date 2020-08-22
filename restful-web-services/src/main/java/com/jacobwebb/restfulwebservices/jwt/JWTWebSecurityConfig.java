@@ -60,6 +60,8 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling().authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
+            //This is will be the PermissionController path. Path needs to be more secure; use some sort of superAdmin username or something. 
+            .antMatchers("/webbj/**").permitAll()
             // These are public pages
             .antMatchers("/resources/**", "/error", "/user/**").permitAll()
             // These can be reachable for only Admin roles
