@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jacobwebb.rest.basic.auth.JwtUserDetails;
 import com.jacobwebb.restfulwebservices.jwt.JwtTokenUtil;
+import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200")
@@ -39,7 +40,7 @@ public class JwtAuthenticationRestController {
 
   @Autowired
   //private UserDetailsService jwtInMemoryUserDetailsService;
-  private UserDetailsService jwtUserDetailsService;
+  private UserDetailsServiceImpl jwtUserDetailsService;
 
   @RequestMapping(value = "${jwt.get.token.uri}", method = RequestMethod.POST)
   public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)

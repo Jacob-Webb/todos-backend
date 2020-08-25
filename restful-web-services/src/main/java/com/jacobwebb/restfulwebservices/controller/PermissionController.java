@@ -1,10 +1,16 @@
 package com.jacobwebb.restfulwebservices.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,23 +25,9 @@ public class PermissionController {
 	private PrivilegeRepository privilegeRepository;
 	
 	/*
-	 * Permissions include: read and write for Todos, Users, UserDate, UserRoles
-	 * Need some way for Admin to send reset password 
-	 * Roles include: 
-	 * 			User: 		Todos-RW, UserData-RW, 
-	 * 			Admin:		User + Users-RW
-	 * 			SuperAdmin:	Admin + UserRoles-RW
+	 * Create Privilege
 	 */
-	
-	/*
-	 * Create Permissions
-	 *   if not already created
-	 *     set the name of the permission
-	 *     save the permission
-	 *       example: READ_USER_DATA or WRITE_TODO
-	 */
-	//trial
-	@PostMapping(path="webbj/privileges/")
+	@PostMapping(path="/webbj/privileges/")
 	public ResponseEntity<Void> createPrivilege(@RequestBody Privilege privilege) {
 		
 		Privilege createdPrivilege = privilegeRepository.save(privilege);
@@ -47,27 +39,46 @@ public class PermissionController {
 		return ResponseEntity.created(uri).build();
 	}
 	/*
-	 * Read Permissions
-	 *   Return a list of all permissions
-	 *     return names and associated roles
+	 * Read Privileges
 	*/
+	@GetMapping("/webbj/privileges/")
+	public List<Privilege> getAllPrivileges() {
+		return privilegeRepository.findAll();
+	}
 	
 	/*
-	 * Read Permission
-	 *   return a name of the permission and all roles associated found by id
+	 * Read Privilege
 	 */
+	@GetMapping("webbj/privileges/{id}")
+	public Privilege getPrivilege(@PathVariable long id) {
+		return privilegeRepository.findById(id).get();
+	}
 	
 	/*
-	 * Update Permission
-	 *   Change name of Permission
-	 *       or
-	 *   Update roles collection of Permission
+	 * Update Privilege
 	 */
+	@PutMapping("/webbj/privileges/{id}")
+	public ResponseEntity<Privilege> updatePrivilege(
+			@PathVariable long id, @RequestBody Privilege privilege) {
+		
+		Privilege privilegeUpdated = privilegeRepository.save(privilege);
+		
+		return new ResponseEntity<Privilege>(privilegeUpdated, HttpStatus.OK);
+	}
 	
 	/*
-	 * Delete Permission
-	 *   Remove Permission from table
+	 * Delete Privilege
 	 */
+	@DeleteMapping("/webbj/privileges/{id}")
+	public ResponseEntity<Void> deletePrivilege(@PathVariable long id) {
+		
+		// Check that the privilege exists before deleting it
+		if (privilegeRepository.existsById(id)) {
+			privilegeRepository.deleteById(id);
+		}
+		
+		return ResponseEntity.noContent().build();
+	}
 	
 	/*
 	 * Create Role

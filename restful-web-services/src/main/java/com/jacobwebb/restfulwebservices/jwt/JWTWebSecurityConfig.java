@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -27,7 +29,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthorizedResponseAuthenticationEntryPoint;
 
     @Autowired
-    private UserDetailsService jwtInMemoryUserDetailsService;
+    private UserDetailsServiceImpl jwtUserDetailsService;
 
     @Autowired
     private JwtTokenAuthorizationOncePerRequestFilter jwtAuthenticationTokenFilter;
@@ -38,7 +40,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-            .userDetailsService(jwtInMemoryUserDetailsService)
+            .userDetailsService(jwtUserDetailsService)
             .passwordEncoder(passwordEncoderBean());
     }
 
@@ -61,9 +63,8 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
             //This is will be the PermissionController path. Path needs to be more secure; use some sort of superAdmin username or something. 
-            .antMatchers("/webbj/**").permitAll()
             // These are public pages
-            .antMatchers("/resources/**", "/error", "/user/**").permitAll()
+            .antMatchers("/resources/**", "/error", "/user/**", "/webbj/**").permitAll()
             // These can be reachable for only Admin roles
             .antMatchers("/admin/**").hasRole("ADMIN")
             // All remaining paths should need authentication

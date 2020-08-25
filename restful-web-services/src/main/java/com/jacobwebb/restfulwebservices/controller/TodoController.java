@@ -62,7 +62,7 @@ public class TodoController {
 		//Todo todoUpdated = todoService.save(todo);
 		Todo todoUpdated = todoJpaRepository.save(todo);
 		
-		return new ResponseEntity<Todo>(todo, HttpStatus.OK);
+		return new ResponseEntity<Todo>(todoUpdated, HttpStatus.OK);
 	}
 	
 	// Create a new Todo

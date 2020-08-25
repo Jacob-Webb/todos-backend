@@ -44,7 +44,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
             return new org.springframework.security.core.userdetails.User(
               " ", " ", true, true, true, true, 
               getAuthorities(Arrays.asList(
-                roleRepository.findByName("ROLE_USER"))));
+                roleRepository.findByName("ROLE_ADMIN"))));
         }
  
         return new org.springframework.security.core.userdetails.User(
