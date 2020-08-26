@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table (name="roles")
@@ -25,15 +29,17 @@ public class Role {
 	private String name;
 	
 	@ManyToMany(mappedBy = "roles")
+	@JsonBackReference
 	private Collection<User> users;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "roles_privileges",
 		joinColumns = @JoinColumn(
 			name = "role_id", referencedColumnName = "role_id"),
 		inverseJoinColumns = @JoinColumn(
 			name = "privilege_id", referencedColumnName = "privilege_id"))
+	@JsonManagedReference
 	private Collection<Privilege> privileges;
 	
 	public Role() {

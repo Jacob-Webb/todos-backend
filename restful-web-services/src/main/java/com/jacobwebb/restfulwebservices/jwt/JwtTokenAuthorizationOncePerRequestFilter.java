@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.jacobwebb.restfulwebservices.jwt.resource.JwtUserDetails;
 import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -30,7 +31,7 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
 
     @Autowired
     //private UserDetailsService jwtInMemoryUserDetailsService;
-    private UserDetailsServiceImpl jwtUserDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
     
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -63,7 +64,7 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             //UserDetails userDetails = this.jwtInMemoryUserDetailsService.loadUserByUsername(username);
-        	UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
+        	UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

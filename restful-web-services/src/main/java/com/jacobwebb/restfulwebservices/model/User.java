@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="users")
@@ -39,13 +42,14 @@ public class User {
 	@Embedded
 	private Contact contact;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "user_roles",
 		joinColumns = @JoinColumn(
 			name = "user_id", referencedColumnName = "user_id"),
 		inverseJoinColumns = @JoinColumn(
 			name = "role_id", referencedColumnName = "role_id"))
+	@JsonManagedReference
 	private Collection<Role> roles;	
 
 	public User() {

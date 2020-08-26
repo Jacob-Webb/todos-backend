@@ -1,6 +1,7 @@
 package com.jacobwebb.restfulwebservices.controller;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jacobwebb.restfulwebservices.dao.PrivilegeRepository;
 import com.jacobwebb.restfulwebservices.model.Privilege;
+import com.jacobwebb.restfulwebservices.model.Role;
 
 @RestController
 public class PermissionController {
@@ -42,7 +44,7 @@ public class PermissionController {
 	 * Read Privileges
 	*/
 	@GetMapping("/webbj/privileges/")
-	public List<Privilege> getAllPrivileges() {
+	public Collection<Privilege> getAllPrivileges() {
 		return privilegeRepository.findAll();
 	}
 	
@@ -52,6 +54,14 @@ public class PermissionController {
 	@GetMapping("webbj/privileges/{id}")
 	public Privilege getPrivilege(@PathVariable long id) {
 		return privilegeRepository.findById(id).get();
+	}
+	
+	@GetMapping("webbj/privileges/{id}/roles")
+	public Collection<Role> getPrivilegeRoles(@PathVariable long id) {
+		
+		Privilege privilege = privilegeRepository.findById(id).get();
+		Collection<Role> roles = privilege.getRoles();
+		return roles;
 	}
 	
 	/*

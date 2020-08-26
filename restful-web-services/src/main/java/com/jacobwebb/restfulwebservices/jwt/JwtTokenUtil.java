@@ -19,7 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.jacobwebb.rest.basic.auth.JwtUserDetails;
+import com.jacobwebb.restfulwebservices.jwt.resource.JwtUserDetails;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;

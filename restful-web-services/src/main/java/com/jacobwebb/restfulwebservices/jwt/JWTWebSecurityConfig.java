@@ -36,12 +36,10 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${jwt.get.token.uri}")
     private String authenticationPath;
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .userDetailsService(jwtUserDetailsService)
-            .passwordEncoder(passwordEncoderBean());
+    
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsServiceImpl();
     }
 
     @Bean
@@ -53,6 +51,13 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+    
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+            .userDetailsService(jwtUserDetailsService)
+            .passwordEncoder(passwordEncoderBean());
     }
 
     @Override
