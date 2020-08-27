@@ -20,6 +20,11 @@ import com.jacobwebb.restfulwebservices.dao.PrivilegeRepository;
 import com.jacobwebb.restfulwebservices.model.Privilege;
 import com.jacobwebb.restfulwebservices.model.Role;
 
+/*
+ * Controller that should only be accessible by the systemAdmin.
+ * CRUD operations for Permissions (ie Roles and Privileges)
+ */
+
 @RestController
 public class PermissionController {
 	

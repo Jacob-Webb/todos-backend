@@ -2,6 +2,10 @@ package com.jacobwebb.restfulwebservices;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/* 
+ * Useful in creating encrypted passwords to test out
+ * 
+ */
 public class BCryptEncoderTest {
 
 	public static void main(String[] args) {

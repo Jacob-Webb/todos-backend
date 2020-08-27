@@ -6,6 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
 
+/*
+ * Runs the application
+ */
+
 @SpringBootApplication
 public class RestfulWebServicesApplication{
 	
