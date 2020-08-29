@@ -14,10 +14,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table (name="roles")
+@JsonIdentityInfo(
+		   generator = ObjectIdGenerators.PropertyGenerator.class,
+		   property = "id")
 public class Role {
 	
 	@Id
@@ -29,17 +34,15 @@ public class Role {
 	private String name;
 	
 	@ManyToMany(mappedBy = "roles")
-	@JsonBackReference
 	private Collection<User> users;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 		name = "roles_privileges",
 		joinColumns = @JoinColumn(
 			name = "role_id", referencedColumnName = "role_id"),
 		inverseJoinColumns = @JoinColumn(
 			name = "privilege_id", referencedColumnName = "privilege_id"))
-	@JsonManagedReference
 	private Collection<Privilege> privileges;
 	
 	public Role() {

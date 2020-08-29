@@ -14,10 +14,15 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="users")
+@JsonIdentityInfo(
+		   generator = ObjectIdGenerators.PropertyGenerator.class,
+		   property = "id")
 public class User {
 	
 	@Id
@@ -49,7 +54,6 @@ public class User {
 			name = "user_id", referencedColumnName = "user_id"),
 		inverseJoinColumns = @JoinColumn(
 			name = "role_id", referencedColumnName = "role_id"))
-	@JsonManagedReference
 	private Collection<Role> roles;	
 
 	public User() {

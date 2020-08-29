@@ -2,7 +2,6 @@ package com.jacobwebb.restfulwebservices.controller;
 
 import java.net.URI;
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jacobwebb.restfulwebservices.dao.PrivilegeRepository;
+import com.jacobwebb.restfulwebservices.dao.RoleRepository;
 import com.jacobwebb.restfulwebservices.model.Privilege;
 import com.jacobwebb.restfulwebservices.model.Role;
 
@@ -30,6 +30,8 @@ public class PermissionController {
 	
 	@Autowired
 	private PrivilegeRepository privilegeRepository;
+	
+	@Autowired RoleRepository roleRepository;
 	
 	/*
 	 * Create Privilege
@@ -45,22 +47,27 @@ public class PermissionController {
 		
 		return ResponseEntity.created(uri).build();
 	}
+	
 	/*
-	 * Read Privileges
+	 * Return all Privileges
 	*/
 	@GetMapping("/webbj/privileges/")
 	public Collection<Privilege> getAllPrivileges() {
+		
 		return privilegeRepository.findAll();
 	}
 	
 	/*
-	 * Read Privilege
+	 * Read Privilege based on id
 	 */
 	@GetMapping("webbj/privileges/{id}")
 	public Privilege getPrivilege(@PathVariable long id) {
 		return privilegeRepository.findById(id).get();
 	}
 	
+	/*
+	 * Get the collection of roles belonging to a privilege
+	 */
 	@GetMapping("webbj/privileges/{id}/roles")
 	public Collection<Role> getPrivilegeRoles(@PathVariable long id) {
 		
@@ -71,6 +78,8 @@ public class PermissionController {
 	
 	/*
 	 * Update Privilege
+	 * Change the name. Updating associated Roles will be taken care 
+	 * of by updating Roles. 
 	 */
 	@PutMapping("/webbj/privileges/{id}")
 	public ResponseEntity<Privilege> updatePrivilege(
@@ -102,21 +111,49 @@ public class PermissionController {
 	 *     set the name of the role
 	 *     save the role
 	 */
+	@PostMapping("/webbj/roles")
+	public ResponseEntity<Void> createRole(@RequestBody Role role) {
+		
+		Role createdRole = roleRepository.save(role);
+		
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
+			path("/{id}").buildAndExpand(createdRole.getId()).toUri();
+		
+		return ResponseEntity.created(uri).build();
+	}
 	
 	/*
 	 * Read Roles
 	 *   return all Roles
 	 */
+	@GetMapping("/webbj/roles")
+	public Collection<Role> getAllRoles() {
+		
+		return roleRepository.findAll();
+	}
 	
 	/*
 	 * Read Role
 	 *   Return the role found by id
 	 */
+	@GetMapping("/webbj/roles/{id}")
+	public Role getRole(@PathVariable long id) {
+		return roleRepository.findById(id).get();
+	}
 	
 	/*
 	 * Update Role
 	 *   update name, collection of users, collections of roles, or all of the above
 	 */
+	@PutMapping("/webbj/roles/{id}")
+	public ResponseEntity<Role> updateRole(
+			@PathVariable long id, @RequestBody Role role) {
+		
+		Role roleUpdated = roleRepository.save(role);
+		
+		return new ResponseEntity<Role>(roleUpdated, HttpStatus.OK);
+	}
 	
 	/*
 	 * Delete Role
