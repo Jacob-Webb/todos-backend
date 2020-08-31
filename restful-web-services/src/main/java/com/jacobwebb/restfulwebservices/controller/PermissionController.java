@@ -159,5 +159,14 @@ public class PermissionController {
 	 * Delete Role
 	 *   Remove Role from the table
 	 */
+	@DeleteMapping("/webbj/roles/{id}")
+	public ResponseEntity<Void> deleteRole(@PathVariable long id) {
+		// Check that the Role exists before deleting it
+				if (roleRepository.existsById(id)) {
+					roleRepository.deleteById(id);
+				}
+				
+				return ResponseEntity.noContent().build();
+	}
 
 }
