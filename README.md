@@ -8,9 +8,30 @@
 #### Permissions
 ##### Roles are set by assigning certain Privileges. 
 * User    ->  RW Todos and RW User Data
-* Admin   ->  User + RW Users
+* Admin   ->  User + RW Users 
 * SuperAdmin -> Admin + RW User Roles
+##### CRUD for Permissions 
+* Privileges
+  - Only the name of a Privilege is used to create one
+  - Associations with Roles is handled by the CRUD for Roles
+* Roles
+  - Roles are created using a name for the Role. 
+  - If a Privilege is added to a Role, the Role also shows up in the Privilege's Role collection
+  - All associations with Users are handled by Users
 
-User Data is defined by things such as username, password, and personal information.
-
-SuperAdmins are allowed to see and update roles assigned to users
+#### Users
+##### CRUD for Users
+* Create User
+  - Users are created using username, password, first name, last name, and contact information
+    * Username must be unique. If it isn't, ask for a new username. 
+* Get all users 
+  - For Admin and above: return username, first name, and last name
+* Get a single User
+  - For User (restricted to self): return username, first name, last name, and contact information
+  - For User and above: return username, first name, last name, and contact information
+  - For SuperAdmin: include Roles
+* Update User 
+  - For User (restricted to self):  access denied to Roles
+  - For Admin: access denied to Roles
+* Delete User
+  - Search for User, if they exist, delete them from the database

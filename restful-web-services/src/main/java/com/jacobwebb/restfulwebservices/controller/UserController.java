@@ -1,16 +1,20 @@
 package com.jacobwebb.restfulwebservices.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jacobwebb.restfulwebservices.dao.RoleRepository;
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
 import com.jacobwebb.restfulwebservices.model.Role;
 import com.jacobwebb.restfulwebservices.model.User;
@@ -22,22 +26,34 @@ public class UserController {
 	@Autowired
 	private UserJpaRepository userRepository;
 	
-	@PostMapping("/user/create") 
+	@Autowired RoleRepository roleRepository;
+	
+	/*
+	 * Create User
+	 */
+	@PostMapping("/users/create") 
 	public ResponseEntity<?> create(@RequestBody User user) {
 		
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
-	
-	@PostMapping("/user/registration")
-	public ResponseEntity<?> register(@RequestBody User user, @RequestBody Role role) {
-		if(userRepository.findByUsername(user.getUsername()) != null) {
-			return new ResponseEntity<> (HttpStatus.CONFLICT);
+		// When Creating User, include ROLE_USER. 
+		if (userRepository.findByUsername(user.getUsername()) != null) {
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		user.addRole(role);
-		return new ResponseEntity<> (userRepository.save(user), HttpStatus.CREATED);
+		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		user.setPassword(encoder.encode(user.getPassword()));
+		
+		Collection<Role> roles = new ArrayList<>();
+		roles.add(roleRepository.findByName("ROLE_USER"));
+		
+		if (roleRepository.findByName("ROLE_USER") != null) {
+			user.setRoles(roles);
+		}
+		
+		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
 	}
 	
-	@GetMapping("/user/login")
+	@GetMapping("/users/login")
 	public ResponseEntity<?> login(Principal principal) {
 		if(principal == null)
 			//This should be ok http status because this will be used for input path
@@ -45,7 +61,6 @@ public class UserController {
 		
 		return new ResponseEntity<>(userRepository.findByUsername(principal.getName()), HttpStatus.OK);
 	}
-	
 	
 	
 	
