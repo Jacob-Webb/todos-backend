@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -27,19 +29,17 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthorizedResponseAuthenticationEntryPoint;
 
     @Autowired
-    private UserDetailsService jwtInMemoryUserDetailsService;
+    private UserDetailsServiceImpl jwtUserDetailsService;
 
     @Autowired
     private JwtTokenAuthorizationOncePerRequestFilter jwtAuthenticationTokenFilter;
 
     @Value("${jwt.get.token.uri}")
     private String authenticationPath;
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .userDetailsService(jwtInMemoryUserDetailsService)
-            .passwordEncoder(passwordEncoderBean());
+    
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsServiceImpl();
     }
 
     @Bean
@@ -52,6 +52,13 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+            .userDetailsService(jwtUserDetailsService)
+            .passwordEncoder(passwordEncoderBean());
+    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -60,6 +67,12 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling().authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
+            //This is will be the PermissionController path. Path needs to be more secure; use some sort of superAdmin username or something. 
+            // These are public pages
+            .antMatchers("/resources/**", "/error", "/user/**", "/webbj/**").permitAll()
+            // These can be reachable for only Admin roles
+            .antMatchers("/admin/**").hasRole("ADMIN")
+            // All remaining paths should need authentication
             .anyRequest().authenticated();
 
        httpSecurity

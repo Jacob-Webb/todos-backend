@@ -13,7 +13,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jacobwebb.restfulwebservices.jwt.JwtTokenUtil;
-import com.jacobwebb.restfulwebservices.jwt.JwtUserDetails;
+import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200")
@@ -38,7 +37,8 @@ public class JwtAuthenticationRestController {
   private JwtTokenUtil jwtTokenUtil;
 
   @Autowired
-  private UserDetailsService jwtInMemoryUserDetailsService;
+  //private UserDetailsService jwtInMemoryUserDetailsService;
+  private UserDetailsServiceImpl jwtUserDetailsService;
 
   @RequestMapping(value = "${jwt.get.token.uri}", method = RequestMethod.POST)
   public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)
@@ -46,10 +46,14 @@ public class JwtAuthenticationRestController {
 
     authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-    final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
+    // change this to get details from server
+    //final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+    final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+    
+    // for roles, in generateToken evaluate the roles of userDetails
     final String token = jwtTokenUtil.generateToken(userDetails);
 
+    // returns the token as a ResponseEntity
     return ResponseEntity.ok(new JwtTokenResponse(token));
   }
 
@@ -58,8 +62,10 @@ public class JwtAuthenticationRestController {
     String authToken = request.getHeader(tokenHeader);
     final String token = authToken.substring(7);
     String username = jwtTokenUtil.getUsernameFromToken(token);
-    JwtUserDetails user = (JwtUserDetails) jwtInMemoryUserDetailsService.loadUserByUsername(username);
-
+    // Change to database access for User
+    //JwtUserDetails user = (JwtUserDetails) jwtInMemoryUserDetailsService.loadUserByUsername(username);
+    JwtUserDetails user = (JwtUserDetails) jwtUserDetailsService.loadUserByUsername(username);
+    
     if (jwtTokenUtil.canTokenBeRefreshed(token)) {
       String refreshedToken = jwtTokenUtil.refreshToken(token);
       return ResponseEntity.ok(new JwtTokenResponse(refreshedToken));

@@ -6,12 +6,12 @@
 // https://github.com/sequelpro/sequelpro
 //
 // Host: 127.0.0.1 (MySQL 5.5.5-10.3.11-MariaDB)
-// Database: TodoList
-// Generation Time: 2020-07-16 13:36:44 +0000
+// Database: todolist
+// Generation Time: 2020-08-13 13:26:58 +0000
 // ************************************************************
 
 digraph "Database Structure" {
-	label = "ER Diagram: TodoList";
+	label = "ER Diagram: todolist";
 	labelloc = t;
 	compound = true;
 	node [ shape = record ];
@@ -19,45 +19,78 @@ digraph "Database Structure" {
 	ranksep = 1.25;
 	ratio = 0.7;
 	rankdir = LR;
-	subgraph "table_contact_info" {
+	subgraph "table_privileges" {
 		node [ shape = "plaintext" ];
-		"contact_info" [ label=<
+		"privileges" [ label=<
 			<TABLE BORDER="0" CELLSPACING="0" CELLBORDER="1">
-			<TR><TD COLSPAN="3" BGCOLOR="#DDDDDD">contact_info</TD></TR>
-			<TR><TD COLSPAN="3" PORT="contact_id">contact_id:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">BIGINT</FONT></TD></TR>
-			<TR><TD COLSPAN="3" PORT="email">email:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
-			<TR><TD COLSPAN="3" PORT="phone">phone:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
+			<TR><TD COLSPAN="3" BGCOLOR="#DDDDDD">privileges</TD></TR>
+			<TR><TD COLSPAN="3" PORT="privilege_id">privilege_id:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">BIGINT</FONT></TD></TR>
+			<TR><TD COLSPAN="3" PORT="name">name:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
 			</TABLE>>
 		];
 	}
-	subgraph "table_todo" {
+	subgraph "table_roles" {
 		node [ shape = "plaintext" ];
-		"todo" [ label=<
+		"roles" [ label=<
 			<TABLE BORDER="0" CELLSPACING="0" CELLBORDER="1">
-			<TR><TD COLSPAN="3" BGCOLOR="#DDDDDD">todo</TD></TR>
+			<TR><TD COLSPAN="3" BGCOLOR="#DDDDDD">roles</TD></TR>
+			<TR><TD COLSPAN="3" PORT="role_id">role_id:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">BIGINT</FONT></TD></TR>
+			<TR><TD COLSPAN="3" PORT="name">name:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
+			</TABLE>>
+		];
+	}
+	subgraph "table_roles_privileges" {
+		node [ shape = "plaintext" ];
+		"roles_privileges" [ label=<
+			<TABLE BORDER="0" CELLSPACING="0" CELLBORDER="1">
+			<TR><TD COLSPAN="3" BGCOLOR="#DDDDDD">roles_privileges</TD></TR>
+			<TR><TD COLSPAN="3" PORT="role_id">role_id:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">BIGINT</FONT></TD></TR>
+			<TR><TD COLSPAN="3" PORT="privilege_id">privilege_id:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">BIGINT</FONT></TD></TR>
+			</TABLE>>
+		];
+	}
+	subgraph "table_todos" {
+		node [ shape = "plaintext" ];
+		"todos" [ label=<
+			<TABLE BORDER="0" CELLSPACING="0" CELLBORDER="1">
+			<TR><TD COLSPAN="3" BGCOLOR="#DDDDDD">todos</TD></TR>
 			<TR><TD COLSPAN="3" PORT="id">id:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">BIGINT</FONT></TD></TR>
 			<TR><TD COLSPAN="3" PORT="description">description:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
-			<TR><TD COLSPAN="3" PORT="is_done">is_done:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">TINYINT</FONT></TD></TR>
+			<TR><TD COLSPAN="3" PORT="is_done">is_done:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">BIT</FONT></TD></TR>
+			<TR><TD COLSPAN="3" PORT="target_date">target_date:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">DATETIME</FONT></TD></TR>
 			<TR><TD COLSPAN="3" PORT="username">username:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
-			<TR><TD COLSPAN="3" PORT="target_date">target_date:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">DATE</FONT></TD></TR>
 			</TABLE>>
 		];
 	}
-	subgraph "table_user" {
+	subgraph "table_user_roles" {
 		node [ shape = "plaintext" ];
-		"user" [ label=<
+		"user_roles" [ label=<
 			<TABLE BORDER="0" CELLSPACING="0" CELLBORDER="1">
-			<TR><TD COLSPAN="3" BGCOLOR="#DDDDDD">user</TD></TR>
+			<TR><TD COLSPAN="3" BGCOLOR="#DDDDDD">user_roles</TD></TR>
 			<TR><TD COLSPAN="3" PORT="user_id">user_id:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">BIGINT</FONT></TD></TR>
-			<TR><TD COLSPAN="3" PORT="username">username:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
-			<TR><TD COLSPAN="3" PORT="password">password:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
+			<TR><TD COLSPAN="3" PORT="role_id">role_id:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">BIGINT</FONT></TD></TR>
+			</TABLE>>
+		];
+	}
+	subgraph "table_users" {
+		node [ shape = "plaintext" ];
+		"users" [ label=<
+			<TABLE BORDER="0" CELLSPACING="0" CELLBORDER="1">
+			<TR><TD COLSPAN="3" BGCOLOR="#DDDDDD">users</TD></TR>
+			<TR><TD COLSPAN="3" PORT="user_id">user_id:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">BIGINT</FONT></TD></TR>
+			<TR><TD COLSPAN="3" PORT="email">email:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
+			<TR><TD COLSPAN="3" PORT="phone">phone:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
+			<TR><TD COLSPAN="3" PORT="enabled">enabled:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">BIT</FONT></TD></TR>
 			<TR><TD COLSPAN="3" PORT="first_name">first_name:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
 			<TR><TD COLSPAN="3" PORT="last_name">last_name:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
-			<TR><TD COLSPAN="3" PORT="role">role:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
-			<TR><TD COLSPAN="3" PORT="contact_id">contact_id:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">BIGINT</FONT></TD></TR>
+			<TR><TD COLSPAN="3" PORT="password">password:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
+			<TR><TD COLSPAN="3" PORT="username">username:<FONT FACE="Helvetica-Oblique" POINT-SIZE="10">VARCHAR</FONT></TD></TR>
 			</TABLE>>
 		];
 	}
 edge [ arrowhead=inv, arrowtail=normal, style=dashed, color="#444444" ];
-user:contact_id -> contact_info:contact_id ;
+roles_privileges:privilege_id -> privileges:privilege_id ;
+roles_privileges:role_id -> roles:role_id ;
+user_roles:role_id -> roles:role_id ;
+user_roles:user_id -> users:user_id ;
 }

@@ -19,6 +19,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.jacobwebb.restfulwebservices.jwt.resource.JwtUserDetails;
+import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
+
 import io.jsonwebtoken.ExpiredJwtException;
 
 @Component
@@ -27,7 +30,8 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private UserDetailsService jwtInMemoryUserDetailsService;
+    //private UserDetailsService jwtInMemoryUserDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
     
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -59,7 +63,8 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
         logger.debug("JWT_TOKEN_USERNAME_VALUE '{}'", username);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = this.jwtInMemoryUserDetailsService.loadUserByUsername(username);
+            //UserDetails userDetails = this.jwtInMemoryUserDetailsService.loadUserByUsername(username);
+        	UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

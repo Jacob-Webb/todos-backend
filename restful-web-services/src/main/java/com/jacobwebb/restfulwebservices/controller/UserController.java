@@ -1,34 +1,70 @@
 package com.jacobwebb.restfulwebservices.controller;
 
-import java.net.URI;
-import java.util.List;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.jacobwebb.restfulwebservices.dao.TodoJpaRepository;
+import com.jacobwebb.restfulwebservices.dao.RoleRepository;
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
-import com.jacobwebb.restfulwebservices.model.Contact;
-import com.jacobwebb.restfulwebservices.model.Todo;
+import com.jacobwebb.restfulwebservices.model.Role;
 import com.jacobwebb.restfulwebservices.model.User;
-import com.jacobwebb.restfulwebservices.service.TodoHardcodedService;
 
 @CrossOrigin(origins="${crossOrigin}")
 @RestController
 public class UserController {
 
 	@Autowired
-	private UserJpaRepository repository;
+	private UserJpaRepository userRepository;
+	
+	@Autowired RoleRepository roleRepository;
+	
+	/*
+	 * Create User
+	 */
+	@PostMapping("/users/create") 
+	public ResponseEntity<?> create(@RequestBody User user) {
+		
+		// When Creating User, include ROLE_USER. 
+		if (userRepository.findByUsername(user.getUsername()) != null) {
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		user.setPassword(encoder.encode(user.getPassword()));
+		
+		Collection<Role> roles = new ArrayList<>();
+		roles.add(roleRepository.findByName("ROLE_USER"));
+		
+		if (roleRepository.findByName("ROLE_USER") != null) {
+			user.setRoles(roles);
+		}
+		
+		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
+	}
+	
+	@GetMapping("/users/login")
+	public ResponseEntity<?> login(Principal principal) {
+		if(principal == null)
+			//This should be ok http status because this will be used for input path
+			return ResponseEntity.ok(principal);
+		
+		return new ResponseEntity<>(userRepository.findByUsername(principal.getName()), HttpStatus.OK);
+	}
+	
+	
+	
+	/*
 	
 	@GetMapping("/users")
 	public List<User> getAllUsers() {
@@ -75,5 +111,6 @@ public class UserController {
 		
 		return ResponseEntity.created(uri).build();
 	}
+	*/
 	
 }
