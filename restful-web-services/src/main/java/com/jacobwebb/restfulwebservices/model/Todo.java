@@ -4,9 +4,17 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="todos")
@@ -17,9 +25,6 @@ public class Todo {
 	@Column(name="id")
 	private Long id;
 	
-	@Column(name="username")
-	private String username;
-	
 	@Column(name="description")
 	private String description;
 	
@@ -29,13 +34,17 @@ public class Todo {
 	@Column(name="is_done")
 	private boolean isDone;
 	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name="user_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonIgnore
+	private User user;
+	
 	public Todo() {
 		
 	}
 
-	public Todo(Long id, String username, String description, Date targetDate, boolean isDone) {
-		this.id = id;
-		this.username = username;
+	public Todo(String description, Date targetDate, boolean isDone) {
 		this.description = description;
 		this.targetDate = targetDate;
 		this.isDone = isDone;
@@ -47,14 +56,6 @@ public class Todo {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getDescription() {
@@ -79,6 +80,14 @@ public class Todo {
 
 	public void setDone(boolean isDone) {
 		this.isDone = isDone;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override

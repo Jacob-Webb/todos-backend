@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jacobwebb.restfulwebservices.dao.TodoJpaRepository;
+import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
 import com.jacobwebb.restfulwebservices.model.Todo;
 
 @CrossOrigin(origins="${crossOrigin}")
@@ -26,11 +27,16 @@ public class TodoController {
 	@Autowired
 	private TodoJpaRepository todoJpaRepository;
 	
+	@Autowired
+	private UserJpaRepository userRepository;
+	
+	/*
 	@GetMapping("/users/{username}/todos")
 	public List<Todo> getAllTodos(@PathVariable String username) {
 		return todoJpaRepository.findByUsername(username);
 		//return todoService.findAll();
 	}
+	*/
 	
 	@GetMapping("/users/{username}/todos/{id}")
 	public Todo getTodo(@PathVariable String username, @PathVariable long id) {
@@ -65,6 +71,7 @@ public class TodoController {
 		return new ResponseEntity<Todo>(todoUpdated, HttpStatus.OK);
 	}
 	
+	/*
 	// Create a new Todo
 	//POST
 	@PostMapping("/users/{username}/todos")
@@ -83,5 +90,6 @@ public class TodoController {
 		
 		return ResponseEntity.created(uri).build();
 	}
+	*/
 	
 }

@@ -12,14 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -50,6 +46,9 @@ public class User {
 	
 	@Embedded
 	private Contact contact;
+	
+	@OneToMany(mappedBy = "user")
+	private Collection<Todo> todos;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
@@ -126,6 +125,18 @@ public class User {
 
 	public void setContact(Contact contact) {
 		this.contact = contact;
+	}
+
+	public Collection<Todo> getTodos() {
+		return todos;
+	}
+
+	public void setTodos(Collection<Todo> todos) {
+		this.todos = todos;
+	}
+	
+	public void addTodo(Todo todo) {
+		todos.add(todo);
 	}
 
 	public Collection<Role> getRoles() {
