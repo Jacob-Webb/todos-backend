@@ -1,23 +1,28 @@
-package com.jacobwebb.restfulwebservices.controller;
+ package com.jacobwebb.restfulwebservices.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jacobwebb.restfulwebservices.dao.RoleRepository;
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
 import com.jacobwebb.restfulwebservices.model.Role;
+import com.jacobwebb.restfulwebservices.model.Todo;
 import com.jacobwebb.restfulwebservices.model.User;
 
 @CrossOrigin(origins="${crossOrigin}")
@@ -27,36 +32,42 @@ public class UserController {
 	@Autowired
 	private UserJpaRepository userRepository;
 	
-	@Autowired RoleRepository roleRepository;
+	@Autowired 
+	RoleRepository roleRepository;
+	
+    public PasswordEncoder passwordEncoderBean() {
+        return new BCryptPasswordEncoder();
+    }
+	
+	/*
+	 * Create User with generic role
+	 */
+    
+	@PostMapping("/users/create") 
+	public ResponseEntity<?> createWithOutRole(@RequestBody User user) {
+		//Role role = new Role("ROLE_USER");
+		
+		user.addRole(roleRepository.findByName("USER_ROLE"));
+		
+		return createUser(user);
+	}
+	
 	
 	/*
 	 * Create User with a role
 	 */
 	@PostMapping("/users/create/{role}") 
-	public ResponseEntity<?> create(@RequestBody User user, @PathVariable String role) {
-		
-		// Check if the username is taken before creating a new user
-		if (userRepository.findByUsername(user.getUsername()) != null) {
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
-		}
-		
-		// Encrypt user password and set it
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		user.setPassword(encoder.encode(user.getPassword()));
-		
-		Collection<Role> roles = new ArrayList<>();
+	public ResponseEntity<?> createWithRole(@RequestBody User user, @PathVariable String role) {
 		
 		// Check if role exists and add it
-		String upperCaseRole = role.toUpperCase();
-		String userRole = "ROLE_" + upperCaseRole;
+		String userRole = "ROLE_" + role.toUpperCase();
 		if (roleRepository.findByName(userRole) != null) {
-		  roles.add(roleRepository.findByName(userRole));
-		  user.setRoles(roles);
+		  user.addRole(roleRepository.findByName(userRole));
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		
-		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
+		return createUser(user);
 	}
 	
 	/*
@@ -71,10 +82,58 @@ public class UserController {
 		return new ResponseEntity<>(userRepository.findByUsername(principal.getName()), HttpStatus.OK);
 	}
 	
+	/*
+	 * Return all users
+	 */
 	@GetMapping("/users")
 	public Collection<User> getAllUsers() {
 		return userRepository.findAll();
 	}
+	
+	/*
+	 * Return a user given by the id
+	 */
+	@GetMapping("/users/{id}")
+	public User getUser(@PathVariable long id) {
+		return userRepository.findById(id);
+	}
+	
+	/*
+	 * Edit User 
+	 */
+	@PutMapping("/users/{id}/{role}")
+	public ResponseEntity<User> updateUserRole(
+			@PathVariable long id, @PathVariable String role) {
+		
+		String userRole = "ROLE_" + role.toUpperCase();
+		if (roleRepository.findByName(userRole) != null) {
+			
+		}
+		
+		User updatedUser = userRepository.findById(id);
+		
+		if (updatedUser != null) {
+			//if (!updatedUser.hasRole(userRole)) updatedUser.addRole()
+		}
+		
+		//Todo todoUpdated = todoJpaRepository.save(todo);
+		
+		return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> createUser(@RequestBody User user) {
+		
+		// Check if the username is taken before creating a new user
+		if (userRepository.findByUsername(user.getUsername()) != null) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+		
+		// Encrypt user password
+		user.setPassword(passwordEncoderBean().encode(user.getPassword()));
+		
+		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
+	}
+	
 	
 	/*
 	@GetMapping("/users/{id}")

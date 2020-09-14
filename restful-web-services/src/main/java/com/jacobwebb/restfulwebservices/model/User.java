@@ -1,6 +1,7 @@
 package com.jacobwebb.restfulwebservices.model;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -148,7 +149,17 @@ public class User {
 	}
 	
 	public void addRole(Role role) {
+		if (this.roles == null) {
+			this.roles = new HashSet<Role>();
+		}
 		this.roles.add(role);
+	}
+	
+	public boolean hasRole(String permission) {
+		for (Role role: this.roles) {
+			if (permission == role.getName()) return true;
+		} 
+		return false;
 	}
 
 	@Override
