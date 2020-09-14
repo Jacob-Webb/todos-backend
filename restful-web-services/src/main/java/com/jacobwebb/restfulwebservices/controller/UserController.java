@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,7 +52,6 @@ public class UserController {
 		
 		return createUser(user);
 	}
-	
 	
 	/*
 	 * Create User with a role
@@ -120,8 +120,28 @@ public class UserController {
 		
 		return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
 	}
+	
+	/*
+	 * Delete User. 
+	 * Return 'No Content' if successfully deleted
+	 * Return '404 not found' if user doesn't exist
+	 */
+	@DeleteMapping("/users/{id}")
+	public ResponseEntity<Void> deleteUser(@PathVariable long id) {
+		
+		User deletedUser = userRepository.findById(id);
+		
+		if(deletedUser != null) {
+			userRepository.deleteById(id);
+			return ResponseEntity.noContent().build();
+		}
+	
+		return ResponseEntity.notFound().build();
+	}
 
-	public ResponseEntity<?> createUser(@RequestBody User user) {
+	
+	// Utility class for creating a User
+	private ResponseEntity<?> createUser(@RequestBody User user) {
 		
 		// Check if the username is taken before creating a new user
 		if (userRepository.findByUsername(user.getUsername()) != null) {
@@ -133,6 +153,7 @@ public class UserController {
 		
 		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
 	}
+	
 	
 	
 	/*

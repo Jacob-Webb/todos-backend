@@ -41,23 +41,19 @@ public class TodoController {
 	@GetMapping("/users/{username}/todos/{id}")
 	public Todo getTodo(@PathVariable String username, @PathVariable long id) {
 		return todoJpaRepository.findById(id).get();
-		//return todoService.findById(id);
 	}
 	
 	@DeleteMapping("/users/{username}/todos/{id}")
 	public ResponseEntity<Void> deleteTodo(
 		@PathVariable String username, @PathVariable long id) {
 		
-		//Todo todo = todoService.deleteById(id);
-		todoJpaRepository.deleteById(id);
+		Todo todo = todoJpaRepository.findById(id).get();
 		
-		return ResponseEntity.noContent().build();
-		
-//		if(todo != null) {
-//			return ResponseEntity.noContent().build();
-//		}
-//		
-//		return ResponseEntity.notFound().build();
+		if (todo != null) {
+			todoJpaRepository.deleteById(id);
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.notFound().build();
 	}
 	
 	@PutMapping("/users/{username}/todos/{id}")

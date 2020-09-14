@@ -2,7 +2,6 @@ package com.jacobwebb.restfulwebservices.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,8 +34,9 @@ public class Todo {
 	@Column(name="is_done")
 	private boolean isDone;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name="user_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	private User user;
 	
