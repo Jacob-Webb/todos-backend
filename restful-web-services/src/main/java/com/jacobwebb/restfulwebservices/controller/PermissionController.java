@@ -2,6 +2,7 @@ package com.jacobwebb.restfulwebservices.controller;
 
 import java.net.URI;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,10 +50,19 @@ public class PermissionController {
 	}
 	
 	/*
-	 * Return all Privileges
+	 * Return all Privileges while nulling all privilege values of Roles 
+	 * to eliminate infinite recursion
 	*/
-	@GetMapping("/webbj/privileges/")
+	@GetMapping("/webbj/privileges")
 	public Collection<Privilege> getAllPrivileges() {
+		
+		// For each Role in each Privilege, set the associtated privileges to null
+		List<Privilege> privileges = privilegeRepository.findAll();
+		for (Privilege privilege: privileges) {
+			for (Role role: privilege.getRoles()) {
+				role.setPrivileges(null);
+			}
+		}
 		
 		return privilegeRepository.findAll();
 	}
@@ -150,9 +160,10 @@ public class PermissionController {
 	public ResponseEntity<Role> updateRole(
 			@PathVariable long id, @RequestBody Role role) {
 		
-		Role roleUpdated = roleRepository.save(role);
-		
-		return new ResponseEntity<Role>(roleUpdated, HttpStatus.OK);
+		if (roleRepository.findById(id) != null) {
+			return new ResponseEntity<Role>(roleRepository.save(role), HttpStatus.OK);
+		}
+		return new ResponseEntity<Role>(HttpStatus.NOT_FOUND);
 	}
 	
 	/*

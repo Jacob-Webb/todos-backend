@@ -99,26 +99,20 @@ public class UserController {
 	}
 	
 	/*
-	 * Edit User 
+	 * Edit User information
 	 */
-	@PutMapping("/users/{id}/{role}")
+	@PutMapping("/users/{id}")
 	public ResponseEntity<User> updateUserRole(
-			@PathVariable long id, @PathVariable String role) {
-		
-		String userRole = "ROLE_" + role.toUpperCase();
-		if (roleRepository.findByName(userRole) != null) {
-			
-		}
+			@PathVariable long id, @RequestBody User user) {
+
 		
 		User updatedUser = userRepository.findById(id);
 		
 		if (updatedUser != null) {
-			//if (!updatedUser.hasRole(userRole)) updatedUser.addRole()
+			return new ResponseEntity<User>(userRepository.save(user), HttpStatus.OK);
 		}
 		
-		//Todo todoUpdated = todoJpaRepository.save(todo);
-		
-		return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
+		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	}
 	
 	/*

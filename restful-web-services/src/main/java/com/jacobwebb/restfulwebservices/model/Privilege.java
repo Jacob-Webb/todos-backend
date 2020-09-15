@@ -10,15 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 @Entity
 @Table(name="privileges")
-@JsonIdentityInfo(
-		   generator = ObjectIdGenerators.PropertyGenerator.class,
-		   property = "id")
 public class Privilege {
 	
 	@Id

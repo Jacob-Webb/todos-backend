@@ -2,7 +2,6 @@ package com.jacobwebb.restfulwebservices.model;
 
 import java.util.Collection;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,16 +13,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table (name="roles")
-@JsonIdentityInfo(
-		   generator = ObjectIdGenerators.PropertyGenerator.class,
-		   property = "id")
 public class Role {
 	
 	@Id
@@ -35,6 +28,7 @@ public class Role {
 	private String name;
 	
 	@ManyToMany(mappedBy = "roles")
+	@JsonIgnore
 	private Collection<User> users;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
