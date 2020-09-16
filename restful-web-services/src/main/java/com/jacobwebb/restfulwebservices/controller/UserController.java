@@ -44,11 +44,11 @@ public class UserController {
 	 * Create User with generic role
 	 */
     
-	@PostMapping("/users/create") 
+	@PostMapping("/users") 
 	public ResponseEntity<?> createWithOutRole(@RequestBody User user) {
 		//Role role = new Role("ROLE_USER");
 		
-		user.addRole(roleRepository.findByName("USER_ROLE"));
+		user.addRole(roleRepository.findByName("ROLE_USER"));
 		
 		return createUser(user);
 	}
@@ -56,7 +56,7 @@ public class UserController {
 	/*
 	 * Create User with a role
 	 */
-	@PostMapping("/users/create/{role}") 
+	@PostMapping("/users/{role}") 
 	public ResponseEntity<?> createWithRole(@RequestBody User user, @PathVariable String role) {
 		
 		// Check if role exists and add it
