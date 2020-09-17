@@ -95,7 +95,16 @@ public class UserController {
 	 */
 	@GetMapping("/users/{id}")
 	public User getUser(@PathVariable long id) {
-		return userRepository.findById(id);
+		User user = userRepository.findById(id);
+		
+		for (Role role: user.getRoles()) {
+			role.setUsers(null);
+			role.setPrivileges(null);
+		}
+		for (Todo todo: user.getTodos()) {
+			todo.setUser(null);
+		}
+		return user;
 	}
 	
 	/*

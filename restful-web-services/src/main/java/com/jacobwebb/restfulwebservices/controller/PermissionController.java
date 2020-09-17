@@ -37,7 +37,7 @@ public class PermissionController {
 	/*
 	 * Create Privilege
 	 */
-	@PostMapping(path="/webbj/privileges/")
+	@PostMapping(path="/security/privileges/")
 	public ResponseEntity<Void> createPrivilege(@RequestBody Privilege privilege) {
 		
 		Privilege createdPrivilege = privilegeRepository.save(privilege);
@@ -53,7 +53,7 @@ public class PermissionController {
 	 * Return all Privileges while nulling all privilege values of Roles 
 	 * to eliminate infinite recursion
 	*/
-	@GetMapping("/webbj/privileges")
+	@GetMapping("/security/privileges")
 	public Collection<Privilege> getAllPrivileges() {
 		
 		// For each Role in each Privilege, set the associtated privileges to null
@@ -70,7 +70,7 @@ public class PermissionController {
 	/*
 	 * Read Privilege based on id
 	 */
-	@GetMapping("webbj/privileges/{id}")
+	@GetMapping("/security/privileges/{id}")
 	public Privilege getPrivilege(@PathVariable long id) {
 		return privilegeRepository.findById(id).get();
 	}
@@ -78,7 +78,7 @@ public class PermissionController {
 	/*
 	 * Get the collection of roles belonging to a privilege
 	 */
-	@GetMapping("webbj/privileges/{id}/roles")
+	@GetMapping("/security/privileges/{id}/roles")
 	public Collection<Role> getPrivilegeRoles(@PathVariable long id) {
 		
 		Privilege privilege = privilegeRepository.findById(id).get();
@@ -91,7 +91,7 @@ public class PermissionController {
 	 * Change the name. Updating associated Roles will be taken care 
 	 * of by updating Roles. 
 	 */
-	@PutMapping("/webbj/privileges/{id}")
+	@PutMapping("/security/privileges/{id}")
 	public ResponseEntity<Privilege> updatePrivilege(
 			@PathVariable long id, @RequestBody Privilege privilege) {
 		
@@ -103,7 +103,7 @@ public class PermissionController {
 	/*
 	 * Delete Privilege
 	 */
-	@DeleteMapping("/webbj/privileges/{id}")
+	@DeleteMapping("/security/privileges/{id}")
 	public ResponseEntity<Void> deletePrivilege(@PathVariable long id) {
 		
 		// Check that the privilege exists before deleting it
@@ -121,7 +121,7 @@ public class PermissionController {
 	 *     set the name of the role
 	 *     save the role
 	 */
-	@PostMapping("/webbj/roles")
+	@PostMapping("/security/roles")
 	public ResponseEntity<Void> createRole(@RequestBody Role role) {
 		
 		Role createdRole = roleRepository.save(role);
@@ -137,7 +137,7 @@ public class PermissionController {
 	 * Read Roles
 	 *   return all Roles
 	 */
-	@GetMapping("/webbj/roles")
+	@GetMapping("/security/roles")
 	public Collection<Role> getAllRoles() {
 		
 		return roleRepository.findAll();
@@ -147,7 +147,7 @@ public class PermissionController {
 	 * Read Role
 	 *   Return the role found by id
 	 */
-	@GetMapping("/webbj/roles/{id}")
+	@GetMapping("/security/roles/{id}")
 	public Role getRole(@PathVariable long id) {
 		return roleRepository.findById(id).get();
 	}
@@ -156,7 +156,7 @@ public class PermissionController {
 	 * Update Role
 	 *   update name, collection of users, collections of roles, or all of the above
 	 */
-	@PutMapping("/webbj/roles/{id}")
+	@PutMapping("/security/roles/{id}")
 	public ResponseEntity<Role> updateRole(
 			@PathVariable long id, @RequestBody Role role) {
 		
@@ -170,7 +170,7 @@ public class PermissionController {
 	 * Delete Role
 	 *   Remove Role from the table
 	 */
-	@DeleteMapping("/webbj/roles/{id}")
+	@DeleteMapping("/security/roles/{id}")
 	public ResponseEntity<Void> deleteRole(@PathVariable long id) {
 		// Check that the Role exists before deleting it
 				if (roleRepository.existsById(id)) {
