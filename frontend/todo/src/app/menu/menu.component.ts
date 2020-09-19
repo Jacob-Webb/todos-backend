@@ -7,12 +7,9 @@ import { BasicAuthenticationService } from '../service/basic-authentication.serv
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  //isUserLoggedIn: boolean = false;
 
   constructor(public basicAuthenticationService: BasicAuthenticationService) { }
 
-  ngOnInit(): void {
-    //this.isUserLoggedIn = this.basicAuthenticationService.isUserLoggedIn();
-  }
+  ngOnInit(): void {}
 
 }

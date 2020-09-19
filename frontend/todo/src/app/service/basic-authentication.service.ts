@@ -13,9 +13,8 @@ export class BasicAuthenticationService {
 
   constructor(private http: HttpClient) { }
 
+  // Pass username and password credentials to the backend
   executeJWTAuthenticationService(username, password) {
-
-    console.log(username + " " + password);
     return this.http.post<any>(
       `${API_URL}/authenticate`, {
         username,
