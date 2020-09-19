@@ -7,7 +7,7 @@ import { BasicAuthenticationService } from '../service/basic-authentication.serv
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.css']
+  styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
 
