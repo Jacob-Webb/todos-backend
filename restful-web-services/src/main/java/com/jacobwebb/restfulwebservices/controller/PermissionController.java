@@ -95,9 +95,15 @@ public class PermissionController {
 	public ResponseEntity<Privilege> updatePrivilege(
 			@PathVariable long id, @RequestBody Privilege privilege) {
 		
-		Privilege privilegeUpdated = privilegeRepository.save(privilege);
-		
-		return new ResponseEntity<Privilege>(privilegeUpdated, HttpStatus.OK);
+		Privilege privilegeFound = privilegeRepository.findById(id).get();
+		if (privilegeFound != null) {
+			
+			Privilege privilegeUpdated = privilegeRepository.save(privilege);
+			
+			return new ResponseEntity<Privilege>(privilegeUpdated, HttpStatus.OK);
+		}
+		return new ResponseEntity<Privilege>(HttpStatus.NOT_FOUND);
+
 	}
 	
 	/*

@@ -94,9 +94,28 @@ public class UserController {
 	 * Return a user given by the id
 	 */
 	@GetMapping("/users/{id}")
-	public User getUser(@PathVariable long id) {
+	public User getUserByID(@PathVariable long id) {
 		User user = userRepository.findById(id);
 		
+		// Cleans up return JSON by eliminating recursive objects
+		for (Role role: user.getRoles()) {
+			role.setUsers(null);
+			role.setPrivileges(null);
+		}
+		for (Todo todo: user.getTodos()) {
+			todo.setUser(null);
+		}
+		return user;
+	}
+	
+	/*
+	 * Return a user given by the id
+	 */
+	@GetMapping("/users/name/{username}")
+	public User getUserByUsername(@PathVariable String username) {
+		User user = userRepository.findByUsername(username);
+		
+		// Cleans up return JSON by eliminating recursive objects
 		for (Role role: user.getRoles()) {
 			role.setUsers(null);
 			role.setPrivileges(null);
@@ -118,7 +137,11 @@ public class UserController {
 		User updatedUser = userRepository.findById(id);
 		
 		if (updatedUser != null) {
-			return new ResponseEntity<User>(userRepository.save(user), HttpStatus.OK);
+			updatedUser = userRepository.save(user);
+			for (Role role: updatedUser.getRoles()) {
+				role.setPrivileges(null);
+			}
+			return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
 		}
 		
 		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);

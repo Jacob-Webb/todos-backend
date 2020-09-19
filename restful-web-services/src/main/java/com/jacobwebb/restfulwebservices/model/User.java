@@ -131,6 +131,18 @@ public class User {
 	public Collection<Todo> getTodos() {
 		return todos;
 	}
+	
+	public Todo getTodo(long id) {
+		if(this.todos != null) {
+			for (Todo todo: this.todos) {
+				if (todo.getId() == id) {
+					return todo;
+				}
+			}
+			return null;
+		}
+		return null;
+	}
 
 	public void setTodos(Collection<Todo> todos) {
 		this.todos = todos;
