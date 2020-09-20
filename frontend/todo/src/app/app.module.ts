@@ -16,8 +16,25 @@ import { LogoutComponent } from './logout/logout.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TodoComponent } from './todo/todo.component';
 import { HttpInterceptorBasicAuthService } from './service/http/http-interceptor-basic-auth.service';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSliderModule } from '@angular/material/slider';
+import { MatButtonModule } from '@angular/material/button';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatCardModule} from '@angular/material/card';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatListModule} from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatSelectModule} from '@angular/material/select';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
+
+
 
 @NgModule({
   declarations: [
@@ -36,7 +53,20 @@ import { MatSliderModule } from '@angular/material/slider';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    MatSliderModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
+    MatGridListModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatProgressBarModule,
+    MatSelectModule,
+    MatTabsModule,
+    MatTooltipModule,
     BrowserAnimationsModule
   ],
   providers: [

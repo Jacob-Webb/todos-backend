@@ -1,5 +1,8 @@
+@import 'custom-theme.scss';
+
+
+
 nav
 {
-  color: blue;
-  background-color: blue;
+  background: mat-color($warn, 0.9);
 }
