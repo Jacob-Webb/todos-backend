@@ -1,8 +1,19 @@
 @import 'custom-theme.scss';
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
 
-
-
-nav
+body
 {
-  background: mat-color($warn, 0.9);
+  font-family: 'Libre Baskerville', serif;
+  margin: 0;
+  padding: 0;
+}
+
+.background-primary
+{
+  background-color: mat-color($primary);
+}
+
+.background-accent
+{
+  background-color: mat-color($accent);
 }

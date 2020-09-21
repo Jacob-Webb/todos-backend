@@ -1,0 +1,26 @@
+$max-screen:319px;
+$min-screen: 320px;
+
+.navbar
+{
+  justify-content: space-between;
+}
+
+.navbar li
+{
+  padding-right: 1rem;
+}
+
+@media (max-width: $max-screen){
+  .nav-menu-show
+  {
+    display: none;
+  }
+}
+@media (min-width: $min-screen){
+  .nav-menu-hide
+  {
+    display: none;
+  }
+}
+

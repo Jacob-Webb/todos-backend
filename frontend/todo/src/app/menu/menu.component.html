@@ -1,4 +1,23 @@
 <header>
+  <mat-toolbar color="primary" class="navbar">
+    <div>Jacob Webb</div>
+    <div class="nav-menu-show">
+      <a mat-button *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/welcome/jacob-webb">Home</a>
+      <a mat-button *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/todos">Todos</a>
+      <a mat-button *ngIf="!this.basicAuthenticationService.isUserLoggedIn()" routerLink="/login">Login</a>
+      <a mat-button *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/logout">Logout</a>
+    </div>
+    <div class="nav-menu-hide">
+      <mat-icon>menu</mat-icon>
+    </div>
+  </mat-toolbar>
+
+
+
+
+
+
+  <!--
   <nav color="todo-primary">
     <div><a href="https://www.jacob-webb.com">Jacob Webb</a></div>
     <ul class="navbar-nav">
@@ -11,6 +30,6 @@
       <li><a *ngIf = "this.basicAuthenticationService.isUserLoggedIn()" routerLink="/logout" class="">Logout</a></li>
     </ul>
   </nav>
-
+-->
 </header>
 
