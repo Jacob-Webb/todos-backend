@@ -28,3 +28,7 @@
   font-size: 1.5em;
   font-family: 'Baskerville';
 }
+::ng-deep .menu-background
+{
+  background-color: mat-color($todo-accent, 800) !important;
+}
