@@ -28,7 +28,7 @@ $todo-theme: mat-dark-theme($todo-primary, $todo-accent, $todo-warn);
 @include angular-material-theme($todo-theme);
 
 $custom-typography: mat-typography-config(
-  $font-family: 'inherit'
+  $font-family: 'Proxima Nova'
 );
 @include mat-core($custom-typography);
 

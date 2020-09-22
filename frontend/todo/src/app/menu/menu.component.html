@@ -8,28 +8,19 @@
       <a mat-button *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/logout">Logout</a>
     </div>
     <div class="nav-menu-hide">
-      <button type="button" mat-button><mat-icon>menu</mat-icon></button>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"><mat-icon>menu</mat-icon></button>
+      <mat-menu #menu="matMenu">
+        <div>
+        <a mat-menu-item *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/welcome/jacob-webb">Home</a>
+        <a mat-menu-item *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/todos">Todos</a>
+        <a mat-menu-item *ngIf="!this.basicAuthenticationService.isUserLoggedIn()" routerLink="/login">Login</a>
+        <a mat-menu-item *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/logout">Logout</a>
+        </div>
+      </mat-menu>
     </div>
   </mat-toolbar>
 
 
 
-
-
-
-  <!--
-  <nav color="todo-primary">
-    <div><a href="https://www.jacob-webb.com">Jacob Webb</a></div>
-    <ul class="navbar-nav">
-      <li><a *ngIf = "this.basicAuthenticationService.isUserLoggedIn()" routerLink="/welcome/jacob-webb" class="">Home</a></li>
-      <li><a *ngIf = "this.basicAuthenticationService.isUserLoggedIn()" routerLink="/todos" class="">Todos</a></li>
-    </ul>
-
-    <ul class="navbar-nav navbar-collapse justify-content-end">
-      <li><a *ngIf = "!this.basicAuthenticationService.isUserLoggedIn()" routerLink="/login" class="">Login</a></li>
-      <li><a *ngIf = "this.basicAuthenticationService.isUserLoggedIn()" routerLink="/logout" class="">Logout</a></li>
-    </ul>
-  </nav>
--->
 </header>
 
