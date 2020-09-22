@@ -9,93 +9,26 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
-$mat-myapp-primary: (
-    50 : #E6ECF1,
-    100 : #C1CFDB,
-    200 : #98AFC3,
-    300 : #6E8FAB,
-    400 : #4F7799,
-    500 : #305F87,
-    600 : #2B577F,
-    700 : #244D74,
-    800 : #1E436A,
-    900 : #133257,
-    A100 : #90BFFF,
-    A200 : #5DA1FF,
-    A400 : #2A84FF,
-    A700 : #1175FF,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #000000,
-        500 : #000000,
-        600 : #000000,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
-);
-
-$mat-myapp-accent: (
-    50 : #FDF9F4,
-    100 : #FBEFE3,
-    200 : #F8E5D0,
-    300 : #F5DABD,
-    400 : #F2D2AE,
-    500 : #F0CAA0,
-    600 : #EEC598,
-    700 : #ECBD8E,
-    800 : #E9B784,
-    900 : #E5AB73,
-    A100 : #FFFFFF,
-    A200 : #ffffff,
-    A400 : #FFFDFB,
-    A700 : #FFF0E1,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #000000,
-        500 : #000000,
-        600 : #000000,
-        700 : #000000,
-        800 : #000000,
-        900 : #000000,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
-);
-
-$primary: mat-palette($mat-myapp-primary);
-$accent: mat-palette($mat-myapp-accent);
-$warn: mat-palette($mat-red);
-
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-// $todo-primary: mat-palette($mat-indigo);
-// $todo-accent: mat-palette($mat-purple, A200, A100, A400);
+$todo-primary: mat-palette($mat-light-blue, 900);
+$todo-accent: mat-palette($mat-blue-gray, 500);
 
 // The warn palette is optional (defaults to red).
-//$todo-warn: mat-palette($mat-red);
+$todo-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-// $todo-theme: mat-light-theme($todo-primary, $todo-accent, $todo-warn);
-//$todo-theme: mat-dark-theme($todo-primary, $todo-accent, $todo-warn);
-$theme: mat-light-theme($primary, $accent, $warn);
+$todo-theme: mat-light-theme($todo-primary, $todo-accent, $todo-warn);
+$todo-theme: mat-dark-theme($todo-primary, $todo-accent, $todo-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-// @include angular-material-theme($todo-theme);
-@include angular-material-theme($theme);
+@include angular-material-theme($todo-theme);
+
+$custom-typography: mat-typography-config(
+  $font-family: 'inherit'
+);
+@include mat-core($custom-typography);
 

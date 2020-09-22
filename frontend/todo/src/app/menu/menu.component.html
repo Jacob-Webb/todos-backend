@@ -1,6 +1,6 @@
 <header>
   <mat-toolbar color="primary" class="navbar">
-    <div>Jacob Webb</div>
+    <div class="logo">Todos</div>
     <div class="nav-menu-show">
       <a mat-button *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/welcome/jacob-webb">Home</a>
       <a mat-button *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/todos">Todos</a>
@@ -8,7 +8,7 @@
       <a mat-button *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/logout">Logout</a>
     </div>
     <div class="nav-menu-hide">
-      <mat-icon>menu</mat-icon>
+      <button type="button" mat-button><mat-icon>menu</mat-icon></button>
     </div>
   </mat-toolbar>
 

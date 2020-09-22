@@ -1,14 +1,14 @@
-$max-screen:319px;
-$min-screen: 320px;
+@import '../../../src/styles.scss';
 
 .navbar
 {
   justify-content: space-between;
+  padding: 0 2% 0 1%;
 }
 
-.navbar li
+.navbar a
 {
-  padding-right: 1rem;
+  font-size: 0.9em;
 }
 
 @media (max-width: $max-screen){
@@ -23,4 +23,18 @@ $min-screen: 320px;
     display: none;
   }
 }
+.logo
+{
+  font-size: 1.5em;
+  font-family: 'Baskerville';
+}
+mat-sidenav-container
+{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
 

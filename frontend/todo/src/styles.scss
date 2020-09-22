@@ -1,19 +1,20 @@
 @import 'custom-theme.scss';
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+
+$max-screen:499px;
+$min-screen: 500px;
 
 body
 {
-  font-family: 'Libre Baskerville', serif;
   margin: 0;
   padding: 0;
 }
 
 .background-primary
 {
-  background-color: mat-color($primary);
+  background-color: mat-color($todo-primary);
 }
 
 .background-accent
 {
-  background-color: mat-color($accent);
+  background-color: mat-color($todo-accent);
 }
