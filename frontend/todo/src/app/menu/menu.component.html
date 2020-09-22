@@ -1,16 +1,35 @@
 <header>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <mat-toolbar color="primary" class="navbar">
+    <div class="logo">Todos</div>
+    <div class="nav-menu-show">
+      <a mat-button *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/welcome/jacob-webb">Home</a>
+      <a mat-button *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/todos">Todos</a>
+      <a mat-button *ngIf="!this.basicAuthenticationService.isUserLoggedIn()" routerLink="/login">Login</a>
+      <a mat-button *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/logout">Logout</a>
+    </div>
+    <div class="nav-menu-hide">
+      <button type="button" mat-button><mat-icon>menu</mat-icon></button>
+    </div>
+  </mat-toolbar>
+
+
+
+
+
+
+  <!--
+  <nav color="todo-primary">
     <div><a href="https://www.jacob-webb.com">Jacob Webb</a></div>
     <ul class="navbar-nav">
-      <li><a *ngIf = "this.basicAuthenticationService.isUserLoggedIn()" routerLink="/welcome/jacob-webb" class="nav-link">Home</a></li>
-      <li><a *ngIf = "this.basicAuthenticationService.isUserLoggedIn()" routerLink="/todos" class="nav-link">Todos</a></li>
+      <li><a *ngIf = "this.basicAuthenticationService.isUserLoggedIn()" routerLink="/welcome/jacob-webb" class="">Home</a></li>
+      <li><a *ngIf = "this.basicAuthenticationService.isUserLoggedIn()" routerLink="/todos" class="">Todos</a></li>
     </ul>
 
     <ul class="navbar-nav navbar-collapse justify-content-end">
-      <li><a *ngIf = "!this.basicAuthenticationService.isUserLoggedIn()" routerLink="/login" class="nav-link">Login</a></li>
-      <li><a *ngIf = "this.basicAuthenticationService.isUserLoggedIn()" routerLink="/logout" class="nav-link">Logout</a></li>
+      <li><a *ngIf = "!this.basicAuthenticationService.isUserLoggedIn()" routerLink="/login" class="">Login</a></li>
+      <li><a *ngIf = "this.basicAuthenticationService.isUserLoggedIn()" routerLink="/logout" class="">Logout</a></li>
     </ul>
   </nav>
-
+-->
 </header>
 

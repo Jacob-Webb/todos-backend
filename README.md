@@ -1,5 +1,6 @@
 # Full Stack Todo List
 ## Front End - Angular
+* Using Angular Material for styling framework
 
 ## Back End - Spring Boot
 ### Security
@@ -35,3 +36,7 @@
   - For Admin: access denied to Roles
 * Delete User
   - Search for User, if they exist, delete them from the database
+
+#### Todos
+##### CRUD
+All todos are associated with a User. The backend finds the user by username, and then either creates, reads, updates, or deletes that User's todo. 

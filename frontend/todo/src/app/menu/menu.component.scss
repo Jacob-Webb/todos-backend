@@ -1,0 +1,40 @@
+@import '../../../src/styles.scss';
+
+.navbar
+{
+  justify-content: space-between;
+  padding: 0 2% 0 1%;
+}
+
+.navbar a
+{
+  font-size: 0.9em;
+}
+
+@media (max-width: $max-screen){
+  .nav-menu-show
+  {
+    display: none;
+  }
+}
+@media (min-width: $min-screen){
+  .nav-menu-hide
+  {
+    display: none;
+  }
+}
+.logo
+{
+  font-size: 1.5em;
+  font-family: 'Baskerville';
+}
+mat-sidenav-container
+{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+
