@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { BasicAuthenticationService } from '../service/basic-authentication.service';
+import { SigninComponent } from '../signin/signin.component';
 
 @Component({
   selector: 'app-login',
@@ -10,17 +10,21 @@ import { BasicAuthenticationService } from '../service/basic-authentication.serv
 })
 export class LoginComponent implements OnInit {
 
-  username = ""
-  password = ""
-  errorMessage = "Invalid Credentials"
+  @Input() username: string;
   invalidLogin = false
 
-  constructor(private router: Router,
-    private basicAuthenticationService: BasicAuthenticationService) { }
+  constructor(public signin: SigninComponent,
+              private router: Router,
+              private basicAuthenticationService: BasicAuthenticationService) { }
 
   ngOnInit(): void {
   }
 
+  route () {
+
+  }
+
+  /*
   handleJWTAuthLogin() {
     this.basicAuthenticationService.executeJWTAuthenticationService(this.username, this.password)
       .subscribe(
@@ -36,12 +40,7 @@ export class LoginComponent implements OnInit {
         }
       )
     }
+    */
 
-    signin: FormGroup = new FormGroup({
-      email: new FormControl('', [Validators.email, Validators.required ]),
-      password: new FormControl('', [Validators.required, Validators.min(5) ])
-    });
-    hide = true;
-    get emailInput() { return this.signin.get('email'); }
-    get passwordInput() { return this.signin.get('password'); }
+
 }
