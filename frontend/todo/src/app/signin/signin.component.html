@@ -1,38 +1,25 @@
-
-<mat-card class="signin-form">
-  <mat-grid-list cols="12">
-    <mat-grid-tile colspan="12" rowspan="2">
+<div class="container">
+  <mat-card>
+    <div class="signin-form">
       <mat-card-header>
         <h2>Sign In</h2>
       </mat-card-header>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="12">
       <mat-card-content>
         <mat-form-field appearance="outline" color="accent">
-          <mat-label>Outline form field</mat-label>
-          <input matInput placeholder="Placeholder">
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-          <mat-hint>Hint</mat-hint>
+          <mat-label>Username:</mat-label>
+          <input matInput name="username">
+          <mat-icon matSuffix>person</mat-icon>
         </mat-form-field>
-      </mat-card-content>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="12">
-      <mat-card-content>
-        <mat-form-field appearance="outline">
-          <mat-label>Outline form field</mat-label>
-          <input matInput placeholder="Placeholder">
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-          <mat-hint>Hint</mat-hint>
+        <mat-form-field appearance="outline" color="accent">
+          <mat-label>Password</mat-label>
+          <input matInput name="password">
+          <mat-icon matSuffix>visibility</mat-icon>
         </mat-form-field>
+        <button mat-raised-button class="submit" color="primary">Submit</button>
       </mat-card-content>
-    </mat-grid-tile>
-
-
-  </mat-grid-list>
-
-
-
-</mat-card>
+    </div>
+  </mat-card>
+</div>
 
 
 

@@ -1,14 +1,19 @@
-.signin-form
+.container
 {
-  width: 66%;
+  width:33%;
   margin: 20px auto;
 }
-
-.card-header
+.signin-form
 {
-  justify-content: center;
+  width:75%;
+  margin: 0 auto;
 }
-.card-content
+mat-form-field
 {
-  justify-content: left;
+  display: block;
+  width:100%;
+}
+button
+{
+  width:100%;
 }
