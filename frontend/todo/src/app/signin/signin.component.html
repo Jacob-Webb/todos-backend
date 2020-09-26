@@ -5,17 +5,28 @@
         <h2>Sign In</h2>
       </mat-card-header>
       <mat-card-content>
-        <mat-form-field appearance="outline" color="accent">
-          <mat-label>Username:</mat-label>
-          <input matInput name="username">
-          <mat-icon matSuffix>person</mat-icon>
-        </mat-form-field>
-        <mat-form-field appearance="outline" color="accent">
-          <mat-label>Password</mat-label>
-          <input matInput name="password">
-          <mat-icon matSuffix>visibility</mat-icon>
-        </mat-form-field>
-        <button mat-raised-button class="submit" color="primary">Submit</button>
+        <form [formGroup]="signinForm"
+              (ngSubmit)="handleJWTAuthLogin()">
+          <mat-form-field appearance="outline" color="accent">
+            <mat-label>Username:</mat-label>
+            <input matInput type="text" name="username" [formControl]="signinForm.controls['username']">
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error>Required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="accent">
+            <mat-label>Password</mat-label>
+            <input matInput name="password" [type]="hide ? 'password' : 'text'"
+                  [formControl]="signinForm.controls['password']">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error>Required</mat-error>
+          </mat-form-field>
+          <div *ngIf="invalidLogin && submitted" class="error">
+            <p>Invalid Credentials</p>
+          </div>
+
+          <button mat-raised-button class="submit" color="primary">Submit</button>
+        </form>
       </mat-card-content>
     </div>
   </mat-card>

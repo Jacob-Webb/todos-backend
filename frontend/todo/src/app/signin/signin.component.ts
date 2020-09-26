@@ -1,5 +1,5 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BasicAuthenticationService } from '../service/basic-authentication.service';
 
@@ -13,41 +13,55 @@ import { BasicAuthenticationService } from '../service/basic-authentication.serv
 })
 export class SigninComponent implements OnInit {
   signinForm: FormGroup;
-  username = new FormControl("")
-  // password: ""
+  username: string;
+  password: "";
+  hide=true;
   // errorMessage = "Invalid Credentials"
-  // invalidLogin = false
+  invalidLogin = false;
+  submitted=false;
 
-  constructor(
+  constructor(fb: FormBuilder,
               private router: Router,
-              private basicAuthenticationService: BasicAuthenticationService) { }
+              private basicAuthenticationService: BasicAuthenticationService) {
+    this.signinForm = fb.group({
+      'username':['', Validators.required],
+      'password':['', Validators.required]
+    });
+
+    this.username = this.signinForm.controls['username'].value;
+    this.password = this.signinForm.controls['password'].value;
+  }
 
   ngOnInit(): void {
   }
-/*
+
   handleJWTAuthLogin(): any {
+    this.username = this.signinForm.controls['username'].value;
+    this.password = this.signinForm.controls['password'].value;
     this.basicAuthenticationService.executeJWTAuthenticationService(this.username, this.password)
       .subscribe(
         data => {
           console.log(data)
           console.log(this.username)
-          //this.router.navigate(['welcome', this.username])
+          this.router.navigate(['welcome', this.username])
           this.invalidLogin = false;
         },
         error => {
           console.log("didn't make it")
           console.log(error)
-          this.invalidLogin = true
+          this.invalidLogin = true;
+          this.submitted = true;
+          this.signinForm.controls['username'].setValue('');
+          this.signinForm.controls['password'].setValue('');
         }
       )
     }
-    */
-   handleJWTAuthLogin(): any {
-     console.log(this.username);
-   }
 
-    onSubmit(form: any): void {
-      console.log('you submitted value: ', form);
+
+    onSubmit(value: string): void {
+      this.username = this.signinForm.controls['username'].value;
+      this.password = this.signinForm.controls['password'].value;
+      console.log(this.username + " " + this.password);
     }
 
 }
