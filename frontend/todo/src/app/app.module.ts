@@ -39,6 +39,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SigninComponent } from './signin/signin.component';
 import { RegisterComponent } from './register/register.component';
+import { ListUsersComponent } from './list-users/list-users.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { RegisterComponent } from './register/register.component';
     LogoutComponent,
     TodoComponent,
     SigninComponent,
-    RegisterComponent
+    RegisterComponent,
+    ListUsersComponent
   ],
   imports: [
     BrowserModule,

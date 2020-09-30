@@ -5,13 +5,23 @@
 }
 .register-form
 {
-  width:75%;
+  width:90%;
   margin: 0 auto;
 }
-mat-form-field
+
+.name
 {
-  display: block;
-  width:100%;
+  display:flex;
+  justify-content:space-between;
+}
+.name mat-form-field
+{
+  width: 48%;
+}
+
+.register-field
+{
+  display:block;
 }
 button
 {

@@ -24,11 +24,11 @@ export class RegisterComponent implements OnInit {
 
   constructor(fb: FormBuilder) {
     this.registerForm = fb.group({
-      'firstName':[''],
-      'lastName':[''],
-      'userName':[''],
-      'password':[''],
-      'email':[''],
+      'firstName':['', Validators.required],
+      'lastName':['', Validators.required],
+      'userName':['', Validators.required],
+      'password':['', Validators.required],
+      'email':['', Validators.required],
       'phone':['']
     });
    }
@@ -37,6 +37,9 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.firstName = this.registerForm.controls['firstName'].value;
+    this.lastName = this.registerForm.controls['lastName'].value;
+
     console.log("submitted");
   }
 
