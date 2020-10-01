@@ -180,48 +180,4 @@ public class UserController {
 		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
 	}
 	
-	
-	
-	/*
-	@GetMapping("/users/{id}")
-	public User getUser(@PathVariable long id) {
-		return repository.findById(id).get();
-		//return todoService.findById(id);
-	}
-	
-	@DeleteMapping("/users/{id}")
-	public ResponseEntity<Void> deleteUser(
-		@PathVariable String username, @PathVariable long id) {
-		
-		repository.deleteById(id);
-		
-		return ResponseEntity.noContent().build();
-	}
-	
-	@PutMapping("/users/{id}")
-	public ResponseEntity<User> updateUser(
-			@PathVariable long id, @RequestBody User user) {
-		
-		User userUpdated = repository.save(user);
-		
-		return new ResponseEntity<User>(user, HttpStatus.OK);
-	}
-	
-	// Create a new Todo
-	//POST
-	@PostMapping("/users")
-	public ResponseEntity<Void> createUser(@RequestBody User user) {
-
-		User createUser = repository.save(user);
-		
-		// Location
-		// Get current resource url
-		// users/{username}/todos/{id}
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-			path("/{id}").buildAndExpand(createUser.getUserId()).toUri();
-		
-		return ResponseEntity.created(uri).build();
-	}
-	*/
-	
 }
