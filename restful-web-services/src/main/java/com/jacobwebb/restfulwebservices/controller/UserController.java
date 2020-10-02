@@ -44,7 +44,7 @@ public class UserController {
 	 * Create User with generic role
 	 */
     
-	@PostMapping("/users") 
+	@PostMapping("/api/users") 
 	public ResponseEntity<?> createWithOutRole(@RequestBody User user) {
 		//Role role = new Role("ROLE_USER");
 		
@@ -56,7 +56,7 @@ public class UserController {
 	/*
 	 * Create User with a role
 	 */
-	@PostMapping("/users/{role}") 
+	@PostMapping("/api/users/{role}") 
 	public ResponseEntity<?> createWithRole(@RequestBody User user, @PathVariable String role) {
 		
 		// Check if role exists and add it
@@ -73,7 +73,7 @@ public class UserController {
 	/*
 	 *  Returned logged in user 
 	 */
-	@GetMapping("/users/login")
+	@GetMapping("/api/users/login")
 	public ResponseEntity<?> login(Principal principal) {
 		if(principal == null)
 			//This should be ok http status because this will be used for input path
@@ -85,7 +85,7 @@ public class UserController {
 	/*
 	 * Return all users
 	 */
-	@GetMapping("/users")
+	@GetMapping("/api/users")
 	public Collection<User> getAllUsers() {
 		return userRepository.findAll();
 	}
@@ -93,7 +93,7 @@ public class UserController {
 	/*
 	 * Return a user given by the id
 	 */
-	@GetMapping("/users/{id}")
+	@GetMapping("/api/users/{id}")
 	public User getUserByID(@PathVariable long id) {
 		User user = userRepository.findById(id);
 		
@@ -111,7 +111,7 @@ public class UserController {
 	/*
 	 * Return a user given by the id
 	 */
-	@GetMapping("/users/name/{username}")
+	@GetMapping("/api/users/name/{username}")
 	public User getUserByUsername(@PathVariable String username) {
 		User user = userRepository.findByUsername(username);
 		
@@ -129,7 +129,7 @@ public class UserController {
 	/*
 	 * Edit User information
 	 */
-	@PutMapping("/users/{id}")
+	@PutMapping("/api/users/{id}")
 	public ResponseEntity<User> updateUserRole(
 			@PathVariable long id, @RequestBody User user) {
 
@@ -152,7 +152,7 @@ public class UserController {
 	 * Return 'No Content' if successfully deleted
 	 * Return '404 not found' if user doesn't exist
 	 */
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/api/users/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable long id) {
 		
 		User deletedUser = userRepository.findById(id);
@@ -179,49 +179,5 @@ public class UserController {
 		
 		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
 	}
-	
-	
-	
-	/*
-	@GetMapping("/users/{id}")
-	public User getUser(@PathVariable long id) {
-		return repository.findById(id).get();
-		//return todoService.findById(id);
-	}
-	
-	@DeleteMapping("/users/{id}")
-	public ResponseEntity<Void> deleteUser(
-		@PathVariable String username, @PathVariable long id) {
-		
-		repository.deleteById(id);
-		
-		return ResponseEntity.noContent().build();
-	}
-	
-	@PutMapping("/users/{id}")
-	public ResponseEntity<User> updateUser(
-			@PathVariable long id, @RequestBody User user) {
-		
-		User userUpdated = repository.save(user);
-		
-		return new ResponseEntity<User>(user, HttpStatus.OK);
-	}
-	
-	// Create a new Todo
-	//POST
-	@PostMapping("/users")
-	public ResponseEntity<Void> createUser(@RequestBody User user) {
-
-		User createUser = repository.save(user);
-		
-		// Location
-		// Get current resource url
-		// users/{username}/todos/{id}
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-			path("/{id}").buildAndExpand(createUser.getUserId()).toUri();
-		
-		return ResponseEntity.created(uri).build();
-	}
-	*/
 	
 }

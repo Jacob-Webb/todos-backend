@@ -1,5 +1,9 @@
-.container
+.login-container
 {
-  width: 75%;
-  margin: 0 auto;
+  width: 50%;
+  margin: 4% auto;
+}
+
+::ng-deep mat-tab-body {
+  text-align: center;
 }

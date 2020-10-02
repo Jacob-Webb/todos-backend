@@ -1,0 +1,35 @@
+.container
+{
+  width:50%;
+  margin: 10px auto;
+}
+.register-form
+{
+  width:90%;
+  margin: 0 auto;
+}
+
+.name
+{
+  display:flex;
+  justify-content:space-between;
+}
+.name mat-form-field
+{
+  width: 48%;
+}
+
+.register-field
+{
+  display:block;
+}
+button
+{
+  width:100%;
+}
+.error
+{
+  color:red;
+  width:100%;
+  margin: 0 auto;
+}

@@ -37,7 +37,7 @@ public class TodoController {
 	/*
 	 * Create a new Todo
 	 */
-	@PostMapping("/todos/{username}")
+	@PostMapping("/api/todos/{username}")
 	public ResponseEntity<Void> createTodo(
 			@PathVariable String username, @RequestBody Todo todo) {
 		
@@ -60,7 +60,7 @@ public class TodoController {
 	/*
 	 * Return all the todos associated with the User of {username}
 	 */
-	@GetMapping("/todos/{username}")
+	@GetMapping("/api/todos/{username}")
 	public Collection<Todo> getAllTodos(@PathVariable String username) {
 		
 		// Check that user isn't null before trying to get the Todo list
@@ -73,7 +73,7 @@ public class TodoController {
 	/*
 	 * Find and return the id via the User's list of Todos
 	 */
-	@GetMapping("/todos/{username}/{id}")
+	@GetMapping("/api/todos/{username}/{id}")
 	public Todo getTodo(@PathVariable String username, @PathVariable long id) {
 	
 		// if the user exists, look throught the Todos
@@ -93,7 +93,7 @@ public class TodoController {
 	/*
 	 * Update a Todo
 	 */
-	@PutMapping("/todos/{username}/{id}")
+	@PutMapping("/api/todos/{username}/{id}")
 	public ResponseEntity<Todo> updateTodo( @PathVariable String username,
 											@PathVariable long id, 
 											@RequestBody Todo todo) {
@@ -115,7 +115,7 @@ public class TodoController {
 		return new ResponseEntity<Todo>(HttpStatus.NOT_FOUND);
 	}
 	
-	@DeleteMapping("/todos/{username}/{id}")
+	@DeleteMapping("/api/todos/{username}/{id}")
 	public ResponseEntity<Void> deleteTodo(
 		@PathVariable String username, @PathVariable long id) {
 		
