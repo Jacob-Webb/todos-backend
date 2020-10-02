@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ListTodosComponent } from './list-todos/list-todos.component'
+import { ListUsersComponent } from './list-users/list-users.component'
 import { LogoutComponent } from './logout/logout.component';
 import {ErrorComponent } from './error/error.component';
 import { RouteGuardService } from './service/route-guard.service';
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'todos', component: ListTodosComponent, canActivate:[RouteGuardService]},
   { path: 'logout', component: LogoutComponent, canActivate:[RouteGuardService]},
   { path: 'todos/:id', component: TodoComponent, canActivate:[RouteGuardService]},
+  //{ path: 'users', component: ListUsersComponent, canActivate:[RouteGuardService]},
   { path:'**', component: ErrorComponent}
 ];
 
