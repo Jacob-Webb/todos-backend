@@ -37,7 +37,7 @@ export class ListUsersComponent implements OnInit {
   }
 
   refreshUsers() {
-    this.userService.retrieveAllUsers(this.basicAuthenticationService.getAuthenitcatedUser()).subscribe(
+    this.userService.retrieveAllUsers().subscribe(
       response => {
         console.log(response);
         this.users = response;
@@ -52,7 +52,7 @@ export class ListUsersComponent implements OnInit {
 
   deleteTodo(id) {
     console.log(`delete user ${id}`);
-    this.userService.deleteUser(this.basicAuthenticationService.getAuthenticatedUser(), id).subscribe(
+    this.userService.deleteUser(id).subscribe(
       response => {
         console.log(response);
         this.message = `Deleted User ${id} successful`
