@@ -10,7 +10,6 @@ export class User {
     public password: string,
     public firstName: string,
     public lastName: string,
-    public enabled: boolean,
     public email: string,
     public phone: string,
     public roles: string[]

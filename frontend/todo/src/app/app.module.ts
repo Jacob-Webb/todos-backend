@@ -40,6 +40,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { SigninComponent } from './signin/signin.component';
 import { RegisterComponent } from './register/register.component';
 import { ListUsersComponent } from './list-users/list-users.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ListUsersComponent } from './list-users/list-users.component';
     TodoComponent,
     SigninComponent,
     RegisterComponent,
-    ListUsersComponent
+    ListUsersComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
