@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { API_URL } from '../app.constants';
+import { BASE_URL } from '../app.constants';
 
 export const TOKEN = 'authToken'
 export const AUTHENTICATED_USER = 'authenticateUser'
@@ -16,7 +16,7 @@ export class BasicAuthenticationService {
   // Pass username and password credentials to the backend
   executeJWTAuthenticationService(username, password) {
     return this.http.post<any>(
-      `${API_URL}/authenticate`, {
+      `${BASE_URL}/authenticate`, {
         username,
         password
       }).pipe(
