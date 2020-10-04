@@ -10,11 +10,13 @@
               <mat-label>First Name:</mat-label>
               <input matInput type="text" id="first-name" name="firstName"
               [formControl]="registerForm.controls['firstName']">
+              <mat-error>Required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" color="accent">
               <mat-label>Last Name:</mat-label>
               <input matInput type="text" id="last-name" name="lastName"
               [formControl]="registerForm.controls['lastName']">
+              <mat-error>Required</mat-error>
             </mat-form-field>
           </div>
 
@@ -23,27 +25,31 @@
             <input matInput type="text" id="email" name="email"
             placeholder="example@example.com" [formControl]="registerForm.controls['email']">
             <mat-icon matSuffix>mail</mat-icon>
+            <mat-error>Required</mat-error>
           </mat-form-field>
-
           <mat-form-field class="register-field" appearance="outline" color="accent">
             <mat-label>Phone:</mat-label>
             <input matInput type="text" id="phone" name="phone"
             placeholder="(xxx)xxx-xxxx" [formControl]="registerForm.controls['phone']">
             <mat-icon matSuffix>phone</mat-icon>
           </mat-form-field>
-
-          <mat-form-field class="register-field" appearance="outline" color="accent">
-            <mat-label>Username:</mat-label>
-            <input matInput type="text" id="username" name="username" [formControl]="registerForm.controls['username']">
-            <mat-icon matSuffix>person</mat-icon>
-          </mat-form-field>
+          <br>
           <mat-form-field class="register-field" appearance="outline" color="accent">
             <mat-label>New Password:</mat-label>
-            <input matInput id="password" name="password" [type]="hide ? 'password' : 'text'"
-                  [formControl]="registerForm.controls['password']">
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <input matInput id="new-password" name="new-password" [type]="hide ? 'password' : 'text'"
+                  [formControl]="registerForm.controls['new-password']">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
             <mat-error>Required</mat-error>
           </mat-form-field>
+          <mat-form-field class="register-field" appearance="outline" color="accent">
+            <mat-label>Confirm Password:</mat-label>
+            <input matInput id="confirm-password" name="confirm-password" [type]="hide ? 'password' : 'text'"
+                  [formControl]="registerForm.controls['confirm-password']">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            <mat-error>Required</mat-error>
+          </mat-form-field>
+
+
 
           <button mat-raised-button class="submit" color="primary">Register</button>
         </form>

@@ -79,7 +79,7 @@ public class UserController {
 			//This should be ok http status because this will be used for input path
 			return ResponseEntity.ok(principal);
 		
-		return new ResponseEntity<>(userRepository.findByUsername(principal.getName()), HttpStatus.OK);
+		return new ResponseEntity<>(userRepository.findByEmail(principal.getName()), HttpStatus.OK);
 	}
 	
 	/*
@@ -112,8 +112,8 @@ public class UserController {
 	 * Return a user given by the id
 	 */
 	@GetMapping("/api/users/name/{username}")
-	public User getUserByUsername(@PathVariable String username) {
-		User user = userRepository.findByUsername(username);
+	public User getUserByUsername(@PathVariable String email) {
+		User user = userRepository.findByEmail(email);
 		
 		// Cleans up return JSON by eliminating recursive objects
 		for (Role role: user.getRoles()) {
@@ -170,7 +170,7 @@ public class UserController {
 	private ResponseEntity<?> createUser(@RequestBody User user) {
 		
 		// Check if the username is taken before creating a new user
-		if (userRepository.findByUsername(user.getUsername()) != null) {
+		if (userRepository.findByEmail(user.getEmail()) != null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		

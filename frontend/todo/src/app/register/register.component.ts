@@ -15,21 +15,22 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   firstName: string;
   lastName: string;
-  username: string;
-  password: string;
   email: string;
+  password: string;
   phone: string;
   hide=true;
   submitted=false;
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder,
+              private router: Router,
+              private basicAuthenticationService: BasicAuthenticationService) {
     this.registerForm = fb.group({
       'firstName':['', Validators.required],
       'lastName':['', Validators.required],
-      'userName':['', Validators.required],
-      'password':['', Validators.required],
       'email':['', Validators.required],
-      'phone':['']
+      'phone':[''],
+      'new-password':['', Validators.required],
+      'confirm-password':['', Validators.required]
     });
    }
 
@@ -37,6 +38,13 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
+
+    /*
+      Requirements:
+        - username has to be unique
+        - password must be greater than 3 letters, and contain an uppercase letter, lowercase letter, at least one number, and at least one special symbol
+        - confirm password
+    */
     this.firstName = this.registerForm.controls['firstName'].value;
     this.lastName = this.registerForm.controls['lastName'].value;
 
