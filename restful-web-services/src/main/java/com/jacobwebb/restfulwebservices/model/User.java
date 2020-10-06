@@ -51,6 +51,9 @@ public class User {
 	@Column(name="phone")
 	private String phone;
 	
+	@Column(name="enabled")
+	private boolean enabled;
+	
 	@OneToMany(mappedBy = "user")
 	private Collection<Todo> todos;
 	
@@ -73,6 +76,7 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
+		this.enabled = false;
 	}
 
 	public Long getId() {
@@ -121,6 +125,14 @@ public class User {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public Collection<Todo> getTodos() {
@@ -172,20 +184,23 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", phone=" + phone + ", roles=" + roles + "]";
+				+ ", lastName=" + lastName + ", phone=" + phone + ", enabled=" + enabled + ", todos=" + todos
+				+ ", roles=" + roles + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((todos == null) ? 0 : todos.hashCode());
 		return result;
 	}
 
@@ -198,10 +213,12 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (phone == null) {
-			if (other.phone != null)
+		if (email == null) {
+			if (other.email != null)
 				return false;
-		} else if (!phone.equals(other.phone))
+		} else if (!email.equals(other.email))
+			return false;
+		if (enabled != other.enabled)
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
@@ -223,20 +240,22 @@ public class User {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
+			return false;
 		if (roles == null) {
 			if (other.roles != null)
 				return false;
 		} else if (!roles.equals(other.roles))
 			return false;
-		if (email == null) {
-			if (other.email != null)
+		if (todos == null) {
+			if (other.todos != null)
 				return false;
-		} else if (!email.equals(other.email))
+		} else if (!todos.equals(other.todos))
 			return false;
 		return true;
 	}
-
-	
-
 	
 }

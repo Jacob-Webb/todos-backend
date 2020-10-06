@@ -54,12 +54,4 @@ export class SigninComponent implements OnInit {
         }
       )
     }
-
-
-    onSubmit(value: string): void {
-      this.username = this.signinForm.controls['username'].value;
-      this.password = this.signinForm.controls['password'].value;
-      console.log(this.username + " " + this.password);
-    }
-
 }

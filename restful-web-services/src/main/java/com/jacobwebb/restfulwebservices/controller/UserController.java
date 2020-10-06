@@ -1,12 +1,9 @@
  package com.jacobwebb.restfulwebservices.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -165,7 +162,6 @@ public class UserController {
 		return ResponseEntity.notFound().build();
 	}
 
-	
 	// Utility class for creating a User
 	private ResponseEntity<?> createUser(@RequestBody User user) {
 		
