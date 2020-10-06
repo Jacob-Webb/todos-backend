@@ -8,44 +8,44 @@
           <div class="name">
             <mat-form-field appearance="outline" color="accent">
               <mat-label>First Name:</mat-label>
-              <input matInput type="text" id="first-name" name="firstName"
-              [formControl]="registerForm.controls['firstName']">
-              <mat-error>Required</mat-error>
+              <input matInput type="text" id="first-name" name="firstName" maxlength="20"
+              [formControl]="registerForm.controls['firstName']" required>
+              <mat-error *ngIf="registerForm.controls['firstName'].invalid">{{getFirstNameError()}}</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" color="accent">
               <mat-label>Last Name:</mat-label>
-              <input matInput type="text" id="last-name" name="lastName"
-              [formControl]="registerForm.controls['lastName']">
-              <mat-error>Required</mat-error>
+              <input matInput type="text" id="last-name" name="lastName" maxlength="20"
+              [formControl]="registerForm.controls['lastName']" required>
+              <mat-error *ngIf="registerForm.controls['lastName'].invalid">{{getLastNameError()}}</mat-error>
             </mat-form-field>
           </div>
 
           <mat-form-field class="register-field" appearance="outline" color="accent">
             <mat-label>Email:</mat-label>
             <input matInput type="text" id="email" name="email"
-            placeholder="example@example.com" [formControl]="registerForm.controls['email']">
+                placeholder="example@example.com" [formControl]="registerForm.controls['email']" required>
             <mat-icon matSuffix>mail</mat-icon>
-            <mat-error>Required</mat-error>
+            <mat-error *ngIf="registerForm.controls['email'].invalid">{{getEmailError()}}</mat-error>
           </mat-form-field>
           <mat-form-field class="register-field" appearance="outline" color="accent">
             <mat-label>Phone:</mat-label>
-            <input matInput type="text" id="phone" name="phone"
-            placeholder="(xxx)xxx-xxxx" [formControl]="registerForm.controls['phone']">
+            <input matInput type="tel" id="phone" name="phone" mask="(000) 000-0000" [showMaskTyped] = "false"
+              placeholder="(xxx) xxx-xxxx"[formControl]="registerForm.controls['phone']" >
             <mat-icon matSuffix>phone</mat-icon>
           </mat-form-field>
           <br>
           <mat-form-field class="register-field" appearance="outline" color="accent">
             <mat-label>New Password:</mat-label>
             <input matInput id="new-password" name="new-password" [type]="hide ? 'password' : 'text'"
-                  [formControl]="registerForm.controls['new-password']">
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                  [formControl]="registerForm.controls['new-password']" required>
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="register-field" appearance="outline" color="accent">
             <mat-label>Confirm Password:</mat-label>
             <input matInput id="confirm-password" name="confirm-password" [type]="hide ? 'password' : 'text'"
-                  [formControl]="registerForm.controls['confirm-password']">
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                  [formControl]="registerForm.controls['confirm-password']" required>
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             <mat-error>Required</mat-error>
           </mat-form-field>
 

@@ -42,6 +42,10 @@ import { RegisterComponent } from './register/register.component';
 import { ListUsersComponent } from './list-users/list-users.component';
 import { UserComponent } from './user/user.component';
 
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,7 +86,8 @@ import { UserComponent } from './user/user.component';
     MatToolbarModule,
     MatTooltipModule,
     BrowserAnimationsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorBasicAuthService, multi: true}
