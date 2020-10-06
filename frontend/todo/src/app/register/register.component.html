@@ -39,19 +39,18 @@
             <input matInput id="new-password" name="new-password" [type]="hide ? 'password' : 'text'"
                   [formControl]="registerForm.controls['new-password']" required>
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            <mat-error>Required</mat-error>
+            <mat-error *ngIf="registerForm.controls['new-password'].hasError('minlength')">Password must be at least {{passwordMinLength}} characters</mat-error>
           </mat-form-field>
+
           <mat-form-field class="register-field" appearance="outline" color="accent">
             <mat-label>Confirm Password:</mat-label>
-            <input matInput id="confirm-password" name="confirm-password" [type]="hide ? 'password' : 'text'"
+            <input matInput id="confirm-password" name="confirm-password" [type]="hideConfirm ? 'password' : 'text'"
                   [formControl]="registerForm.controls['confirm-password']" required>
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            <mat-error>Required</mat-error>
+            <mat-icon matSuffix (click)="hideConfirm = !hideConfirm">{{hideConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error>Passwords must match</mat-error>
           </mat-form-field>
 
-
-
-          <button mat-raised-button class="submit" color="primary">Register</button>
+          <button mat-raised-button class="submit" color="primary" [disabled]="!registerForm.valid">Register</button>
         </form>
       </mat-card-content>
     </div>

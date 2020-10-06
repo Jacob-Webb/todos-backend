@@ -1,5 +1,5 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { Router } from '@angular/router';
 import { BasicAuthenticationService } from '../service/basic-authentication.service';
@@ -20,8 +20,10 @@ export class RegisterComponent implements OnInit {
   lastName: string;
   email: string;
   password: string;
+  passwordMinLength = 3;
   phone: string;
   hide=true;
+  hideConfirm=true;
   submitted=false;
 
   constructor(fb: FormBuilder,
@@ -34,7 +36,11 @@ export class RegisterComponent implements OnInit {
       'phone':['', Validators.compose([])],
       'new-password':['', Validators.compose([Validators.minLength(3), Validators.required])],
       'confirm-password':['', Validators.compose([Validators.minLength(3), Validators.required])]
+    },{
+      // check whether our password and confirm password match
+      validator: this.passwordMatchValidator
     });
+
    }
 
   ngOnInit(): void {
@@ -52,6 +58,16 @@ export class RegisterComponent implements OnInit {
      this.phone = this.registerForm.controls['phone'].value;
 
     console.log(this.phone);
+  }
+
+  passwordMatchValidator(formGroup: FormGroup) {
+    const password: string = formGroup.get('new-password').value; // get password from our password form control
+    const confirmPassword: string = formGroup.get('confirm-password').value; // get password from our confirmPassword form control
+    // compare is the password math
+    if (password !== confirmPassword) {
+      // if they don't match, set an error in our confirmPassword form control
+      formGroup.get('confirm-password').setErrors({ NoPassswordMatch: true });
+    }
   }
 
   getEmailError() {
