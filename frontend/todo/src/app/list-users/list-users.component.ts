@@ -6,11 +6,10 @@ import { BasicAuthenticationService } from '../service/basic-authentication.serv
 export class User {
   constructor(
     public id: number,
-    public username: string,
-    public password: string,
     public firstName: string,
     public lastName: string,
     public email: string,
+    public password: string,
     public phone: string,
     public roles: string[]
   ) {}

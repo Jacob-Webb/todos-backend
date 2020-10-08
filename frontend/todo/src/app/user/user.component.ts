@@ -21,7 +21,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
-    this.user = new User(this.id, '', '', '', '', '', '', [''])
+    this.user = new User(this.id, '', '', '', '', '', [''])
 
     // id of -1 means user is new. Otherwise, retrieve existing user.
     if (this.id != -1) {

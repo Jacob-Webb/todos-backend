@@ -3,6 +3,8 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Vali
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { Router } from '@angular/router';
 import { BasicAuthenticationService } from '../service/basic-authentication.service';
+import { User } from '../list-users/list-users.component';
+import { UserDataService } from '../service/data/user-data.service';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -25,10 +27,13 @@ export class RegisterComponent implements OnInit {
   hide=true;
   hideConfirm=true;
   submitted=false;
+  user: User;
 
-  constructor(fb: FormBuilder,
+  constructor(private userService: UserDataService,
               private router: Router,
-              private basicAuthenticationService: BasicAuthenticationService) {
+              private basicAuthenticationService: BasicAuthenticationService,
+              fb: FormBuilder
+             ) {
     this.registerForm = fb.group({
       'firstName':['', Validators.compose([Validators.maxLength(20), Validators.pattern('[a-zA-Z]*'), Validators.required])],
       'lastName':['', Validators.compose([Validators.maxLength(20), Validators.pattern('[a-zA-Z]*'), Validators.required])],
@@ -47,17 +52,23 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
-
     /*
-      Requirements:
-        - username has to be unique
-        - password must be greater than 3 letters, and contain an uppercase letter, lowercase letter, at least one number, and at least one special symbol
-        - confirm password
+    * create a user with controls
+    * send the user via http
     */
-    // this.firstName = this.registerForm.controls['firstName'].value;
-     this.phone = this.registerForm.controls['phone'].value;
-
-    console.log(this.phone);
+   this.user = new User(-1,
+                   this.registerForm.controls['firstName'].value,
+                   this.registerForm.controls['lastName'].value,
+                   this.registerForm.controls['email'].value,
+                   this.registerForm.controls['new-password'].value,
+                   this.registerForm.controls['phone'].value,
+                   [''])
+    console.log(this.user);
+    this.userService.createUser(this.user).subscribe(
+      data => {
+        console.log(data)
+      }
+    );
   }
 
   passwordMatchValidator(formGroup: FormGroup) {
