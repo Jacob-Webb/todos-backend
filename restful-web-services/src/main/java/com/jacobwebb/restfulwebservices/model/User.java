@@ -54,6 +54,9 @@ public class User {
 	@Column(name="enabled")
 	private boolean enabled;
 	
+	@Column(name="locked")
+	private boolean locked;
+	
 	@OneToMany(mappedBy = "user")
 	private Collection<Todo> todos;
 	
@@ -77,6 +80,7 @@ public class User {
 		this.lastName = lastName;
 		this.phone = phone;
 		this.enabled = false;
+		this.locked = false;
 	}
 
 	public Long getId() {
@@ -134,6 +138,16 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+	
+	
+
+	public boolean isLocked() {
+		return locked;
+	}
+
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}
 
 	public Collection<Todo> getTodos() {
 		return todos;
@@ -184,8 +198,8 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", phone=" + phone + ", enabled=" + enabled + ", todos=" + todos
-				+ ", roles=" + roles + "]";
+				+ ", lastName=" + lastName + ", phone=" + phone + ", enabled=" + enabled + ", locked=" + locked
+				+ ", todos=" + todos + ", roles=" + roles + "]";
 	}
 
 	@Override
@@ -197,6 +211,7 @@ public class User {
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + (locked ? 1231 : 1237);
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
@@ -235,6 +250,8 @@ public class User {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
+		if (locked != other.locked)
+			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -257,5 +274,6 @@ public class User {
 			return false;
 		return true;
 	}
+	
 	
 }

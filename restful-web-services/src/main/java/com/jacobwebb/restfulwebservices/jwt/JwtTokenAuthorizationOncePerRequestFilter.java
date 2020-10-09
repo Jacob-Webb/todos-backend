@@ -30,7 +30,6 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    //private UserDetailsService jwtInMemoryUserDetailsService;
     private UserDetailsServiceImpl userDetailsService;
     
     @Autowired

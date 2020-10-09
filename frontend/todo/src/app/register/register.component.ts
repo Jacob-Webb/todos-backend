@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit {
                    this.registerForm.controls['phone'].value,
                    [''])
     console.log(this.user);
-    this.userService.createUser(this.user).subscribe(
+    this.userService.registerUser(this.user).subscribe(
       data => {
         console.log(data)
       }

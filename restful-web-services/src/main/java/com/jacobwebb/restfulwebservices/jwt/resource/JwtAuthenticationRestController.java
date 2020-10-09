@@ -15,12 +15,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jacobwebb.restfulwebservices.jwt.JwtTokenUtil;
+import com.jacobwebb.restfulwebservices.model.User;
 import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
 
 @RestController
@@ -73,6 +76,12 @@ public class JwtAuthenticationRestController {
       return ResponseEntity.badRequest().body(null);
     }
   }
+  
+	@PostMapping("/register") 
+	public void registerUser() {
+
+		
+	}
 
   @ExceptionHandler({ AuthenticationException.class })
   public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
