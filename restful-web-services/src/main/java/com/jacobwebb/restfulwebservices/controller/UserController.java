@@ -36,11 +36,21 @@ public class UserController {
     public PasswordEncoder passwordEncoderBean() {
         return new BCryptPasswordEncoder();
     }
+    
+    
+  	@PostMapping("/register") 
+  	public void registerUser(@RequestBody User user) {
+
+  		/*
+  		 * Take in user
+  		 * create a token for user
+  		 */
+  		System.out.println(user);
+  	}
 	
 	/*
 	 * Create User with generic role
 	 */
-    
 	@PostMapping("/api/users") 
 	public ResponseEntity<?> createWithOutRole(@RequestBody User user) {
 		//Role role = new Role("ROLE_USER");

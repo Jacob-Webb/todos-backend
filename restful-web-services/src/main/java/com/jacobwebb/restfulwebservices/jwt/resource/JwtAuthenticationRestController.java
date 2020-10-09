@@ -76,12 +76,6 @@ public class JwtAuthenticationRestController {
       return ResponseEntity.badRequest().body(null);
     }
   }
-  
-	@PostMapping("/register") 
-	public void registerUser() {
-
-		
-	}
 
   @ExceptionHandler({ AuthenticationException.class })
   public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
