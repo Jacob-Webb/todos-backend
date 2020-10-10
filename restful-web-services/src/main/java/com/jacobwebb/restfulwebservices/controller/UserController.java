@@ -19,9 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jacobwebb.restfulwebservices.dao.RoleRepository;
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
+import com.jacobwebb.restfulwebservices.model.ConfirmationToken;
 import com.jacobwebb.restfulwebservices.model.Role;
 import com.jacobwebb.restfulwebservices.model.Todo;
 import com.jacobwebb.restfulwebservices.model.User;
+import com.jacobwebb.restfulwebservices.service.ConfirmationTokenService;
+import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
 
 @CrossOrigin(origins="${crossOrigin}")
 @RestController
@@ -33,19 +36,29 @@ public class UserController {
 	@Autowired 
 	RoleRepository roleRepository;
 	
+	@Autowired
+	UserDetailsServiceImpl userService;
+	
     public PasswordEncoder passwordEncoderBean() {
         return new BCryptPasswordEncoder();
     }
     
     
   	@PostMapping("/register") 
-  	public void registerUser(@RequestBody User user) {
+  	public ResponseEntity<?> registerUser(@RequestBody User user) {
 
   		/*
   		 * Take in user
   		 * create a token for user
   		 */
-  		System.out.println(user);
+		// Check if the username is taken before creating a new user
+		if (userRepository.findByEmail(user.getEmail()) != null) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+		
+		userService.signupUser(user);
+		
+		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
   	}
 	
 	/*
@@ -185,5 +198,7 @@ public class UserController {
 		
 		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
 	}
+	
+	
 	
 }
