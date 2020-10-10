@@ -1,6 +1,7 @@
 package com.jacobwebb.restfulwebservices.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,6 +22,9 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	@Autowired
 	ConfirmationTokenService confirmationTokenService;
+	
+	@Autowired
+	EmailSenderService emailSenderService;
 	
     public PasswordEncoder passwordEncoderBean() {
         return new BCryptPasswordEncoder();
@@ -61,6 +65,20 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     	  userRepository.save(user);
 
     	  confirmationTokenService.deleteConfirmationToken(confirmationToken.getId());
+    }
+    
+    public void sendConfirmationEmail(String userEmail, String token) {
+    	
+    	final SimpleMailMessage mailMessage = new SimpleMailMessage(); 
+    	
+    	mailMessage.setTo(userEmail);
+    	mailMessage.setSubject("Todo Confirmation Link!");
+    	mailMessage.setFrom("${spring.mail.username}");
+    	mailMessage.setText(
+    			"Thank you for registering. Please click on the below link to activate your account." + "http://localhost:8080/register/confirm?token="
+    					+ token);
+
+    	emailSenderService.sendEmail(mailMessage);
     }
     
     /*
