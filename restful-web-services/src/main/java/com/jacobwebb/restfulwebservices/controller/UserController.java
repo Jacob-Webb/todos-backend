@@ -67,7 +67,7 @@ public class UserController {
   	}
   	
   	@GetMapping("/confirm")
-  	public ResponseEntity<?> confirmMail(@RequestParam("token") String token) {
+  	public void confirmMail(@RequestParam("token") String token) {
   		
 
 		Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenService.findConfirmationTokenByToken(token);

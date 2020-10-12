@@ -40,6 +40,9 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${registration.path}")
     private String registrationPath;
     
+    @Value("${test.path}")
+    private String testPath;
+    
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
@@ -95,7 +98,8 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(
                 HttpMethod.POST,
                 authenticationPath,
-                registrationPath
+                registrationPath,
+                testPath
             )
             .antMatchers(HttpMethod.OPTIONS, "/**")
             .and()

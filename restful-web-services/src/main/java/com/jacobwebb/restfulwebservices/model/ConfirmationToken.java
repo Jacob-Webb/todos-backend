@@ -3,6 +3,7 @@ package com.jacobwebb.restfulwebservices.model;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,8 +28,10 @@ public class ConfirmationToken {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(name="token")
 	private String confirmationToken;
 	
+	@Column(name="date")
 	private LocalDate createdDate;
 	
 	@OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)

@@ -9,7 +9,5 @@ import com.jacobwebb.restfulwebservices.model.ConfirmationToken;
 
 @Repository
 public interface ConfirmationTokenRepository extends CrudRepository<ConfirmationToken, Long> {
-	
-	Optional<ConfirmationToken> findConfirmationTokenByToken(String token);
 
 }

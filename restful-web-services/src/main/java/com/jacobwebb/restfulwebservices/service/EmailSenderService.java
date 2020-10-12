@@ -1,5 +1,6 @@
 package com.jacobwebb.restfulwebservices.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmailSenderService {
 	
+	@Autowired
 	private JavaMailSender javaMailSender;
 	
 	@Async

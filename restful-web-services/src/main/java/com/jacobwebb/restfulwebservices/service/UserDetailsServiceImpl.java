@@ -43,17 +43,19 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         return new JwtUserDetails(user);
     }
     
-    public User signupUser(User user) {
+    public void signupUser(User user) {
     	
 		// Encrypt user password
 		user.setPassword(passwordEncoderBean().encode(user.getPassword()));
-		userRepository.save(user);
 		
 		final ConfirmationToken confirmationToken = new ConfirmationToken(user);
+		
+		sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
+		
+		userRepository.save(user);
 
 		confirmationTokenService.saveConfirmationToken(confirmationToken);
 		
-		return user;
     }
     
     public void confirmUser(ConfirmationToken confirmationToken) {
@@ -67,7 +69,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     	  confirmationTokenService.deleteConfirmationToken(confirmationToken.getId());
     }
     
-    public void sendConfirmationEmail(String userEmail, String token) {
+    private void sendConfirmationEmail(String userEmail, String token) {
     	
     	final SimpleMailMessage mailMessage = new SimpleMailMessage(); 
     	
