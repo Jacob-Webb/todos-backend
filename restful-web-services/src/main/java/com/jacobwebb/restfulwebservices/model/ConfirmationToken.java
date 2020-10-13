@@ -38,6 +38,12 @@ public class ConfirmationToken {
 	@JoinColumn(nullable = false, name = "user_id")
 	private User user;
 	
+	public ConfirmationToken() {
+		this.user = new User();
+		this.createdDate = LocalDate.now();
+		this.confirmationToken = UUID.randomUUID().toString();
+	}
+	
 	public ConfirmationToken(User user) {
 		this.user = user;
 		this.createdDate = LocalDate.now();

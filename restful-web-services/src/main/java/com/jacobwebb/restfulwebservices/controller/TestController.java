@@ -33,7 +33,6 @@ public class TestController {
 	@Autowired
 	EmailSenderService emailSenderService;
 	
-	
 	/*
 	 * Create a new Todo
 	 */
@@ -45,7 +44,7 @@ public class TestController {
     	mailMessage.setTo("sanctifyd83@yahoo.com");
     	mailMessage.setSubject("Todo Confirmation Link!");
     	mailMessage.setFrom("${spring.mail.username}");
-    	mailMessage.setText("Spring Email Test");
+    	mailMessage.setText(emailSenderService.getFrontendUrl() + "/login/");
     	
     	emailSenderService.sendEmail(mailMessage);
 		

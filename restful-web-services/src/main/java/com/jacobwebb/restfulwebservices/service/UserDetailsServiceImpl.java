@@ -77,8 +77,8 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     	mailMessage.setSubject("Todo Confirmation Link!");
     	mailMessage.setFrom("${spring.mail.username}");
     	mailMessage.setText(
-    			"Thank you for registering. Please click on the below link to activate your account." + "http://localhost:8080/register/confirm?token="
-    					+ token);
+    			"Thank you for registering. Please click on the below link to activate your account.\n\n" + 
+    					emailSenderService.getFrontendUrl() + "/login/" + token);
 
     	emailSenderService.sendEmail(mailMessage);
     }

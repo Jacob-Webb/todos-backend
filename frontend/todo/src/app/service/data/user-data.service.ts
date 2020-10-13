@@ -34,4 +34,8 @@ export class UserDataService {
     return this.http.post(`${BASE_URL}/register`, user);
   }
 
+  confirmUser(token) {
+    return this.http.post(`${BASE_URL}/confirm`, token);
+  }
+
 }

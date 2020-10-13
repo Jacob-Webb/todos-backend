@@ -66,13 +66,20 @@ public class UserController {
 		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
   	}
   	
-  	@GetMapping("/confirm")
-  	public void confirmMail(@RequestParam("token") String token) {
+  	@PostMapping("/register/confirm")
+  	public ResponseEntity<?> confirmMail(@RequestBody String token) {
   		
-
+  		
 		Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenService.findConfirmationTokenByToken(token);
-
+		
+		if (optionalConfirmationToken == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
 		optionalConfirmationToken.ifPresent(userService::confirmUser);
+		
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		
   	}
 	
 	/*
