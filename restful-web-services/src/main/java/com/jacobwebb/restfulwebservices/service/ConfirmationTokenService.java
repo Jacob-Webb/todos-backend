@@ -31,9 +31,11 @@ public class ConfirmationTokenService {
 	public Optional<ConfirmationToken> findConfirmationTokenByToken(String token) {
 		
 		Iterable<ConfirmationToken> checkTokens = confirmationTokenRepository.findAll();
+		System.out.println(token);
 		
 		for (ConfirmationToken checkToken: checkTokens) {
-			if (token == checkToken.getConfirmationToken()) {
+			if (token.equals(checkToken.getConfirmationToken())) {
+				System.out.println(checkToken.getConfirmationToken());
 				Optional<ConfirmationToken> foundToken = Optional.of(checkToken);
 				return foundToken;
 			}

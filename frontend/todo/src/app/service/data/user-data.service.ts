@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../list-users/list-users.component';
-import { API_URL, BASE_URL } from 'src/app/app.constants';
+import { API_URL, BASE_URL, REGISTER_URL } from 'src/app/app.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -31,11 +31,11 @@ export class UserDataService {
   }
 
   registerUser(user) {
-    return this.http.post(`${BASE_URL}/register`, user);
+    return this.http.post(`${REGISTER_URL}`, user);
   }
 
   confirmUser(token) {
-    return this.http.post(`${BASE_URL}/confirm`, token);
+    return this.http.post(`${REGISTER_URL}/confirm`, token);
   }
 
 }

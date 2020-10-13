@@ -61,6 +61,8 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		
+		user.addRole(roleRepository.findByName("ROLE_USER"));
+		
 		userService.signupUser(user);
 		
 		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 

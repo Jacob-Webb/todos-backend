@@ -28,9 +28,9 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     /*
     * If already logged in, route to Welcome page
-    * If there is a token
-    *   send to backend to complete confirmation
     */
+
+
     /*
     * If there is a token,
     *   send to the backend to complete confirmation

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table (name="roles")
 @JsonIdentityInfo(
 		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "name")
+		property = "id")
 public class Role {
 	
 	@Id
