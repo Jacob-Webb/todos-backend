@@ -56,13 +56,13 @@ export class RegisterComponent implements OnInit {
     * create a user with controls
     * send the user via http
     */
-   this.user = new User(-1,
+   this.user = new User(
                    this.registerForm.controls['firstName'].value,
                    this.registerForm.controls['lastName'].value,
                    this.registerForm.controls['email'].value,
                    this.registerForm.controls['new-password'].value,
                    this.registerForm.controls['phone'].value,
-                   [''])
+                   )
     console.log(this.user);
     this.userService.registerUser(this.user).subscribe(
       data => {
