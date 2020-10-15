@@ -9,6 +9,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
+import { ThrowStmt } from '@angular/compiler';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -69,39 +70,28 @@ export class RegisterComponent implements OnInit {
                    this.registerForm.controls['phone'].value,
                    )
     this.userService.registerUser(this.user).pipe(
-      /*tap((resp: HttpResponse<any>)=> {
-
-          if  (resp.status === 201) {
-            console.log("created")
-          } else if (resp.status === 202) {
-            console.log("accepted");
-          }
-
-      }),
-      */
       catchError((error)=>{
         if (error.status === 500) {
             console.log("unexpected error");
             return throwError(error.status);
         }
-        // or do something with this error code since the person exists
+        // If the person exists and has been enabled,
+        // isUniqueEmail is set to false to display a message
         else if (error.status === 409) {
           this.isUniqueEmail = false;
           console.log(this.isUniqueEmail);
           return throwError(error.status);
-        }
-        else if (error.status === 406) {
-            return throwError(error.status);
         }
     })
     ).subscribe(
       //if this is null let them know that the person just needs to be enabled
       data => {
         if (data == null) {
-          console.log("do something with this");
-        }
+          console.log("null");
+          this.router.navigate(['confirmation']);
+        } else
+          console.log("not null");
       }
-
     )
 
   }
@@ -109,7 +99,7 @@ export class RegisterComponent implements OnInit {
   passwordMatchValidator(formGroup: FormGroup) {
     const password: string = formGroup.get('new-password').value; // get password from our password form control
     const confirmPassword: string = formGroup.get('confirm-password').value; // get password from our confirmPassword form control
-    // compare is the password math
+    // compare if the passwords match
     if (password !== confirmPassword) {
       // if they don't match, set an error in our confirmPassword form control
       formGroup.get('confirm-password').setErrors({ NoPassswordMatch: true });
