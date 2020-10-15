@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { BasicAuthenticationService } from '../service/basic-authentication.service';
 import { User } from '../list-users/list-users.component';
 import { UserDataService } from '../service/data/user-data.service';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
@@ -31,6 +31,7 @@ export class RegisterComponent implements OnInit {
   hide=true;
   hideConfirm=true;
   submitted=false;
+  isUniqueEmail=true;
   user: User;
 
   constructor(private userService: UserDataService,
@@ -68,26 +69,25 @@ export class RegisterComponent implements OnInit {
                    this.registerForm.controls['phone'].value,
                    )
     this.userService.registerUser(this.user).pipe(
-      /*
-      map((resp: HttpResponse<any>)=> {
-        if  (resp.status === 201) {
-          console.log(resp.status)
-        } else if (resp.status === 200) {
-          console.log(resp.status);
-        }
+      /*tap((resp: HttpResponse<any>)=> {
+
+          if  (resp.status === 201) {
+            console.log("created")
+          } else if (resp.status === 202) {
+            console.log("accepted");
+          }
+
       }),
       */
       catchError((error)=>{
         if (error.status === 500) {
-            console.log("my handling");
+            console.log("unexpected error");
             return throwError(error.status);
-        }
-        else if (error.status === 400) {
-            return throwError(new Error(error.status));
         }
         // or do something with this error code since the person exists
         else if (error.status === 409) {
-          console.log("There was a custom conflict")
+          this.isUniqueEmail = false;
+          console.log(this.isUniqueEmail);
           return throwError(error.status);
         }
         else if (error.status === 406) {
@@ -97,8 +97,11 @@ export class RegisterComponent implements OnInit {
     ).subscribe(
       //if this is null let them know that the person just needs to be enabled
       data => {
-        console.log(data);
+        if (data == null) {
+          console.log("do something with this");
+        }
       }
+
     )
 
   }

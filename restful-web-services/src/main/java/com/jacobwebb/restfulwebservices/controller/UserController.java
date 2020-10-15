@@ -59,11 +59,13 @@ public class UserController {
 		// Check if the username is taken before creating a new user
 		if (userRepository.findByEmail(user.getEmail()) != null) {
 			
+			User checkUser = userRepository.findByEmail(user.getEmail());
+			
 			/*
 			 * If the user exists but hasn't been enabled,
 			 * 	return accepted response.
 			 */
-			if (!(user.isEnabled())) return new ResponseEntity<>(HttpStatus.ACCEPTED);
+			if (!checkUser.isEnabled()) return new ResponseEntity<>(HttpStatus.ACCEPTED);
 			/*
 			 * Otherwise, return conflict response because the person has already been created. 
 			 */

@@ -132,7 +132,7 @@ public class User {
 	}
 
 	public boolean isEnabled() {
-		return enabled == true;
+		return enabled;
 	}
 
 	public void setEnabled(boolean enabled) {
