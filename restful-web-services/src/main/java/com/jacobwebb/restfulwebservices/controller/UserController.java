@@ -63,7 +63,7 @@ public class UserController {
 			 * If the user exists but hasn't been enabled,
 			 * 	return accepted response.
 			 */
-			if (user.isEnabled()) return new ResponseEntity<>(HttpStatus.ACCEPTED);
+			if (!(user.isEnabled())) return new ResponseEntity<>(HttpStatus.ACCEPTED);
 			/*
 			 * Otherwise, return conflict response because the person has already been created. 
 			 */
