@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name="users")
 @JsonIdentityInfo(
 		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "username")
+		property = "email")
 public class User {
 	
 	@Id
@@ -31,8 +31,13 @@ public class User {
 	@Column(name="user_id")
 	private Long id;
 	
-	@Column(name="username", unique=true, nullable=false)
-	private String username;
+	/*
+	 * For Spring Security, we'll be using storing emails as usernames. For our use, emails and usernames
+	 * share the same properties ie they are unique and non-nullable identifiers. Having both seems 
+	 * redundant and the current trend is for emails as usernames. 
+	 */
+	@Column(name="email", unique=true, nullable=false)
+	private String email;
 	
 	@Column(name="password")
 	private String password;
@@ -43,10 +48,14 @@ public class User {
 	@Column(name="last_name")
 	private String lastName;
 	
+	@Column(name="phone")
+	private String phone;
+	
+	@Column(name="enabled")
 	private boolean enabled;
 	
-	@Embedded
-	private Contact contact;
+	@Column(name="locked")
+	private boolean locked;
 	
 	@OneToMany(mappedBy = "user")
 	private Collection<Todo> todos;
@@ -64,12 +73,14 @@ public class User {
 		
 	}
 
-	public User(String username, String password, String firstName, String lastName, Contact contact) {
-		this.username = username;
+	public User(String firstName, String lastName, String email, String password, String phone) {
+		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.contact = contact;
+		this.phone = phone;
+		this.enabled = false;
+		this.locked = false;
 	}
 
 	public Long getId() {
@@ -80,12 +91,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -112,6 +123,14 @@ public class User {
 		this.lastName = lastName;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -119,13 +138,15 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+	
+	
 
-	public Contact getContact() {
-		return contact;
+	public boolean isLocked() {
+		return locked;
 	}
 
-	public void setContact(Contact contact) {
-		this.contact = contact;
+	public void setLocked(boolean locked) {
+		this.locked = locked;
 	}
 
 	public Collection<Todo> getTodos() {
@@ -176,21 +197,25 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", contact=" + contact + ", roles=" + roles + "]";
+		return "User [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", phone=" + phone + ", enabled=" + enabled + ", locked=" + locked
+				+ ", todos=" + todos + ", roles=" + roles + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((contact == null) ? 0 : contact.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + (locked ? 1231 : 1237);
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		result = prime * result + ((todos == null) ? 0 : todos.hashCode());
 		return result;
 	}
 
@@ -203,10 +228,12 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (contact == null) {
-			if (other.contact != null)
+		if (email == null) {
+			if (other.email != null)
 				return false;
-		} else if (!contact.equals(other.contact))
+		} else if (!email.equals(other.email))
+			return false;
+		if (enabled != other.enabled)
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
@@ -223,25 +250,30 @@ public class User {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
+		if (locked != other.locked)
+			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
 		} else if (!password.equals(other.password))
+			return false;
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
 			return false;
 		if (roles == null) {
 			if (other.roles != null)
 				return false;
 		} else if (!roles.equals(other.roles))
 			return false;
-		if (username == null) {
-			if (other.username != null)
+		if (todos == null) {
+			if (other.todos != null)
 				return false;
-		} else if (!username.equals(other.username))
+		} else if (!todos.equals(other.todos))
 			return false;
 		return true;
 	}
-
 	
-
 	
 }

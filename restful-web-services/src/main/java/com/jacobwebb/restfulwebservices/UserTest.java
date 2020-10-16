@@ -1,6 +1,5 @@
 package com.jacobwebb.restfulwebservices;
 
-import com.jacobwebb.restfulwebservices.model.Contact;
 import com.jacobwebb.restfulwebservices.model.Role;
 import com.jacobwebb.restfulwebservices.model.User;
 
@@ -14,9 +13,9 @@ public class UserTest {
 		
 		Role role = new Role("ROLE_USER");
 		
-		Contact contact = new Contact("sanctifyd83@yahoo.com", "909-322-5267");
+		//Contact contact = new Contact("sanctifyd83@yahoo.com", "909-322-5267");
 
-		User user = new User("sanctifyd", "pass", "jacob", "webb", contact);
+		User user = new User("sanctifyd", "pass", "jacob", "webb", "909-322-5267");
 		
 		user.addRole(role);
 		

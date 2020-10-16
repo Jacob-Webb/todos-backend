@@ -42,6 +42,11 @@ import { RegisterComponent } from './register/register.component';
 import { ListUsersComponent } from './list-users/list-users.component';
 import { UserComponent } from './user/user.component';
 
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +61,8 @@ import { UserComponent } from './user/user.component';
     SigninComponent,
     RegisterComponent,
     ListUsersComponent,
-    UserComponent
+    UserComponent,
+    ConfirmationComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +88,8 @@ import { UserComponent } from './user/user.component';
     MatToolbarModule,
     MatTooltipModule,
     BrowserAnimationsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorBasicAuthService, multi: true}

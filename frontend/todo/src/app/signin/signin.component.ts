@@ -48,19 +48,10 @@ export class SigninComponent implements OnInit {
         },
         error => {
           console.log("didn't make it")
-          console.log(this.username + " " + this.password)
           console.log(error)
           this.invalidLogin = true;
           this.submitted = true;
         }
       )
     }
-
-
-    onSubmit(value: string): void {
-      this.username = this.signinForm.controls['username'].value;
-      this.password = this.signinForm.controls['password'].value;
-      console.log(this.username + " " + this.password);
-    }
-
 }

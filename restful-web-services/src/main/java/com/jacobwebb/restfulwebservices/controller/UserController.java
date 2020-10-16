@@ -1,12 +1,10 @@
  package com.jacobwebb.restfulwebservices.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,13 +16,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jacobwebb.restfulwebservices.dao.RoleRepository;
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
+import com.jacobwebb.restfulwebservices.model.ConfirmationToken;
 import com.jacobwebb.restfulwebservices.model.Role;
 import com.jacobwebb.restfulwebservices.model.Todo;
 import com.jacobwebb.restfulwebservices.model.User;
+import com.jacobwebb.restfulwebservices.service.ConfirmationTokenService;
+import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
 
 @CrossOrigin(origins="${crossOrigin}")
 @RestController
@@ -36,14 +38,93 @@ public class UserController {
 	@Autowired 
 	RoleRepository roleRepository;
 	
+	@Autowired
+	UserDetailsServiceImpl userService;
+	
+	@Autowired
+	ConfirmationTokenService confirmationTokenService;
+	
     public PasswordEncoder passwordEncoderBean() {
         return new BCryptPasswordEncoder();
     }
+    
+    @PostMapping("/register/verify")
+    public ResponseEntity<?> isNewUser(@RequestBody User user) {
+
+		// Check if the username is taken before creating a new user
+		if (userRepository.findByEmail(user.getEmail()) != null) {
+			
+			User checkUser = userRepository.findByEmail(user.getEmail());
+			
+			/*
+			 * If the user exists and has been enabled already
+			 * return a conflict error
+			 */
+			if (checkUser.isEnabled()) {
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
+			} 
+		}
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+    }
+    
+  	@PostMapping("/register") 
+  	public ResponseEntity<?> registerUser(@RequestBody User user) {
+
+		// Check if the username is taken before creating a new user
+		if (userRepository.findByEmail(user.getEmail()) != null) {
+			
+			User checkUser = userRepository.findByEmail(user.getEmail());
+			
+			/*
+			 * If the user exists and has been enabled already
+			 * return a conflict error
+			 */
+			if (checkUser.isEnabled()) {
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
+			}
+			/*
+			 * Otherwise, find the users confirmation token and resend an email.  
+			 */
+			else {
+				ConfirmationToken confirmationToken = confirmationTokenService.findConfirmationTokenByUserId(checkUser.getId());
+				
+				userService.updateRegistrant(user);
+		
+				userService.sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
+				//
+				return new ResponseEntity<>(HttpStatus.ACCEPTED);
+			}
+			
+		}
+		
+		// First time this user has been saved
+		user.addRole(roleRepository.findByName("ROLE_USER"));
+		
+		userService.signupUser(user);
+		
+		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
+  	}
+  	
+  	@PostMapping("/register/confirm")
+  	public ResponseEntity<?> confirmMail(@RequestBody String token) {
+  		
+  		
+		Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenService.findConfirmationTokenByToken(token);
+		
+		if (optionalConfirmationToken == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		optionalConfirmationToken.ifPresent(userService::confirmUser);
+		
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		
+  	}
 	
 	/*
 	 * Create User with generic role
 	 */
-    
 	@PostMapping("/api/users") 
 	public ResponseEntity<?> createWithOutRole(@RequestBody User user) {
 		//Role role = new Role("ROLE_USER");
@@ -79,7 +160,7 @@ public class UserController {
 			//This should be ok http status because this will be used for input path
 			return ResponseEntity.ok(principal);
 		
-		return new ResponseEntity<>(userRepository.findByUsername(principal.getName()), HttpStatus.OK);
+		return new ResponseEntity<>(userRepository.findByEmail(principal.getName()), HttpStatus.OK);
 	}
 	
 	/*
@@ -112,8 +193,8 @@ public class UserController {
 	 * Return a user given by the id
 	 */
 	@GetMapping("/api/users/name/{username}")
-	public User getUserByUsername(@PathVariable String username) {
-		User user = userRepository.findByUsername(username);
+	public User getUserByUsername(@PathVariable String email) {
+		User user = userRepository.findByEmail(email);
 		
 		// Cleans up return JSON by eliminating recursive objects
 		for (Role role: user.getRoles()) {
@@ -165,12 +246,11 @@ public class UserController {
 		return ResponseEntity.notFound().build();
 	}
 
-	
 	// Utility class for creating a User
 	private ResponseEntity<?> createUser(@RequestBody User user) {
 		
 		// Check if the username is taken before creating a new user
-		if (userRepository.findByUsername(user.getUsername()) != null) {
+		if (userRepository.findByEmail(user.getEmail()) != null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		
@@ -179,5 +259,7 @@ public class UserController {
 		
 		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
 	}
+	
+	
 	
 }

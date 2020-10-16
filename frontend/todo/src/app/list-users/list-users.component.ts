@@ -4,16 +4,21 @@ import { Router } from '@angular/router';
 import { BasicAuthenticationService } from '../service/basic-authentication.service';
 
 export class User {
-  constructor(
-    public id: number,
-    public username: string,
-    public password: string,
-    public firstName: string,
-    public lastName: string,
-    public email: string,
-    public phone: string,
-    public roles: string[]
-  ) {}
+  public id: number
+  public firstName: string
+  public lastName: string
+  public email: string
+  public password: string
+  public phone: string
+  public role: string[]
+
+  constructor(firstName: string, lastName: string, email: string, password: string, phone: string) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.phone = phone;
+  }
 
 }
 

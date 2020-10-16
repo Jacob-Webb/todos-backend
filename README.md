@@ -5,6 +5,9 @@
 ## Back End - Spring Boot
 ### Security
 #### Spring Security and JWT authorization
+Note - For Spring Security, we'll be using storing emails as usernames. For our use, emails and username 
+share the same properties ie they are unique and non-nullable identifiers. 
+Having both seems redundant and the current trend is for emails as usernames
 ### API Paths
 #### Permissions
 ##### Roles are set by assigning certain Privileges. 

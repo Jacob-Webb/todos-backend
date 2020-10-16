@@ -37,6 +37,12 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${jwt.get.token.uri}")
     private String authenticationPath;
     
+    @Value("${registration.path}")
+    private String registrationPath;
+    
+    @Value("${test.path}")
+    private String testPath;
+    
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
@@ -67,7 +73,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling().authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
-            //This is will be the PermissionController path. Path needs to be more secure; use some sort of superAdmin username or something. 
+            //This will be the PermissionController path. Path needs to be more secure; use some sort of superAdmin username or something. 
             // These are public pages
             .antMatchers("/resources/**", "/error").permitAll()
             // These can be reachable for only Admin roles
@@ -91,18 +97,17 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .ignoring()
             .antMatchers(
                 HttpMethod.POST,
-                authenticationPath
+                authenticationPath,
+                registrationPath,
+                testPath
             )
             .antMatchers(HttpMethod.OPTIONS, "/**")
             .and()
             .ignoring()
             .antMatchers(
                 HttpMethod.GET,
-                "/" //Other Stuff You want to Ignore
-            )
-            .and()
-            .ignoring()
-            .antMatchers("/h2-console/**/**");//Should not be in Production!
+                "/"
+            );
     }
 }
 
