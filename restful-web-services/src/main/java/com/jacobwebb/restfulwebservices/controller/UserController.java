@@ -48,6 +48,25 @@ public class UserController {
         return new BCryptPasswordEncoder();
     }
     
+    @PostMapping("/register/verify")
+    public ResponseEntity<?> isNewUser(@RequestBody User user) {
+
+		// Check if the username is taken before creating a new user
+		if (userRepository.findByEmail(user.getEmail()) != null) {
+			
+			User checkUser = userRepository.findByEmail(user.getEmail());
+			
+			/*
+			 * If the user exists and has been enabled already
+			 * return a conflict error
+			 */
+			if (checkUser.isEnabled()) {
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
+			} 
+		}
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+    }
     
   	@PostMapping("/register") 
   	public ResponseEntity<?> registerUser(@RequestBody User user) {
@@ -70,7 +89,7 @@ public class UserController {
 			else {
 				ConfirmationToken confirmationToken = confirmationTokenService.findConfirmationTokenByUserId(checkUser.getId());
 				
-				userService.updateUser(user);
+				userService.updateRegistrant(user);
 		
 				userService.sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
 				//

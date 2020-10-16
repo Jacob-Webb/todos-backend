@@ -69,7 +69,7 @@ export class RegisterComponent implements OnInit {
                    this.registerForm.controls['new-password'].value,
                    this.registerForm.controls['phone'].value,
                    )
-    this.userService.registerUser(this.user).pipe(
+    this.userService.isNewUser(this.user).pipe(
       catchError((error)=>{
         if (error.status === 500) {
             console.log("unexpected error");
@@ -79,7 +79,6 @@ export class RegisterComponent implements OnInit {
         // isUniqueEmail is set to false to display a message
         else if (error.status === 409) {
           this.isUniqueEmail = false;
-          console.log(this.isUniqueEmail);
           return throwError(error.status);
         }
     })

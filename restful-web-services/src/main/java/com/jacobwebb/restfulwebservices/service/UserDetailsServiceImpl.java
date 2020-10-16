@@ -69,7 +69,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     	  confirmationTokenService.deleteConfirmationToken(confirmationToken.getId());
     }
     
-    public void updateUser(User user) {
+    public void updateRegistrant(User user) {
     	User checkUser = userRepository.findByEmail(user.getEmail());
     	
 		// set updated values to saved user

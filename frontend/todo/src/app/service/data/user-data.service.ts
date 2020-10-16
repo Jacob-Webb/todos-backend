@@ -38,4 +38,8 @@ export class UserDataService {
     return this.http.post(`${REGISTER_URL}/confirm`, token);
   }
 
+  isNewUser(user) {
+    return this.http.post(`${REGISTER_URL}/verify`, user);
+  }
+
 }
