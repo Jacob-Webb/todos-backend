@@ -31,13 +31,25 @@ public class ConfirmationTokenService {
 	public Optional<ConfirmationToken> findConfirmationTokenByToken(String token) {
 		
 		Iterable<ConfirmationToken> checkTokens = confirmationTokenRepository.findAll();
-		System.out.println(token);
 		
 		for (ConfirmationToken checkToken: checkTokens) {
 			if (token.equals(checkToken.getConfirmationToken())) {
 				System.out.println(checkToken.getConfirmationToken());
 				Optional<ConfirmationToken> foundToken = Optional.of(checkToken);
 				return foundToken;
+			}
+		}
+		
+		return null;
+	}
+	
+	public ConfirmationToken findConfirmationTokenByUserId(Long user_id) {
+		
+		Iterable<ConfirmationToken> checkTokens = confirmationTokenRepository.findAll();
+		
+		for (ConfirmationToken checkToken: checkTokens) {
+			if (user_id == checkToken.getUser().getId()) {
+				return checkToken;
 			}
 		}
 		

@@ -69,7 +69,20 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     	  confirmationTokenService.deleteConfirmationToken(confirmationToken.getId());
     }
     
-    private void sendConfirmationEmail(String userEmail, String token) {
+    public void updateUser(User user) {
+    	User checkUser = userRepository.findByEmail(user.getEmail());
+    	
+		// set updated values to saved user
+		checkUser.setEmail(user.getEmail());
+		checkUser.setFirstName(user.getFirstName());
+		checkUser.setLastName(user.getLastName());
+		checkUser.setPhone(user.getPhone());
+		checkUser.setPassword(passwordEncoderBean().encode(user.getPassword()));
+		
+		userRepository.save(checkUser);
+    }
+    
+    public void sendConfirmationEmail(String userEmail, String token) {
     	
     	final SimpleMailMessage mailMessage = new SimpleMailMessage(); 
     	
@@ -82,6 +95,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
     	emailSenderService.sendEmail(mailMessage);
     }
+    
     
     /*
 	public static JwtUserDetails create(User user) {

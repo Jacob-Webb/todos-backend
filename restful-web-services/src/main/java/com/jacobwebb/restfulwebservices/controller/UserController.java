@@ -52,26 +52,34 @@ public class UserController {
   	@PostMapping("/register") 
   	public ResponseEntity<?> registerUser(@RequestBody User user) {
 
-  		/*
-  		 * Take in user
-  		 * create a token for user
-  		 */
 		// Check if the username is taken before creating a new user
 		if (userRepository.findByEmail(user.getEmail()) != null) {
 			
 			User checkUser = userRepository.findByEmail(user.getEmail());
 			
 			/*
-			 * If the user exists but hasn't been enabled,
-			 * 	return accepted response.
+			 * If the user exists and has been enabled already
+			 * return a conflict error
 			 */
-			if (!checkUser.isEnabled()) return new ResponseEntity<>(HttpStatus.ACCEPTED);
+			if (checkUser.isEnabled()) {
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
+			}
 			/*
-			 * Otherwise, return conflict response because the person has already been created. 
+			 * Otherwise, find the users confirmation token and resend an email.  
 			 */
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
+			else {
+				ConfirmationToken confirmationToken = confirmationTokenService.findConfirmationTokenByUserId(checkUser.getId());
+				
+				userService.updateUser(user);
+		
+				userService.sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
+				//
+				return new ResponseEntity<>(HttpStatus.ACCEPTED);
+			}
+			
 		}
 		
+		// First time this user has been saved
 		user.addRole(roleRepository.findByName("ROLE_USER"));
 		
 		userService.signupUser(user);

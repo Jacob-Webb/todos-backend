@@ -85,12 +85,8 @@ export class RegisterComponent implements OnInit {
     })
     ).subscribe(
       //if this is null let them know that the person just needs to be enabled
-      data => {
-        if (data == null) {
-          console.log("null");
-          this.router.navigate(['confirmation']);
-        } else
-          console.log("not null");
+      resp => {
+        this.router.navigate(['confirmation']);
       }
     )
 
