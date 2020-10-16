@@ -44,6 +44,7 @@ import { UserComponent } from './user/user.component';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { RecoverComponent } from './recover/recover.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -62,7 +63,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     RegisterComponent,
     ListUsersComponent,
     UserComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    RecoverComponent
   ],
   imports: [
     BrowserModule,
