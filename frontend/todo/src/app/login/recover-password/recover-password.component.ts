@@ -13,15 +13,23 @@ export class RecoverPasswordComponent implements OnInit {
               fb:FormBuilder
              ) {
                this.recoverForm = fb.group({
-                 'email':['', Validators.required]
+                 'email':['', Validators.compose([Validators.email, Validators.required])]
                })
              }
 
   ngOnInit(): void {
   }
 
-  submitEmail() {
+  getEmailError() {
+    if (this.recoverForm.controls['email'].hasError('required')) {
+      return 'You must enter a value';
+    }
 
+    return this.recoverForm.controls['email'].hasError('email') ? 'Not a valid email' : '';
+  }
+
+  submitEmail() {
+    console.log(this.recoverForm.controls['email'].value);
   }
 
 }
