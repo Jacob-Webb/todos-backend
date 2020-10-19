@@ -9,14 +9,14 @@ import {ErrorComponent } from './error/error.component';
 import { RouteGuardService } from './service/route-guard.service';
 import { TodoComponent } from './todo/todo.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
-import { RecoverComponent } from './recover/recover.component';
+import { RecoverPasswordComponent } from './login/recover-password/recover-password.component';
 
 // welcome
 const routes: Routes = [
   { path: '', component: LoginComponent},
-  { path: 'login', component: LoginComponent},
+  { path: 'login/recover', component: RecoverPasswordComponent},
   { path: 'login/:token', component: LoginComponent},
-  { path: 'recover', component: RecoverComponent},
+  { path: 'login', component: LoginComponent},
   { path: 'confirmation', component: ConfirmationComponent},
   { path: 'welcome/:name', component: WelcomeComponent, canActivate:[RouteGuardService]},
   { path: 'todos', component: ListTodosComponent, canActivate:[RouteGuardService]},

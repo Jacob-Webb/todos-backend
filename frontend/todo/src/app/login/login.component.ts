@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BasicAuthenticationService } from '../service/basic-authentication.service';
-import { SigninComponent } from '../signin/signin.component';
-import { RegisterComponent } from '../register/register.component';
+import { SigninComponent } from './signin/signin.component';
+import { RegisterComponent } from './register/register.component';
 import { UserDataService } from '../service/data/user-data.service';
 
 @Component({

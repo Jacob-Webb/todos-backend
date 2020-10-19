@@ -7,7 +7,7 @@
           <mat-form-field appearance="outline" color="accent">
             <mat-label>Email:</mat-label>
             <input matInput type="text" name="username" [formControl]="signinForm.controls['username']">
-            <mat-icon matSuffix>person</mat-icon>
+            <mat-icon matSuffix>email</mat-icon>
             <mat-error>Required</mat-error>
           </mat-form-field>
 
@@ -26,7 +26,7 @@
         </form>
         <br>
         <form>
-          <a mat-button routerLink="/recover">Forgot Password?</a>
+          <a mat-button routerLink="/login/recover">Forgot Password?</a>
         </form>
       </mat-card-content>
     </div>

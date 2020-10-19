@@ -37,14 +37,14 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { SigninComponent } from './signin/signin.component';
-import { RegisterComponent } from './register/register.component';
+import { SigninComponent } from './login/signin/signin.component';
+import { RegisterComponent } from './login/register/register.component';
 import { ListUsersComponent } from './list-users/list-users.component';
 import { UserComponent } from './user/user.component';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
-import { RecoverComponent } from './recover/recover.component';
+import { RecoverPasswordComponent } from './login/recover-password/recover-password.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -64,7 +64,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     ListUsersComponent,
     UserComponent,
     ConfirmationComponent,
-    RecoverComponent
+    RecoverPasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -2,9 +2,9 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { Router } from '@angular/router';
-import { BasicAuthenticationService } from '../service/basic-authentication.service';
-import { User } from '../list-users/list-users.component';
-import { UserDataService } from '../service/data/user-data.service';
+import { BasicAuthenticationService } from '../../service/basic-authentication.service';
+import { User } from '../../list-users/list-users.component';
+import { UserDataService } from '../../service/data/user-data.service';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
