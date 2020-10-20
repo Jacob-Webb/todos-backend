@@ -3,6 +3,10 @@
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jacobwebb.restfulwebservices.controller.TestController.GenericResponse;
 import com.jacobwebb.restfulwebservices.dao.RoleRepository;
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
 import com.jacobwebb.restfulwebservices.model.ConfirmationToken;
@@ -26,6 +31,7 @@ import com.jacobwebb.restfulwebservices.model.Role;
 import com.jacobwebb.restfulwebservices.model.Todo;
 import com.jacobwebb.restfulwebservices.model.User;
 import com.jacobwebb.restfulwebservices.service.ConfirmationTokenService;
+import com.jacobwebb.restfulwebservices.service.EmailSenderService;
 import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
 
 @CrossOrigin(origins="${crossOrigin}")
@@ -42,13 +48,19 @@ public class UserController {
 	UserDetailsServiceImpl userService;
 	
 	@Autowired
+	EmailSenderService emailSenderService;
+	
+	@Autowired
 	ConfirmationTokenService confirmationTokenService;
+	
+    @Autowired
+    private ServletContext servletContext;
 	
     public PasswordEncoder passwordEncoderBean() {
         return new BCryptPasswordEncoder();
     }
     
-    @PostMapping("/register/verify")
+    @PostMapping("/user/register/verify")
     public ResponseEntity<?> isNewUser(@RequestBody User user) {
 
 		// Check if the username is taken before creating a new user
@@ -68,7 +80,7 @@ public class UserController {
 
     }
     
-  	@PostMapping("/register") 
+  	@PostMapping("/user/register") 
   	public ResponseEntity<?> registerUser(@RequestBody User user) {
 
 		// Check if the username is taken before creating a new user
@@ -106,7 +118,31 @@ public class UserController {
 		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
   	}
   	
-  	@PostMapping("/register/confirm")
+	@PostMapping("/user/resetPassword")
+	public ResponseEntity<?> resetPassword(HttpServletRequest request, 
+			  @RequestParam("email") String userEmail) {
+		
+		System.out.println(userEmail);
+		
+	    User user = userRepository.findByEmail(userEmail);
+	    if (user == null) {
+	    	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
+	    String token = UUID.randomUUID().toString();
+	    userService.createPasswordResetTokenForUser(user, token);
+	    emailSenderService.sendEmail(userService.constructResetTokenEmail(token, user));
+	    return new ResponseEntity<>(HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/user/resetPassword/changePassword")
+	public ResponseEntity<?> confirmPasswordReset() {
+		
+		return null;
+	}
+	
+	
+  	
+  	@PostMapping("/user/register/confirm")
   	public ResponseEntity<?> confirmMail(@RequestBody String token) {
   		
   		
@@ -245,6 +281,10 @@ public class UserController {
 	
 		return ResponseEntity.notFound().build();
 	}
+	
+	/****************************************************
+	 * Utility Functions
+	 ***************************************************/
 
 	// Utility class for creating a User
 	private ResponseEntity<?> createUser(@RequestBody User user) {
@@ -259,7 +299,5 @@ public class UserController {
 		
 		return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED); 
 	}
-	
-	
 	
 }

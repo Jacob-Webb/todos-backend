@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { UserDataService } from 'src/app/service/data/user-data.service';
 
 @Component({
   selector: 'app-recover-password',
@@ -7,17 +9,26 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./recover-password.component.scss']
 })
 export class RecoverPasswordComponent implements OnInit {
-  recoverForm: FormGroup
+  recoverForm: FormGroup;
+  email: string;
+  token: string;
 
   constructor(
+              private userService: UserDataService,
+              private route: ActivatedRoute,
               fb:FormBuilder
              ) {
-               this.recoverForm = fb.group({
+                this.recoverForm = fb.group({
                  'email':['', Validators.compose([Validators.email, Validators.required])]
-               })
+               }),
+                this.route.queryParams.subscribe(params => {
+                this.token = params['token'];
+                });
              }
 
   ngOnInit(): void {
+    if (this.token != null) console.log(this.token);
+
   }
 
   getEmailError() {
@@ -29,7 +40,12 @@ export class RecoverPasswordComponent implements OnInit {
   }
 
   submitEmail() {
-    console.log(this.recoverForm.controls['email'].value);
+    this.email = this.recoverForm.controls['email'].value;
+    this.userService.resetPassword(this.email).subscribe(
+      data => {
+        console.log(data);
+      }
+    )
   }
 
 }

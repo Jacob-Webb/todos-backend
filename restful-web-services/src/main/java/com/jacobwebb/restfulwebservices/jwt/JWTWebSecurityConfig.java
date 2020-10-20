@@ -40,6 +40,9 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${registration.path}")
     private String registrationPath;
     
+    @Value("${password.recovery.path}")
+    private String recoveryPath;
+    
     @Value("${test.path}")
     private String testPath;
     
@@ -99,6 +102,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 HttpMethod.POST,
                 authenticationPath,
                 registrationPath,
+                recoveryPath,
                 testPath
             )
             .antMatchers(HttpMethod.OPTIONS, "/**")

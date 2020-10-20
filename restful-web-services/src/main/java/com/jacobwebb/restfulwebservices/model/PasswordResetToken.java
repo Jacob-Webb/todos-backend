@@ -1,6 +1,7 @@
 package com.jacobwebb.restfulwebservices.model;
 
-import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,16 +29,16 @@ public class PasswordResetToken {
     private User user;
 	
 	@Column (name="expiration_date")
-	private LocalDate expiryDate;
+	private Date expiryDate;
 
 	public PasswordResetToken() {
 		
 	}
 
-	public PasswordResetToken(String token, User user, LocalDate expiryDate) {
+	public PasswordResetToken(String token, User user) {
 		this.token = token;
 		this.user = user;
-		this.expiryDate = expiryDate;
+		this.expiryDate = calculateExpiryDate(EXPIRATION);
 	}
 
 	public Long getId() {
@@ -64,13 +65,20 @@ public class PasswordResetToken {
 		this.user = user;
 	}
 
-	public LocalDate getExpiryDate() {
+	public Date getExpiryDate() {
 		return expiryDate;
 	}
 
-	public void setExpiryDate(LocalDate expiryDate) {
+	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
 	}
+	
+    private Date calculateExpiryDate(final int expiryTimeInMinutes) {
+        final Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(new Date().getTime());
+        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+        return new Date(cal.getTime().getTime());
+    }
 
 	@Override
 	public String toString() {

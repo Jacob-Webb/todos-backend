@@ -16,7 +16,6 @@ export class SigninComponent implements OnInit {
   username: string;
   password: "";
   hide=true;
-  // errorMessage = "Invalid Credentials"
   invalidLogin = false;
   submitted=false;
 
@@ -41,14 +40,10 @@ export class SigninComponent implements OnInit {
     this.basicAuthenticationService.executeJWTAuthenticationService(this.username, this.password)
       .subscribe(
         data => {
-          console.log(data)
-          console.log(this.username)
           this.router.navigate(['welcome', this.username])
           this.invalidLogin = false;
         },
         error => {
-          console.log("didn't make it")
-          console.log(error)
           this.invalidLogin = true;
           this.submitted = true;
         }
