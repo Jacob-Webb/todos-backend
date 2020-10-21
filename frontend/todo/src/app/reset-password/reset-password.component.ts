@@ -21,18 +21,11 @@ export class ResetPasswordComponent implements OnInit {
              ) {
                 this.recoverForm = fb.group({
                  'email':['', Validators.compose([Validators.email, Validators.required])]
-               }),
-                this.route.queryParams.subscribe(params => {
-                  this.token = params['token'];
-                });
+               })
              }
 
   ngOnInit(): void {
     this.email = '';
-
-    if (this.token != '') {
-      this.router.navigate(['/changePassword'], { queryParams: { token: this.token } });
-    }
   }
 
   getEmailError() {
