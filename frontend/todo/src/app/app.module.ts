@@ -45,6 +45,7 @@ import { UserComponent } from './user/user.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -64,7 +65,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     ListUsersComponent,
     UserComponent,
     ConfirmationComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

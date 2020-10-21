@@ -10,13 +10,15 @@ import { RouteGuardService } from './service/route-guard.service';
 import { TodoComponent } from './todo/todo.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 // welcome
 const routes: Routes = [
   { path: '', component: LoginComponent},
-  { path: 'resetPassword', component: ResetPasswordComponent},
-  { path: 'login/:token', component: LoginComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'login/:token', component: LoginComponent},
+  { path: 'resetPassword', component: ResetPasswordComponent},
+  { path: 'changePassword', component: ChangePasswordComponent},
   { path: 'confirmation', component: ConfirmationComponent},
   { path: 'welcome/:name', component: WelcomeComponent, canActivate:[RouteGuardService]},
   { path: 'todos', component: ListTodosComponent, canActivate:[RouteGuardService]},
