@@ -119,8 +119,7 @@ public class UserController {
   	}
   	
 	@PostMapping("/user/resetPassword")
-	public ResponseEntity<?> resetPassword(HttpServletRequest request, 
-			  @RequestParam("email") String userEmail) {
+	public ResponseEntity<?> resetPassword(@RequestBody String userEmail) {
 		
 		System.out.println(userEmail);
 		

@@ -43,8 +43,6 @@ export class LoginComponent implements OnInit {
           console.log(data);
         }
       )
-    } else {
-      console.log("no token");
     }
   }
 

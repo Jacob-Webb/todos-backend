@@ -108,7 +108,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     }
     
     public SimpleMailMessage constructResetTokenEmail(String token, User user) {
-    	String url = emailSenderService.getFrontendUrl() + "/login/recover?token=" + token;
+    	String url = emailSenderService.getFrontendUrl() + "/resetPassword?token=" + token;
         String message = "Reset your password";
         
         return constructEmail("Reset Password", message + " \r\n" + url, user);
@@ -119,23 +119,13 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	    passwordTokenRepository.save(myToken);
 	}
 	
-	private SimpleMailMessage constructEmail(String subject, String body, 
-			  User user) {
+	private SimpleMailMessage constructEmail(String subject, String body, User user) {
 			    SimpleMailMessage email = new SimpleMailMessage();
 			    email.setSubject(subject);
 			    email.setText(body);
 			    email.setTo(user.getEmail());
 			    email.setFrom("${spring.mail.username}");
 			    return email;
-			}
-    
-    
-    /*
-	public static JwtUserDetails create(User user) {
-		List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
-		roles.add(new SimpleGrantedAuthority(user.getRoles().toString()));
-		return new JwtUserDetails(user.getId(), user.getUsername(), user.getPassword(), roles);
 	}
-	*/
 
 }

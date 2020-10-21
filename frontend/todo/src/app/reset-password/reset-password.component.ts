@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserDataService } from 'src/app/service/data/user-data.service';
 
 @Component({
-  selector: 'app-recover-password',
-  templateUrl: './recover-password.component.html',
-  styleUrls: ['./recover-password.component.scss']
+  selector: 'app-reset-password',
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.scss']
 })
-export class RecoverPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit {
   recoverForm: FormGroup;
   email: string;
   token: string;
@@ -16,19 +16,23 @@ export class RecoverPasswordComponent implements OnInit {
   constructor(
               private userService: UserDataService,
               private route: ActivatedRoute,
+              private router: Router,
               fb:FormBuilder
              ) {
                 this.recoverForm = fb.group({
                  'email':['', Validators.compose([Validators.email, Validators.required])]
                }),
                 this.route.queryParams.subscribe(params => {
-                this.token = params['token'];
+                  this.token = params['token'];
                 });
              }
 
   ngOnInit(): void {
-    if (this.token != null) console.log(this.token);
+    this.email = '';
 
+    if (this.token != '') {
+      //this.router.navigate
+    }
   }
 
   getEmailError() {
