@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { UserDataService } from '../service/data/user-data.service';
 
 /*
@@ -18,6 +20,9 @@ import { UserDataService } from '../service/data/user-data.service';
 export class ChangePasswordComponent implements OnInit {
   token: string;
   changePasswordForm: FormGroup;
+  hide=true;
+  hideConfirm=true;
+  minLength: number = 3;
 
   constructor(
     private userService: UserDataService,
@@ -26,8 +31,12 @@ export class ChangePasswordComponent implements OnInit {
     fb:FormBuilder
    ) {
       this.changePasswordForm = fb.group({
-       'password':['', Validators.required],
-       'confirm-pass': ['', Validators.required]
+       'password': ['', Validators.compose([Validators.minLength(3), Validators.required])],
+       'confirm-pass': ['', Validators.compose([Validators.minLength(3), Validators.required])]
+     },
+     {
+             // check whether our password and confirm password match
+          validator: this.passwordMatchValidator
      }),
       this.route.queryParams.subscribe(params => {
         this.token = params['token'];
@@ -38,11 +47,46 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit(): void {
     /* if this token is not valid, redirect to login page. */
       //confirm token
-      if (this.token != null) {
-        this.userService.confirmResetPasswordToken(this.token);
-      }
-      //this.router.navigate(['/login'], { queryParams: { token: this.token } });
+    if (this.token != null) {
+      this.userService.confirmResetPasswordToken(this.token).pipe(
+        catchError((error)=>{
+          if (error.status === 500) {
+            console.log("unexpected error");
+            return throwError(error.status);
+          }
+          // redirect to login page with error on error status 406 (NOT_ACCEPTABLE)
+          else if (error.status === 406) {
+            this.router.navigate(['login'], { queryParams: { error: 'reset-pass' } });
+          }
+        }
+      )).subscribe(
+        data => {
+          console.log(data);
+        }
+      )
+    }
+  }
 
+  onSubmit() {
+
+  }
+
+  getPasswordError() {
+    if (this.changePasswordForm.controls['password'].hasError('required')) {
+      return 'Password is required';
+    }
+    return this.changePasswordForm.controls['password'].hasError('minlength') ? 'Password must be at least ' + this.minLength + ' characters long' : '';
+  }
+
+  passwordMatchValidator(formGroup: FormGroup) {
+    const password: string = formGroup.get('password').value; // get password from our password form control
+    const confirmPassword: string = formGroup.get('confirm-pass').value; // get password from our confirmPassword form control
+    // compare if the passwords match
+    console.log("password = " + password + ". confirm = " + confirmPassword);
+    if (password !== confirmPassword) {
+      // if they don't match, set an error in our confirmPassword form control
+      formGroup.get('confirm-pass').setErrors({ NoPasswordMatch: true });
+    }
   }
 
 }

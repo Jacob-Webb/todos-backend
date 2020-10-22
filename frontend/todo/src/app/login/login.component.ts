@@ -13,6 +13,8 @@ import { UserDataService } from '../service/data/user-data.service';
 export class LoginComponent implements OnInit {
 
   private token: String;
+  passwordResetError: boolean;
+  passwordError: string;
 
   @Input() username: string;
   invalidLogin = false
@@ -23,7 +25,7 @@ export class LoginComponent implements OnInit {
     private userService: UserDataService,
     private route: ActivatedRoute,
     private router: Router,
-    private basicAuthenticationService: BasicAuthenticationService) { }
+    private basicAuthenticationService: BasicAuthenticationService) {}
 
   ngOnInit(): void {
     /*
@@ -44,6 +46,15 @@ export class LoginComponent implements OnInit {
         }
       )
     }
+
+    /*
+    * If an error message was sent when trying to reset password,
+    * set passwordResetError to true.
+    */
+   this.route.queryParams.subscribe(params=> {
+     let error = params['error'];
+     this.passwordError = error;
+   })
   }
 
 }

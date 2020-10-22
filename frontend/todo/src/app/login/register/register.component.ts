@@ -97,7 +97,7 @@ export class RegisterComponent implements OnInit {
     // compare if the passwords match
     if (password !== confirmPassword) {
       // if they don't match, set an error in our confirmPassword form control
-      formGroup.get('confirm-password').setErrors({ NoPassswordMatch: true });
+      formGroup.get('confirm-password').setErrors({ NoPasswordMatch: true });
     }
   }
 
