@@ -10,5 +10,7 @@ import com.jacobwebb.restfulwebservices.model.PasswordResetToken;
 
 @Repository
 public interface PasswordResetTokenRepository extends CrudRepository<PasswordResetToken, Long> {
+	
+	PasswordResetToken findByToken(String token);
 
 }

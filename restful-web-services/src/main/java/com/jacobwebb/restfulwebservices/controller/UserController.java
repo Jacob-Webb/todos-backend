@@ -30,6 +30,7 @@ import com.jacobwebb.restfulwebservices.model.ConfirmationToken;
 import com.jacobwebb.restfulwebservices.model.Role;
 import com.jacobwebb.restfulwebservices.model.Todo;
 import com.jacobwebb.restfulwebservices.model.User;
+import com.jacobwebb.restfulwebservices.security.UserSecurityService;
 import com.jacobwebb.restfulwebservices.service.ConfirmationTokenService;
 import com.jacobwebb.restfulwebservices.service.EmailSenderService;
 import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
@@ -53,8 +54,9 @@ public class UserController {
 	@Autowired
 	ConfirmationTokenService confirmationTokenService;
 	
-    @Autowired
-    private ServletContext servletContext;
+	@Autowired
+	UserSecurityService securityService;
+	
 	
     public PasswordEncoder passwordEncoderBean() {
         return new BCryptPasswordEncoder();
@@ -133,10 +135,16 @@ public class UserController {
 	    return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping("/user/resetPassword/confirm")
-	public ResponseEntity<?> confirmPasswordReset() {
+	@PostMapping("/user/resetPassword/confirm")
+	public ResponseEntity<?> confirmPasswordReset(@RequestBody String token) {
 		
-		return null;
+		String result = securityService.validatePasswordResetToken(token);
+		
+		if (result != null) {
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 	
 	
