@@ -37,9 +37,12 @@ export class ChangePasswordComponent implements OnInit {
 
   ngOnInit(): void {
     /* if this token is not valid, redirect to login page. */
-    if (this.token != '') {
+      //confirm token
+      if (this.token != null) {
+        this.userService.confirmResetPasswordToken(this.token);
+      }
       //this.router.navigate(['/login'], { queryParams: { token: this.token } });
-    }
+
   }
 
 }

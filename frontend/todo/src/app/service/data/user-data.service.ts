@@ -34,7 +34,7 @@ export class UserDataService {
     return this.http.post(`${REGISTER_URL}`, user);
   }
 
-  confirmUser(token) {
+  confirmConfirmationToken(token) {
     return this.http.post(`${REGISTER_URL}/confirm`, token);
   }
 
@@ -46,8 +46,8 @@ export class UserDataService {
     return this.http.post(`${RESET_PASSWORD_URL}`, email);
   }
 
-  changePassword() {
-    return this.http.get(`${RESET_PASSWORD_URL}/changePassword`);
+  confirmResetPasswordToken(token) {
+    return this.http.post(`${RESET_PASSWORD_URL}/confirm`, token);
   }
 
 }

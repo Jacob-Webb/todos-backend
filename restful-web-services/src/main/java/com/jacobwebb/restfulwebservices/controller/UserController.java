@@ -133,7 +133,7 @@ public class UserController {
 	    return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping("/user/resetPassword/changePassword")
+	@GetMapping("/user/resetPassword/confirm")
 	public ResponseEntity<?> confirmPasswordReset() {
 		
 		return null;
@@ -142,7 +142,7 @@ public class UserController {
 	
   	
   	@PostMapping("/user/register/confirm")
-  	public ResponseEntity<?> confirmMail(@RequestBody String token) {
+  	public ResponseEntity<?> confirmConfirmationToken(@RequestBody String token) {
   		
   		
 		Optional<ConfirmationToken> optionalConfirmationToken = confirmationTokenService.findConfirmationTokenByToken(token);
@@ -156,6 +156,8 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		
   	}
+  	
+  
 	
 	/*
 	 * Create User with generic role

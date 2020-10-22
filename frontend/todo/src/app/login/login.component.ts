@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     */
     this.token = this.route.snapshot.params['token'];
     if (this.token != null) {
-      this.userService.confirmUser(this.token)
+      this.userService.confirmConfirmationToken(this.token)
       .subscribe (
         data => {
           console.log(data);
