@@ -1,6 +1,7 @@
 package com.jacobwebb.restfulwebservices.model;
 
-import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -12,17 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class ConfirmationToken {
+	
+	private static final int EXPIRATION = 60 * 24;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +25,8 @@ public class ConfirmationToken {
 	@Column(name="token")
 	private String confirmationToken;
 	
-	@Column(name="date")
-	private LocalDate createdDate;
+	@Column(name="expire_date")
+	private Date expiryDate;
 	
 	@OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
 	@JoinColumn(nullable = false, name = "user_id")
@@ -40,13 +34,13 @@ public class ConfirmationToken {
 	
 	public ConfirmationToken() {
 		this.user = new User();
-		this.createdDate = LocalDate.now();
+		this.expiryDate = calculateExpiryDate(EXPIRATION);
 		this.confirmationToken = UUID.randomUUID().toString();
 	}
 	
 	public ConfirmationToken(User user) {
 		this.user = user;
-		this.createdDate = LocalDate.now();
+		this.expiryDate = new Date();
 		this.confirmationToken = UUID.randomUUID().toString();
 	}
 
@@ -66,13 +60,19 @@ public class ConfirmationToken {
 		this.confirmationToken = confirmationToken;
 	}
 
-	public LocalDate getCreatedDate() {
-		return createdDate;
+	public Date getExpiryDate() {
+		return expiryDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
-		this.createdDate = createdDate;
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
 	}
+    private Date calculateExpiryDate(final int expiryTimeInMinutes) {
+        final Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(new Date().getTime());
+        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+        return new Date(cal.getTime().getTime());
+    }
 
 	public User getUser() {
 		return user;
@@ -84,8 +84,8 @@ public class ConfirmationToken {
 
 	@Override
 	public String toString() {
-		return "ConfirmationToken [id=" + id + ", confirmationToken=" + confirmationToken + ", createdDate="
-				+ createdDate + ", user=" + user + "]";
+		return "ConfirmationToken [id=" + id + ", confirmationToken=" + confirmationToken + ", expiryDate="
+				+ expiryDate + ", user=" + user + "]";
 	}
 	
 	
