@@ -4,6 +4,9 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,6 +29,7 @@ import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
 import com.jacobwebb.restfulwebservices.model.Todo;
 import com.jacobwebb.restfulwebservices.model.User;
 import com.jacobwebb.restfulwebservices.service.EmailSenderService;
+import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
 
 @CrossOrigin(origins="${crossOrigin}")
 @RestController
@@ -33,22 +38,43 @@ public class TestController {
 	@Autowired
 	EmailSenderService emailSenderService;
 	
+	@Autowired
+	private UserJpaRepository userRepository;
+	
+	@Autowired
+	UserDetailsServiceImpl userService;
+	
+	public class GenericResponse {
+	    private String message;
+	    private String error;
+	 
+	    public GenericResponse(String message) {
+	        super();
+	        this.message = message;
+	    }
+	 
+	    public GenericResponse(String message, String error) {
+	        super();
+	        this.message = message;
+	        this.error = error;
+	    }
+	}
+	
 	/*
 	 * Create a new Todo
 	 */
 	@PostMapping("/test")
-	public ResponseEntity<Void> testEmail() {
+	public ResponseEntity<?> resetPassword(@RequestBody String userEmail) {
 		
-		final SimpleMailMessage mailMessage = new SimpleMailMessage(); 
-    	
-    	mailMessage.setTo("sanctifyd83@yahoo.com");
-    	mailMessage.setSubject("Todo Confirmation Link!");
-    	mailMessage.setFrom("${spring.mail.username}");
-    	mailMessage.setText(emailSenderService.getFrontendUrl() + "/login/");
-    	
-    	emailSenderService.sendEmail(mailMessage);
-		
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		    User user = userRepository.findByEmail(userEmail);
+		    System.out.println(userEmail);
+		    if (user == null) {
+		        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		    }
+		    String token = UUID.randomUUID().toString();
+		    userService.createPasswordResetTokenForUser(user, token);
+		 
+		    return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 	
 }

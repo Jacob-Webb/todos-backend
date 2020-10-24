@@ -8,15 +8,9 @@
   width:90%;
   margin: 0 auto;
 }
-
-.name
+mat-form-field
 {
-  display:flex;
-  justify-content:space-between;
-}
-.name mat-form-field
-{
-  width: 48%;
+  display: block;
 }
 
 .register-field

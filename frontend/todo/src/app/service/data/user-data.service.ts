@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../list-users/list-users.component';
-import { API_URL, BASE_URL, REGISTER_URL } from 'src/app/app.constants';
+import { API_URL, BASE_URL, REGISTER_URL, RESET_PASSWORD_URL } from 'src/app/app.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -34,12 +34,24 @@ export class UserDataService {
     return this.http.post(`${REGISTER_URL}`, user);
   }
 
-  confirmUser(token) {
+  confirmConfirmationToken(token) {
     return this.http.post(`${REGISTER_URL}/confirm`, token);
   }
 
   isNewUser(user) {
     return this.http.post(`${REGISTER_URL}/verify`, user);
+  }
+
+  resetPassword(email) {
+    return this.http.post(`${RESET_PASSWORD_URL}`, email);
+  }
+
+  confirmResetPasswordToken(token) {
+    return this.http.post(`${RESET_PASSWORD_URL}/confirm`, token);
+  }
+
+  savePasswordReset(token, email) {
+    return this.http.post(`${RESET_PASSWORD_URL}/savePassword?resetToken=` + token, email, {observe: 'response'});
   }
 
 }

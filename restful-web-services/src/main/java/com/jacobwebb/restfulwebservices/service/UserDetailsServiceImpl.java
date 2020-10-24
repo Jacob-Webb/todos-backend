@@ -1,6 +1,9 @@
 package com.jacobwebb.restfulwebservices.service;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,9 +12,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.jacobwebb.restfulwebservices.dao.PasswordResetTokenRepository;
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
 import com.jacobwebb.restfulwebservices.jwt.resource.JwtUserDetails;
 import com.jacobwebb.restfulwebservices.model.ConfirmationToken;
+import com.jacobwebb.restfulwebservices.model.PasswordResetToken;
 import com.jacobwebb.restfulwebservices.model.User;
 
 @Component
@@ -25,6 +30,9 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	@Autowired
 	EmailSenderService emailSenderService;
+	
+	@Autowired
+	PasswordResetTokenRepository passwordTokenRepository;
 	
     public PasswordEncoder passwordEncoderBean() {
         return new BCryptPasswordEncoder();
@@ -42,6 +50,24 @@ public class UserDetailsServiceImpl implements UserDetailsService{
  
         return new JwtUserDetails(user);
     }
+    
+    /*
+     * If possible, finds a user based on the PasswordResetToken associated with him/her. 
+     * Finds all ResetTokens, find the reset token that matches @param token, return the User
+     * from that token. 
+     */
+	public User getUserByPasswordResetToken(String token) {
+		
+		Iterable<PasswordResetToken> resetTokens = passwordTokenRepository.findAllByToken(token);
+		
+		for (PasswordResetToken resetToken: resetTokens) {
+			if (resetToken.getToken().contentEquals(token)) {
+				return resetToken.getUser();
+			}
+		}
+		
+		return null;
+	}
     
     public void signupUser(User user) {
     	
@@ -96,13 +122,25 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     	emailSenderService.sendEmail(mailMessage);
     }
     
+    public SimpleMailMessage constructResetTokenEmail(String token, User user) {
+    	String url = emailSenderService.getFrontendUrl() + "/changePassword?token=" + token;
+        String message = "Reset your password";
+        
+        return constructEmail("Reset Password", message + " \r\n" + url, user);
+    }
     
-    /*
-	public static JwtUserDetails create(User user) {
-		List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
-		roles.add(new SimpleGrantedAuthority(user.getRoles().toString()));
-		return new JwtUserDetails(user.getId(), user.getUsername(), user.getPassword(), roles);
+	public void createPasswordResetTokenForUser(User user, String token) {
+	    PasswordResetToken myToken = new PasswordResetToken(token, user);
+	    passwordTokenRepository.save(myToken);
 	}
-	*/
+	
+	private SimpleMailMessage constructEmail(String subject, String body, User user) {
+			    SimpleMailMessage email = new SimpleMailMessage();
+			    email.setSubject(subject);
+			    email.setText(body);
+			    email.setTo(user.getEmail());
+			    email.setFrom("${spring.mail.username}");
+			    return email;
+	}
 
 }

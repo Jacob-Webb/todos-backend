@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BasicAuthenticationService } from '../service/basic-authentication.service';
-import { SigninComponent } from '../signin/signin.component';
-import { RegisterComponent } from '../register/register.component';
+import { SigninComponent } from './signin/signin.component';
+import { RegisterComponent } from './register/register.component';
 import { UserDataService } from '../service/data/user-data.service';
 
 @Component({
@@ -13,6 +13,9 @@ import { UserDataService } from '../service/data/user-data.service';
 export class LoginComponent implements OnInit {
 
   private token: String;
+  passwordResetError: boolean;
+  passwordError: string;
+  passwordSuccess: string;
 
   @Input() username: string;
   invalidLogin = false
@@ -23,7 +26,7 @@ export class LoginComponent implements OnInit {
     private userService: UserDataService,
     private route: ActivatedRoute,
     private router: Router,
-    private basicAuthenticationService: BasicAuthenticationService) { }
+    private basicAuthenticationService: BasicAuthenticationService) {}
 
   ngOnInit(): void {
     /*
@@ -37,15 +40,29 @@ export class LoginComponent implements OnInit {
     */
     this.token = this.route.snapshot.params['token'];
     if (this.token != null) {
-      this.userService.confirmUser(this.token)
+      this.userService.confirmConfirmationToken(this.token)
       .subscribe (
         data => {
           console.log(data);
         }
       )
-    } else {
-      console.log("no token");
     }
+
+    /*
+    * If an error message was sent when trying to reset password,
+    * set passwordResetError to true.
+    */
+   this.route.queryParams.subscribe(params=> {
+     let error = params['error'];
+     this.passwordError = error;
+   })
+   /* If a successful message has been sent for updating a password,
+    * let the user know.
+   */
+   this.route.queryParams.subscribe(params=> {
+     let success = params['success'];
+     this.passwordSuccess = success;
+   })
   }
 
 }
