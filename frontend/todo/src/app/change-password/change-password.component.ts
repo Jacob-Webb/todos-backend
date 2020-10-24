@@ -23,6 +23,7 @@ export class ChangePasswordComponent implements OnInit {
   hide=true;
   hideConfirm=true;
   minLength: number = 3;
+  password: string;
 
   constructor(
     private userService: UserDataService,
@@ -51,24 +52,35 @@ export class ChangePasswordComponent implements OnInit {
       this.userService.confirmResetPasswordToken(this.token).pipe(
         catchError((error)=>{
           if (error.status === 500) {
-            console.log("unexpected error");
+            console.log("There was an unexpected error");
             return throwError(error.status);
           }
-          // redirect to login page with error on error status 406 (NOT_ACCEPTABLE)
-          else if (error.status === 406) {
+          // redirect to login page with error on error status 422 (Unprocessable entity)
+          else if (error.status === 422) {
             this.router.navigate(['login'], { queryParams: { error: 'reset-pass' } });
           }
         }
-      )).subscribe(
-        data => {
-          console.log(data);
-        }
-      )
+      )).subscribe()
     }
   }
 
   onSubmit() {
-
+    //pass the token back along with the password to be saved to the backend
+    this.password = this.changePasswordForm.controls['password'].value;
+    this.userService.savePasswordReset(this.token, this.password).pipe(
+      catchError((error) => {
+        if (error.status === 500) {
+          console.log("There was an unexpected error");
+          return throwError(error.status);
+        } else if (error.status === 422) {
+          this.router.navigate(['login'], { queryParams: { error: 'reset-pass'}});
+        }
+      })
+    ).subscribe(resp => {
+      if (resp.status < 400) {
+        this.router.navigate(['login'], { queryParams: { success: 'updated-pass'}});
+      }
+    });
   }
 
   getPasswordError() {
@@ -82,7 +94,6 @@ export class ChangePasswordComponent implements OnInit {
     const password: string = formGroup.get('password').value; // get password from our password form control
     const confirmPassword: string = formGroup.get('confirm-pass').value; // get password from our confirmPassword form control
     // compare if the passwords match
-    console.log("password = " + password + ". confirm = " + confirmPassword);
     if (password !== confirmPassword) {
       // if they don't match, set an error in our confirmPassword form control
       formGroup.get('confirm-pass').setErrors({ NoPasswordMatch: true });

@@ -7,10 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import com.jacobwebb.restfulwebservices.model.ConfirmationToken;
 import com.jacobwebb.restfulwebservices.model.PasswordResetToken;
+import com.jacobwebb.restfulwebservices.model.User;
 
 @Repository
 public interface PasswordResetTokenRepository extends CrudRepository<PasswordResetToken, Long> {
 	
 	PasswordResetToken findByToken(String token);
-
+	Iterable<PasswordResetToken> findAllByToken(String token);
 }

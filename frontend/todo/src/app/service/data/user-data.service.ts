@@ -50,4 +50,8 @@ export class UserDataService {
     return this.http.post(`${RESET_PASSWORD_URL}/confirm`, token);
   }
 
+  savePasswordReset(token, email) {
+    return this.http.post(`${RESET_PASSWORD_URL}/savePassword?resetToken=` + token, email, {observe: 'response'});
+  }
+
 }

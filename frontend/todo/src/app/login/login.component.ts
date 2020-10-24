@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   private token: String;
   passwordResetError: boolean;
   passwordError: string;
+  passwordSuccess: string;
 
   @Input() username: string;
   invalidLogin = false
@@ -54,6 +55,13 @@ export class LoginComponent implements OnInit {
    this.route.queryParams.subscribe(params=> {
      let error = params['error'];
      this.passwordError = error;
+   })
+   /* If a successful message has been sent for updating a password,
+    * let the user know.
+   */
+   this.route.queryParams.subscribe(params=> {
+     let success = params['success'];
+     this.passwordSuccess = success;
    })
   }
 

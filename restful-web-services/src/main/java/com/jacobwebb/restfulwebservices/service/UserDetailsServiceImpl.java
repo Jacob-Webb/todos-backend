@@ -32,9 +32,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	EmailSenderService emailSenderService;
 	
 	@Autowired
-    private MessageSource messages;
-	
-	@Autowired
 	PasswordResetTokenRepository passwordTokenRepository;
 	
     public PasswordEncoder passwordEncoderBean() {
@@ -53,6 +50,24 @@ public class UserDetailsServiceImpl implements UserDetailsService{
  
         return new JwtUserDetails(user);
     }
+    
+    /*
+     * If possible, finds a user based on the PasswordResetToken associated with him/her. 
+     * Finds all ResetTokens, find the reset token that matches @param token, return the User
+     * from that token. 
+     */
+	public User getUserByPasswordResetToken(String token) {
+		
+		Iterable<PasswordResetToken> resetTokens = passwordTokenRepository.findAllByToken(token);
+		
+		for (PasswordResetToken resetToken: resetTokens) {
+			if (resetToken.getToken().contentEquals(token)) {
+				return resetToken.getUser();
+			}
+		}
+		
+		return null;
+	}
     
     public void signupUser(User user) {
     	
