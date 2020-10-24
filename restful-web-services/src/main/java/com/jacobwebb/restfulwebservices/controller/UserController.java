@@ -5,9 +5,6 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jacobwebb.restfulwebservices.controller.TestController.GenericResponse;
 import com.jacobwebb.restfulwebservices.dao.RoleRepository;
 import com.jacobwebb.restfulwebservices.dao.UserJpaRepository;
-import com.jacobwebb.restfulwebservices.dto.PasswordDto;
 import com.jacobwebb.restfulwebservices.model.ConfirmationToken;
 import com.jacobwebb.restfulwebservices.model.Role;
 import com.jacobwebb.restfulwebservices.model.Todo;
