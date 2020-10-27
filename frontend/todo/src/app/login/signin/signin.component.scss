@@ -1,8 +1,3 @@
-.container
-{
-  width:75%;
-  margin: 10px auto;
-}
 .signin-form
 {
   width:75%;
@@ -12,16 +7,6 @@ mat-form-field
 {
   display: block;
   width:100%;
-}
-// button
-// {
-//   width:100%;
-// }
-.error
-{
-  color:red;
-  width:100%;
-  margin: 0 auto;
 }
 @media (max-width: 500px)
 {

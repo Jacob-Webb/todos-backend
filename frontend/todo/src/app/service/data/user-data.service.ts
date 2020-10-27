@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../list-users/list-users.component';
-import { API_URL, BASE_URL, REGISTER_URL, RESET_PASSWORD_URL } from 'src/app/app.constants';
+import { API_URL, REGISTER_URL, RESET_PASSWORD_URL } from 'src/app/app.constants';
 
 @Injectable({
   providedIn: 'root'

@@ -34,6 +34,7 @@ export class RegisterComponent implements OnInit {
   submitted=false;
   isUniqueEmail=true;
   user: User;
+  error: boolean = false;
 
   constructor(private userService: UserDataService,
               private router: Router,
@@ -81,6 +82,7 @@ export class RegisterComponent implements OnInit {
           this.isUniqueEmail = false;
           return throwError(error.status);
         }
+        this.error = true;
     })
     ).subscribe(
       //if this is null let them know that the person just needs to be enabled

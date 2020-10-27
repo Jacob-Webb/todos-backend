@@ -1,5 +1,4 @@
 HELP.md
-#removed .DS_Store
 */.DS_Store/**
 target/
 !.mvn/wrapper/maven-wrapper.jar
