@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   passwordResetError: boolean;
   passwordError: string;
   passwordSuccess: string;
+  user: string
 
   @Input() username: string;
   invalidLogin = false
@@ -32,7 +33,11 @@ export class LoginComponent implements OnInit {
     /*
     * If already logged in, route to Welcome page
     */
-
+   this.user = this.basicAuthenticationService.getAuthenticatedUser();
+    if (this.user != null) {
+      console.log("authenticated");
+      this.router.navigate(['welcome', this.user]);
+    }
 
     /*
     * If there is a token,

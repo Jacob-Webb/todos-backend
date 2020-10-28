@@ -6,7 +6,7 @@
               (ngSubmit)="handleJWTAuthLogin()">
           <mat-form-field appearance="outline" color="accent">
             <mat-label>Email:</mat-label>
-            <input matInput type="text" name="username" [formControl]="signinForm.controls['username']">
+            <input matInput type="text" name="email" [formControl]="signinForm.controls['email']">
             <mat-icon matSuffix>email</mat-icon>
             <mat-error>Required</mat-error>
           </mat-form-field>

@@ -13,7 +13,7 @@ import { BasicAuthenticationService } from '../../service/basic-authentication.s
 })
 export class SigninComponent implements OnInit {
   signinForm: FormGroup;
-  username: string;
+  email: string;
   password: "";
   hide=true;
   invalidLogin = false;
@@ -23,11 +23,11 @@ export class SigninComponent implements OnInit {
               private router: Router,
               private basicAuthenticationService: BasicAuthenticationService) {
     this.signinForm = fb.group({
-      'username':['', Validators.required],
+      'email':['', Validators.required],
       'password':['', Validators.required]
     });
 
-    this.username = this.signinForm.controls['username'].value;
+    this.email = this.signinForm.controls['email'].value;
     this.password = this.signinForm.controls['password'].value;
   }
 
@@ -35,12 +35,12 @@ export class SigninComponent implements OnInit {
   }
 
   handleJWTAuthLogin(): any {
-    this.username = this.signinForm.controls['username'].value;
+    this.email = this.signinForm.controls['email'].value;
     this.password = this.signinForm.controls['password'].value;
-    this.basicAuthenticationService.executeJWTAuthenticationService(this.username, this.password)
+    this.basicAuthenticationService.executeJWTAuthenticationService(this.email, this.password)
       .subscribe(
         data => {
-          this.router.navigate(['welcome', this.username])
+          this.router.navigate(['welcome', this.email])
           this.invalidLogin = false;
         },
         error => {
