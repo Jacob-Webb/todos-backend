@@ -31,7 +31,7 @@ export class UserDataService {
   }
 
   registerUser(user) {
-    return this.http.post(`${REGISTER_URL}`, user);
+    return this.http.post(`${REGISTER_URL}`, user, {observe: 'response'});
   }
 
   confirmConfirmationToken(token) {

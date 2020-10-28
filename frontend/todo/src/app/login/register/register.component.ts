@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { ThrowStmt } from '@angular/compiler';
+import { SessionService } from '../../service/session.service';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -36,7 +37,8 @@ export class RegisterComponent implements OnInit {
   user: User;
   error: boolean = false;
 
-  constructor(private userService: UserDataService,
+  constructor(private sessionService: SessionService,
+              private userService: UserDataService,
               private router: Router,
               private basicAuthenticationService: BasicAuthenticationService,
               fb: FormBuilder
@@ -63,17 +65,17 @@ export class RegisterComponent implements OnInit {
     * create a user with controls
     * send the user via http
     */
-   this.user = new User(
-                   this.registerForm.controls['firstName'].value,
-                   this.registerForm.controls['lastName'].value,
-                   this.registerForm.controls['email'].value,
-                   this.registerForm.controls['new-password'].value,
-                   this.registerForm.controls['phone'].value,
-                   )
-    this.userService.isNewUser(this.user).pipe(
+    this.sessionService.user = new User(
+      this.registerForm.controls['firstName'].value,
+      this.registerForm.controls['lastName'].value,
+      this.registerForm.controls['email'].value,
+      this.registerForm.controls['new-password'].value,
+      this.registerForm.controls['phone'].value,
+    )
+    this.userService.isNewUser(this.sessionService.user).pipe(
       catchError((error)=>{
         if (error.status === 500) {
-            console.log("unexpected error");
+            console.log("An unexpected error occurred");
             return throwError(error.status);
         }
         // If the person exists and has been enabled,
@@ -87,7 +89,7 @@ export class RegisterComponent implements OnInit {
     ).subscribe(
       //if this is null let them know that the person just needs to be enabled
       resp => {
-        this.router.navigate(['confirmation']);
+        this.router.navigate(['confirmation'], {queryParams: {a: encodeURIComponent(btoa(this.sessionService.user.email))}});
       }
     )
 
