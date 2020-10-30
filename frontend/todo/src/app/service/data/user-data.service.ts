@@ -18,8 +18,12 @@ export class UserDataService {
     return this.http.delete(`${API_URL}/users/${id}`)
   }
 
-  retrieveUser(id) {
+  retrieveUserById(id) {
     return this.http.get<User>(`${API_URL}/users/${id}`)
+  }
+
+  retrieveUserByEmail(email) {
+    return this.http.get<User>(`${API_URL}/users/${email}`)
   }
 
   updateUser(id, user) {

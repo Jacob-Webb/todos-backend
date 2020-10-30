@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserDataService } from '../service/data/user-data.service';
 import { Router } from '@angular/router';
 import { BasicAuthenticationService } from '../service/basic-authentication.service';
+import { Todo } from '../list-todos/list-todos.component';
 
 export class User {
   public id: number
@@ -10,6 +11,7 @@ export class User {
   public email: string
   public password: string
   public phone: string
+  public todos: Todo[]
   public role: string[]
 
   constructor(firstName: string, lastName: string, email: string, password: string, phone: string) {

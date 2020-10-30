@@ -1,6 +1,8 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from 'src/app/list-users/list-users.component';
+import { UserDataService } from 'src/app/service/data/user-data.service';
 import { BasicAuthenticationService } from '../../service/basic-authentication.service';
 
 @Injectable({
@@ -18,10 +20,12 @@ export class SigninComponent implements OnInit {
   hide=true;
   invalidLogin = false;
   submitted=false;
+  user: User;
 
   constructor(fb: FormBuilder,
               private router: Router,
-              private basicAuthenticationService: BasicAuthenticationService) {
+              private basicAuthenticationService: BasicAuthenticationService,
+              private userService: UserDataService) {
     this.signinForm = fb.group({
       'email':['', Validators.required],
       'password':['', Validators.required]
@@ -34,7 +38,7 @@ export class SigninComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  handleJWTAuthLogin(): any {
+  onSubmit(): any {
     this.email = this.signinForm.controls['email'].value;
     this.password = this.signinForm.controls['password'].value;
     this.basicAuthenticationService.executeJWTAuthenticationService(this.email, this.password)
@@ -48,5 +52,10 @@ export class SigninComponent implements OnInit {
           this.submitted = true;
         }
       )
+    this.userService.retrieveUserByEmail(this.email).subscribe(
+      response => {
+        localStorage.setItem('user', JSON.stringify(response));
+      }
+    )
     }
 }

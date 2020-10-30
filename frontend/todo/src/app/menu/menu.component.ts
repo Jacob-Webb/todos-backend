@@ -8,8 +8,7 @@ import { BasicAuthenticationService } from '../service/basic-authentication.serv
 })
 export class MenuComponent {
 
-  constructor(public basicAuthenticationService: BasicAuthenticationService
-              ) {}
+  constructor(public basicAuthenticationService: BasicAuthenticationService) {}
 
   ngOnInit(): void {}
 

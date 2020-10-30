@@ -238,9 +238,29 @@ public class UserController {
 	/*
 	 * Return a user given by the id
 	 */
+	/*
 	@GetMapping("/api/users/{id}")
 	public User getUserByID(@PathVariable long id) {
 		User user = userRepository.findById(id);
+		
+		// Cleans up return JSON by eliminating recursive objects
+		for (Role role: user.getRoles()) {
+			role.setUsers(null);
+			role.setPrivileges(null);
+		}
+		for (Todo todo: user.getTodos()) {
+			todo.setUser(null);
+		}
+		return user;
+	}
+	*/
+	
+	/*
+	 * Return a user given by the id
+	 */
+	@GetMapping("/api/users/{email}")
+	public User getUserByEmail(@PathVariable String email) {
+		User user = userRepository.findByEmail(email);
 		
 		// Cleans up return JSON by eliminating recursive objects
 		for (Role role: user.getRoles()) {
