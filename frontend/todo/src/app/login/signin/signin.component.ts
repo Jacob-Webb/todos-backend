@@ -20,7 +20,6 @@ export class SigninComponent implements OnInit {
   hide=true;
   invalidLogin = false;
   submitted=false;
-  user: User;
 
   constructor(fb: FormBuilder,
               private router: Router,
@@ -54,7 +53,8 @@ export class SigninComponent implements OnInit {
       )
     this.userService.retrieveUserByEmail(this.email).subscribe(
       response => {
-        localStorage.setItem('user', JSON.stringify(response));
+        localStorage.setItem('firstName', response.firstName);
+        localStorage.setItem('lastName', response.lastName);
       }
     )
     }

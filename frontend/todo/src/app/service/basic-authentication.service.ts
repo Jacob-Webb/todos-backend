@@ -5,7 +5,6 @@ import { BASE_URL } from '../app.constants';
 
 export const TOKEN = 'authToken'
 export const AUTHENTICATED_USER = 'authenticateUser'
-export const USER = 'user'
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +47,9 @@ export class BasicAuthenticationService {
   logout() {
     localStorage.removeItem(AUTHENTICATED_USER)
     localStorage.removeItem(TOKEN);
-    localStorage.removeItem(USER);
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
+    localStorage
   }
 
 }
