@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { User } from '../list-users/list-users.component';
 import { RegisterComponent } from '../login/register/register.component';
 import { UserDataService } from '../service/data/user-data.service';
-import { SessionService } from '../service/session.service';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-confirmation',
@@ -17,10 +17,10 @@ export class ConfirmationComponent implements OnInit {
   user: User;
   userEmail: string;
 
-  constructor(sessionService: SessionService,
+  constructor(userService: UserService,
               private route: ActivatedRoute,
-              private userService: UserDataService) {
-    this.user = sessionService.user;
+              private userDataService: UserDataService) {
+    this.user = userService.user;
   }
 
   ngOnInit(): void {
@@ -28,7 +28,7 @@ export class ConfirmationComponent implements OnInit {
       let idParam = params['a'];
       this.userEmail = atob(decodeURIComponent(idParam));
     });
-    this.userService.registerUser(this.user).pipe(
+    this.userDataService.registerUser(this.user).pipe(
       catchError((error)=>{
         if (error.status) {
             console.log("An unexpected error occurred");

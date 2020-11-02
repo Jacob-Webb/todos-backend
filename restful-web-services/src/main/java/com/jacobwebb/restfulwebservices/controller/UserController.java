@@ -270,6 +270,7 @@ public class UserController {
 		for (Todo todo: user.getTodos()) {
 			todo.setUser(null);
 		}
+		System.out.println("user roles" + user.getRoles());
 		return user;
 	}
 	

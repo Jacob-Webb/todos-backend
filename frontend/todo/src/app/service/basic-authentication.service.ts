@@ -2,14 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { BASE_URL } from '../app.constants';
+ // @ts-ignore
+ import jwt_decode from "jwt-decode";
 
 export const TOKEN = 'authToken'
 export const AUTHENTICATED_USER = 'authenticateUser'
+export const FIRSTNAME = 'firstName'
+export const LASTNAME = 'lastName'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BasicAuthenticationService {
+  tokenData:any;
 
   constructor(private http: HttpClient) { }
 
@@ -47,9 +52,8 @@ export class BasicAuthenticationService {
   logout() {
     localStorage.removeItem(AUTHENTICATED_USER)
     localStorage.removeItem(TOKEN);
-    localStorage.removeItem('firstName');
-    localStorage.removeItem('lastName');
-    localStorage
+    localStorage.removeItem(FIRSTNAME);
+    localStorage.removeItem(LASTNAME);
   }
 
 }

@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
     */
    this.user = this.basicAuthenticationService.getAuthenticatedUser();
     if (this.user != null) {
-      console.log("authenticated");
       this.router.navigate(['welcome', this.user]);
     }
 

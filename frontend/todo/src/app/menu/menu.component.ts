@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BasicAuthenticationService } from '../service/basic-authentication.service';
+import { AUTHENTICATED_USER, BasicAuthenticationService } from '../service/basic-authentication.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,8 +7,11 @@ import { BasicAuthenticationService } from '../service/basic-authentication.serv
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
+  userName: string
 
-  constructor(public basicAuthenticationService: BasicAuthenticationService) {}
+  constructor(public basicAuthenticationService: BasicAuthenticationService) {
+    this.userName = localStorage.getItem(AUTHENTICATED_USER)
+  }
 
   ngOnInit(): void {}
 

@@ -51,10 +51,13 @@ export class SigninComponent implements OnInit {
           this.submitted = true;
         }
       )
+
     this.userService.retrieveUserByEmail(this.email).subscribe(
       response => {
         localStorage.setItem('firstName', response.firstName);
         localStorage.setItem('lastName', response.lastName);
+        //sessionStorage.setItem('role', response.role)
+        console.log("user roles: " + response.role)
       }
     )
     }

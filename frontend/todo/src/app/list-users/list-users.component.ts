@@ -3,6 +3,7 @@ import { UserDataService } from '../service/data/user-data.service';
 import { Router } from '@angular/router';
 import { BasicAuthenticationService } from '../service/basic-authentication.service';
 import { Todo } from '../list-todos/list-todos.component';
+import { Role } from '../role/shared/role.model';
 
 export class User {
   public id: number
@@ -12,7 +13,7 @@ export class User {
   public password: string
   public phone: string
   public todos: Todo[]
-  public role: string[]
+  public role: Role[]
 
   constructor(firstName: string, lastName: string, email: string, password: string, phone: string) {
     this.firstName = firstName;

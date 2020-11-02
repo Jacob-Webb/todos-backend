@@ -4,7 +4,7 @@ import { User } from '../list-users/list-users.component';
 @Injectable({
   providedIn: 'root'
 })
-export class SessionService {
+export class UserService {
   user: User;
 
   constructor() { }
