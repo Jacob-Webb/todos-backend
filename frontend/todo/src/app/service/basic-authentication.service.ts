@@ -50,10 +50,7 @@ export class BasicAuthenticationService {
   }
 
   logout() {
-    localStorage.removeItem(AUTHENTICATED_USER)
-    localStorage.removeItem(TOKEN);
-    localStorage.removeItem(FIRSTNAME);
-    localStorage.removeItem(LASTNAME);
+    localStorage.clear();
   }
 
 }
