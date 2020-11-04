@@ -12,62 +12,28 @@ import { IConfig } from 'ngx-mask'
 })
 export class UserAccountComponent implements OnInit {
   user: User;
-  isUniqueEmail: boolean = true;
-  hide: boolean = false;
-  hideConfirm: boolean = false;
-  passwordMinLength = 3;
   updateUserForm: FormGroup;
-  currentPassword: string;
+
 
   constructor(private basicAuthorizationService: BasicAuthenticationService,
               private userDataService: UserDataService,
               fb: FormBuilder) {
                 this.updateUserForm = fb.group({
-                  'firstName':['', Validators.compose([Validators.maxLength(20), Validators.pattern('[a-zA-Z]*'), Validators.required])],
-                  'lastName':['', Validators.compose([Validators.maxLength(20), Validators.pattern('[a-zA-Z]*'), Validators.required])],
-                  'email':['', Validators.compose([Validators.email, Validators.required])],
                   'phone':['', Validators.compose([])]
-                },{
-                  // check whether our password and confirm password match
-                  validator: this.passwordMatchValidator
-               });
+                });
               }
 
   ngOnInit(): void {
     this.userDataService.retrieveUserByEmail(localStorage.getItem(AUTHENTICATED_USER)).subscribe(
       response => {
         this.user = response;
-        this.updateUserForm.controls['firstName'].setValue(response.firstName)
-        this.updateUserForm.controls['lastName'].setValue(response.lastName)
-        this.updateUserForm.controls['email'].setValue(response.email)
         this.updateUserForm.controls['phone'].setValue(response.phone)
       })
   }
 
   onSubmit() {
-    console.log(this.updateUserForm.controls['firstName'].value)
-  }
-
-  getEmailError() {
-    if (this.updateUserForm.controls['email'].hasError('required')) {
-      return 'You must enter a value';
-    }
-
-    return this.updateUserForm.controls['email'].hasError('email') ? 'Not a valid email' : '';
-  }
-
-  getFirstNameError() {
-    if (this.updateUserForm.controls['firstName'].hasError('required')) {
-      return 'First name is required';
-    }
-    return this.updateUserForm.controls['firstName'].hasError('pattern') ? 'Name can only contain letters' : '';
-  }
-
-  getLastNameError() {
-    if (this.updateUserForm.controls['lastName'].hasError('required')) {
-      return 'Last name is required';
-    }
-    return this.updateUserForm.controls['lastName'].hasError('pattern') ? 'Name can only contain letters' : '';
+    this.user.phone = this.updateUserForm.controls['phone'].value;
+    this.userDataService.updateUser(this.user.id, this.user).subscribe()
   }
 
 }

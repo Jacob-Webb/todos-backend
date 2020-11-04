@@ -47,6 +47,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { UserAccountComponent } from './user-account/user-account.component';
+import { UserPasswordComponent } from './user-password/user-password.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -68,7 +69,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     ConfirmationComponent,
     ResetPasswordComponent,
     ChangePasswordComponent,
-    UserAccountComponent
+    UserAccountComponent,
+    UserPasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -9,7 +9,8 @@
       <a mat-button *ngIf="!this.basicAuthenticationService.isUserLoggedIn()" routerLink="/login">Login</a>
       <mat-menu #profile="matMenu" color="primary">
         <div>
-          <a mat-menu-item *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/account">Your account</a>
+          <a mat-menu-item *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/account">Contact Info</a>
+          <a mat-menu-item *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/userPassword">Change Password</a>
           <a mat-menu-item *ngIf="this.basicAuthenticationService.isUserLoggedIn()" routerLink="/logout">Logout</a>
         </div>
       </mat-menu>
