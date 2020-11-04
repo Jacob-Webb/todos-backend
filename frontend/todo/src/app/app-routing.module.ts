@@ -11,6 +11,7 @@ import { TodoComponent } from './todo/todo.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { UserAccountComponent } from './user-account/user-account.component';
 
 // welcome
 const routes: Routes = [
@@ -22,9 +23,9 @@ const routes: Routes = [
   { path: 'confirmation', component: ConfirmationComponent},
   { path: 'welcome/:name', component: WelcomeComponent, canActivate:[RouteGuardService]},
   { path: 'todos', component: ListTodosComponent, canActivate:[RouteGuardService]},
-  { path: 'logout', component: LogoutComponent, canActivate:[RouteGuardService]},
   { path: 'todos/:id', component: TodoComponent, canActivate:[RouteGuardService]},
-  { path: 'users', component: ListUsersComponent, canActivate:[RouteGuardService]},
+  { path: 'account', component: UserAccountComponent, canActivate: [RouteGuardService]},
+  { path: 'logout', component: LogoutComponent, canActivate:[RouteGuardService]},
   { path: '**', component: ErrorComponent}
 ];
 

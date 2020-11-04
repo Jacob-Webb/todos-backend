@@ -35,7 +35,6 @@ export class ListTodosComponent implements OnInit {
   refreshTodos() {
     this.todoService.retrieveAllTodos(this.basicAuthenticationService.getAuthenticatedUser()).subscribe(
       response => {
-        console.log(response);
         this.todos = response;
       }
     )
