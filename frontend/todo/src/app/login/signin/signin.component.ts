@@ -1,7 +1,12 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from 'src/app/list-users/list-users.component';
+import { Role } from 'src/app/role/role.model';
+import { RoleService } from 'src/app/role/role.service';
+import { UserDataService } from 'src/app/service/data/user-data.service';
 import { BasicAuthenticationService } from '../../service/basic-authentication.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +18,7 @@ import { BasicAuthenticationService } from '../../service/basic-authentication.s
 })
 export class SigninComponent implements OnInit {
   signinForm: FormGroup;
-  username: string;
+  email: string;
   password: "";
   hide=true;
   invalidLogin = false;
@@ -21,26 +26,28 @@ export class SigninComponent implements OnInit {
 
   constructor(fb: FormBuilder,
               private router: Router,
-              private basicAuthenticationService: BasicAuthenticationService) {
+              private basicAuthenticationService: BasicAuthenticationService,
+              private userService: UserDataService,
+              private roleService: RoleService) {
     this.signinForm = fb.group({
-      'username':['', Validators.required],
+      'email':['', Validators.required],
       'password':['', Validators.required]
     });
 
-    this.username = this.signinForm.controls['username'].value;
+    this.email = this.signinForm.controls['email'].value;
     this.password = this.signinForm.controls['password'].value;
   }
 
   ngOnInit(): void {
   }
 
-  handleJWTAuthLogin(): any {
-    this.username = this.signinForm.controls['username'].value;
+  onSubmit(): any {
+    this.email = this.signinForm.controls['email'].value;
     this.password = this.signinForm.controls['password'].value;
-    this.basicAuthenticationService.executeJWTAuthenticationService(this.username, this.password)
+    this.basicAuthenticationService.executeJWTAuthenticationService(this.email, this.password)
       .subscribe(
         data => {
-          this.router.navigate(['welcome', this.username])
+          this.router.navigate(['welcome', this.email])
           this.invalidLogin = false;
         },
         error => {
@@ -48,5 +55,33 @@ export class SigninComponent implements OnInit {
           this.submitted = true;
         }
       )
-    }
+
+    /*
+    * Once User is registered, retrieve the first and last name
+    * as well as the Role that the user is given for this app
+    */
+    this.userService.retrieveUserByEmail(this.email).subscribe(
+      response => {
+        localStorage.setItem('firstName', response.firstName);
+        localStorage.setItem('lastName', response.lastName);
+        localStorage.setItem('role', this.getUserRole(response.roles, this.roleService.appRoles))
+      }
+    )}
+
+  /* If possible, return the user's role that matches one of the apps
+  * possible roles, otherwise return null
+  */
+  getUserRole(roles: Role[], possibleRoles: string[]): string {
+
+    //for each role of the user, check if there is a match with the possibe
+    //roles from the app.
+    var userRole: string = '';
+    possibleRoles.forEach(auth => {
+       var found = roles.find(role => role.name.valueOf() == auth.valueOf())
+       if (found != null) userRole = found.name;
+    })
+
+    return userRole;
+  }
+
 }

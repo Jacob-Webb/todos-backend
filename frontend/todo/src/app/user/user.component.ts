@@ -25,7 +25,7 @@ export class UserComponent implements OnInit {
 
     // id of -1 means user is new. Otherwise, retrieve existing user.
     if (this.id != -1) {
-      this.userService.retrieveUser(this.id)
+      this.userService.retrieveUserById(this.id)
       .subscribe (
         data => this.user = data
       )

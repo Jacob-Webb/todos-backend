@@ -48,7 +48,7 @@ public class JwtAuthenticationRestController {
       throws AuthenticationException {
 
     authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
+    
     // change this to get details from server
     //final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
     final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());

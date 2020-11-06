@@ -18,8 +18,12 @@ export class UserDataService {
     return this.http.delete(`${API_URL}/users/${id}`)
   }
 
-  retrieveUser(id) {
+  retrieveUserById(id) {
     return this.http.get<User>(`${API_URL}/users/${id}`)
+  }
+
+  retrieveUserByEmail(email) {
+    return this.http.get<User>(`${API_URL}/users/${email}`)
   }
 
   updateUser(id, user) {
@@ -40,6 +44,10 @@ export class UserDataService {
 
   isNewUser(user) {
     return this.http.post(`${REGISTER_URL}/verify`, user);
+  }
+
+  confirmPassword(email, newPass, currPass) {
+    return this.http.patch(`${API_URL}/users/${email}/${newPass}`, currPass, {observe: 'response'})
   }
 
   resetPassword(email) {

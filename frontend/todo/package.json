@@ -22,6 +22,8 @@
     "@angular/platform-browser": "^10.1.2",
     "@angular/platform-browser-dynamic": "^10.1.2",
     "@angular/router": "^10.1.2",
+    "@types/jwt-decode": "^2.2.1",
+    "jwt-decode": "^3.0.0",
     "ngx-mask": "^10.0.4",
     "rxjs": "~6.6.3",
     "rxjs-compat": "^6.6.3",
