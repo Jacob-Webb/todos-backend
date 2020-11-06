@@ -46,6 +46,10 @@ export class UserDataService {
     return this.http.post(`${REGISTER_URL}/verify`, user);
   }
 
+  confirmPassword(email, newPass, currPass) {
+    return this.http.patch(`${API_URL}/users/${email}/${newPass}`, currPass, {observe: 'response'})
+  }
+
   resetPassword(email) {
     return this.http.post(`${RESET_PASSWORD_URL}`, email);
   }
