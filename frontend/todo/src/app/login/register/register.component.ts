@@ -11,6 +11,8 @@ import { throwError } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { ThrowStmt } from '@angular/compiler';
 import { UserService } from '../../service/user.service';
+import { SIGNIN_TOKEN } from '../../app.constants';
+import { PreloginService } from 'src/app/service/prelogin.service';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -41,6 +43,7 @@ export class RegisterComponent implements OnInit {
               private userDataService: UserDataService,
               private router: Router,
               private basicAuthenticationService: BasicAuthenticationService,
+              private preLoginService: PreloginService,
               fb: FormBuilder
              ) {
     this.registerForm = fb.group({
@@ -90,8 +93,10 @@ export class RegisterComponent implements OnInit {
       //if this is null let them know that the person just needs to be enabled
       resp => {
         this.router.navigate(['confirmation'], {queryParams: {a: encodeURIComponent(btoa(this.userService.user.email))}});
-      }
-    )
+      })
+    // this token ensures that the receiving page was accessed as part of the registration path, and not accessed
+    // from the "outside"
+    this.preLoginService.receivedToken = SIGNIN_TOKEN;
 
   }
 

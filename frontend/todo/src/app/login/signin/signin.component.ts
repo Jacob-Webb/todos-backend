@@ -1,10 +1,12 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SIGNIN_TOKEN } from 'src/app/app.constants';
 import { User } from 'src/app/list-users/list-users.component';
 import { Role } from 'src/app/role/role.model';
 import { RoleService } from 'src/app/role/role.service';
 import { UserDataService } from 'src/app/service/data/user-data.service';
+import { PreloginService } from 'src/app/service/prelogin.service';
 import { BasicAuthenticationService } from '../../service/basic-authentication.service';
 
 
@@ -24,7 +26,8 @@ export class SigninComponent implements OnInit {
   invalidLogin = false;
   submitted=false;
 
-  constructor(fb: FormBuilder,
+  constructor(private preLoginService: PreloginService,
+              fb: FormBuilder,
               private router: Router,
               private basicAuthenticationService: BasicAuthenticationService,
               private userService: UserDataService,
@@ -36,6 +39,9 @@ export class SigninComponent implements OnInit {
 
     this.email = this.signinForm.controls['email'].value;
     this.password = this.signinForm.controls['password'].value;
+
+    //ensure that the next accessed page has a matching token
+    this.preLoginService.receivedToken = SIGNIN_TOKEN;
   }
 
   ngOnInit(): void {

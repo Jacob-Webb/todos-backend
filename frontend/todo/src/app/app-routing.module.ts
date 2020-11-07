@@ -13,6 +13,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { UserPasswordComponent } from './user-password/user-password.component';
+import { PreloginGuardService } from './service/prelogin-guard.service';
 
 // welcome
 const routes: Routes = [
@@ -20,8 +21,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'login/:token', component: LoginComponent},
   { path: 'changePassword', component: ChangePasswordComponent},
-  { path: 'resetPassword', component: ResetPasswordComponent},
-  { path: 'confirmation', component: ConfirmationComponent},
+  { path: 'resetPassword', component: ResetPasswordComponent, canActivate: [PreloginGuardService]},
+  { path: 'confirmation', component: ConfirmationComponent, canActivate:[PreloginGuardService]},
   { path: 'welcome/:name', component: WelcomeComponent, canActivate:[RouteGuardService]},
   { path: 'todos', component: ListTodosComponent, canActivate:[RouteGuardService]},
   { path: 'todos/:id', component: TodoComponent, canActivate:[RouteGuardService]},
