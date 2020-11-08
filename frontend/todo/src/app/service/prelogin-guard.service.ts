@@ -17,6 +17,9 @@ export class PreloginGuardService implements CanActivate {
       if(this.preLoginService.receivedToken == SIGNIN_TOKEN)
         return true;
 
+      if (this.preLoginService.confirmationToken != null)
+        return true;
+
       this.router.navigate(['login'])
       return false;
     }

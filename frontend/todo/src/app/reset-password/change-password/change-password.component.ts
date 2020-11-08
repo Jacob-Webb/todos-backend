@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { PreloginService } from 'src/app/service/prelogin.service';
 import { UserDataService } from '../../service/data/user-data.service';
 
 /*
@@ -27,6 +28,7 @@ export class ChangePasswordComponent implements OnInit {
 
   constructor(
     private userService: UserDataService,
+    private preLoginService: PreloginService,
     private route: ActivatedRoute,
     private router: Router,
     fb:FormBuilder
@@ -62,6 +64,7 @@ export class ChangePasswordComponent implements OnInit {
         }
       )).subscribe()
     }
+    this.preLoginService.confirmationToken = this.token;
   }
 
   onSubmit() {
