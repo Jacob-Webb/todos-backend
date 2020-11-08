@@ -46,4 +46,4 @@ testem.log
 Thumbs.db
 
 # env
-src/app/app.constants.ts
+**/app.constants.ts
