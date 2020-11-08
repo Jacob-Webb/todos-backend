@@ -45,7 +45,7 @@ import { UserComponent } from './user/user.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ChangePasswordComponent } from './reset-password/change-password/change-password.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { UserPasswordComponent } from './user-password/user-password.component';
 

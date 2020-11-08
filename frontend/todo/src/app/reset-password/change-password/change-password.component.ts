@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { UserDataService } from '../service/data/user-data.service';
+import { UserDataService } from '../../service/data/user-data.service';
 
 /*
 * Receive a token from ResetPassword

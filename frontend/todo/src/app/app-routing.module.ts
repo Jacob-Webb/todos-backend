@@ -10,7 +10,7 @@ import { RouteGuardService } from './service/route-guard.service';
 import { TodoComponent } from './todo/todo.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ChangePasswordComponent } from './reset-password/change-password/change-password.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { UserPasswordComponent } from './user-password/user-password.component';
 import { PreloginGuardService } from './service/prelogin-guard.service';
@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'login', component: LoginComponent},
   { path: 'login/:token', component: LoginComponent},
-  { path: 'changePassword', component: ChangePasswordComponent},
+  { path: 'resetPassword/changePassword', component: ChangePasswordComponent},
   { path: 'resetPassword', component: ResetPasswordComponent, canActivate: [PreloginGuardService]},
   { path: 'confirmation', component: ConfirmationComponent, canActivate:[PreloginGuardService]},
   { path: 'welcome/:name', component: WelcomeComponent, canActivate:[RouteGuardService]},
