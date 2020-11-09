@@ -53,7 +53,8 @@ export class SigninComponent implements OnInit {
     this.basicAuthenticationService.executeJWTAuthenticationService(this.email, this.password)
       .subscribe(
         data => {
-          this.router.navigate(['welcome', this.email])
+          //this.router.navigate(['welcome', this.email])
+          this.router.navigate(['todos']);
           this.invalidLogin = false;
         },
         error => {
