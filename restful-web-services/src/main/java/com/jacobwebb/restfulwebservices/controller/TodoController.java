@@ -37,7 +37,7 @@ public class TodoController {
 	/*
 	 * Create a new Todo
 	 */
-	@PostMapping("/api/todos/{username}")
+	@PostMapping("/api/todos/{email}")
 	public ResponseEntity<Void> createTodo(
 			@PathVariable String email, @RequestBody Todo todo) {
 		
@@ -46,6 +46,7 @@ public class TodoController {
 		if (user != null) {
 			todo.setUser(user);
 			Todo createdTodo = todoJpaRepository.save(todo);
+			System.out.println("Created todo id" + createdTodo.getId());
 			
 			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
 					path("/{id}").buildAndExpand(createdTodo.getId()).toUri();
@@ -60,7 +61,7 @@ public class TodoController {
 	/*
 	 * Return all the todos associated with the User of {username}
 	 */
-	@GetMapping("/api/todos/{username}")
+	@GetMapping("/api/todos/{email}")
 	public Collection<Todo> getAllTodos(@PathVariable String email) {
 		
 		// Check that user isn't null before trying to get the Todo list
@@ -73,15 +74,15 @@ public class TodoController {
 	/*
 	 * Find and return the id via the User's list of Todos
 	 */
-	@GetMapping("/api/todos/{username}/{id}")
-	public Todo getTodo(@PathVariable String email, @PathVariable long id) {
+	@GetMapping("/api/todos/{todoId}/{email}")
+	public Todo getTodo(@PathVariable String email, @PathVariable long todoId) {
 	
 		// if the user exists, look throught the Todos
 		User user = userRepository.findByEmail(email);
 		if (user != null) {
 			for (Todo todo: user.getTodos()) {
 				// If the identified todo exists, return it.
-				if (todo.getId() == id) {
+				if (todo.getId() == todoId) {
 					return todo;
 				}
 			}
@@ -93,14 +94,14 @@ public class TodoController {
 	/*
 	 * Update a Todo
 	 */
-	@PutMapping("/api/todos/{username}/{id}")
+	@PutMapping("/api/todos/{todoId}/{email}")
 	public ResponseEntity<Todo> updateTodo( @PathVariable String email,
-											@PathVariable long id, 
+											@PathVariable long todoId, 
 											@RequestBody Todo todo) {
 		
 		User user = userRepository.findByEmail(email);
 		if (user != null) {
-			Todo todoUpdated = user.getTodo(id);
+			Todo todoUpdated = user.getTodo(todoId);
 			
 			if (todoUpdated != null) {
 				todoUpdated = todo;
@@ -115,21 +116,17 @@ public class TodoController {
 		return new ResponseEntity<Todo>(HttpStatus.NOT_FOUND);
 	}
 	
-	@DeleteMapping("/api/todos/{username}/{id}")
+	@DeleteMapping("/api/todos/{todoId}/{email}")
 	public ResponseEntity<Void> deleteTodo(
-		@PathVariable String email, @PathVariable long id) {
+		@PathVariable String email, @PathVariable long todoId) {
 		
 		User user = userRepository.findByEmail(email);
 		if (user != null) {
-			Collection<Todo> todos = user.getTodos();
-			for (Todo todo: todos) {
-				if (todo.getId() == id) {
-					todos.remove(todo);
-					user.setTodos(todos);
-					userRepository.save(user);
-					return ResponseEntity.noContent().build();
-				}
-			}
+			
+			todoJpaRepository.deleteById(todoId);
+				
+			return ResponseEntity.noContent().build();
+
 		}
 		return ResponseEntity.notFound().build();
 	}

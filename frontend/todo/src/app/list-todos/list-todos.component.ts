@@ -6,6 +6,7 @@ import { BasicAuthenticationService } from '../service/basic-authentication.serv
 export class Todo {
   constructor(
     public id: number,
+    public title: string,
     public description: string,
     public done: boolean,
     public targetDate: Date
@@ -47,10 +48,8 @@ export class ListTodosComponent implements OnInit {
   }
 
   deleteTodo(id) {
-    console.log(`delete todo ${id}`);
-    this.todoService.deleteTodo(this.basicAuthenticationService.getAuthenticatedUser(), id).subscribe(
+    this.todoService.deleteTodo(id, this.basicAuthenticationService.getAuthenticatedUser()).subscribe(
       response => {
-        console.log(response);
         this.message = `Delete of Todo ${id} Succesful`
         this.refreshTodos();
       }

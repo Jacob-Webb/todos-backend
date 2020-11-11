@@ -11,24 +11,24 @@ export class TodoDataService {
 
   constructor(private http: HttpClient) { }
 
-  retrieveAllTodos(username) {
-    return this.http.get<Todo[]>(`${API_URL}/users/${username}/todos`)
+  retrieveAllTodos(email) {
+    return this.http.get<Todo[]>(`${API_URL}/todos/${email}`)
   }
 
-  deleteTodo(username, id) {
-    return this.http.delete(`${API_URL}/users/${username}/todos/${id}`)
+  deleteTodo(todoId, email) {
+    return this.http.delete(`${API_URL}/todos/${todoId}/${email}`)
   }
 
-  retrieveTodo(username, id) {
-    return this.http.get<Todo>(`${API_URL}/users/${username}/todos/${id}`);
+  retrieveTodo(todoId, email) {
+    return this.http.get<Todo>(`${API_URL}/todos/${todoId}/${email}`);
   }
 
-  updateTodo(username, id, todo) {
-    return this.http.put(`${API_URL}/users/${username}/todos/${id}`, todo);
+  updateTodo(todoId, email, todo) {
+    return this.http.put(`${API_URL}/todos/${todoId}/${email}`, todo);
   }
 
-  createTodo(username, todo) {
-    return this.http.post(`${API_URL}/users/${username}/todos`, todo);
+  createTodo(email, todo) {
+    return this.http.post(`${API_URL}/todos/${email}`, todo);
   }
 
 }
