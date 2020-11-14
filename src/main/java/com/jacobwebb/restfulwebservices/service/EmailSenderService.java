@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class EmailSenderService {
 	
 	@Autowired
@@ -18,6 +17,10 @@ public class EmailSenderService {
 	
 	@Value("${frontend.url}")
 	private String frontendUrl;
+	
+	public EmailSenderService() {
+		
+	}
 	
 	@Async
     public void sendEmail(SimpleMailMessage email) {
