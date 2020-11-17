@@ -27,7 +27,7 @@ import com.jacobwebb.restfulwebservices.model.User;
 import com.jacobwebb.restfulwebservices.service.UserDetailsServiceImpl;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins="${crossOrigin}")
 public class JwtAuthenticationRestController {
 
   @Value("${jwt.http.request.header}")

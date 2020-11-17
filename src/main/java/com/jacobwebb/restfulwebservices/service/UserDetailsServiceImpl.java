@@ -111,7 +111,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     	
     	mailMessage.setTo(userEmail);
     	mailMessage.setSubject("Todo Confirmation Link!");
-    	mailMessage.setFrom("${spring.mail.username}");
+    	mailMessage.setFrom("Jacob Webb (${spring.mail.username})");
     	mailMessage.setText(
     			"Thank you for registering. Please click on the below link to activate your account.\n\n" + 
     					emailSenderService.getFrontendUrl() + "/login/" + token);
@@ -136,7 +136,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 			    email.setSubject(subject);
 			    email.setText(body);
 			    email.setTo(user.getEmail());
-			    email.setFrom("${spring.mail.username}");
+			    email.setFrom("Jacob Webb (${spring.mail.username})");
 			    return email;
 	}
 
