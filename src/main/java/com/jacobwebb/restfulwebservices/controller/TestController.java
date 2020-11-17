@@ -64,17 +64,9 @@ public class TestController {
 	 * Create a new Todo
 	 */
 	@PostMapping("/test")
-	public ResponseEntity<?> resetPassword(@RequestBody String userEmail) {
+	public String apiTest() {
 		
-		    User user = userRepository.findByEmail(userEmail);
-		    System.out.println(userEmail);
-		    if (user == null) {
-		        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		    }
-		    String token = UUID.randomUUID().toString();
-		    userService.createPasswordResetTokenForUser(user, token);
-		 
-		    return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		return "You made it through";
 	}
 	
 }
