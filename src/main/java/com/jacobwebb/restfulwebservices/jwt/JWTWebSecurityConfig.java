@@ -78,9 +78,9 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             //This will be the PermissionController path. Path needs to be more secure; use some sort of superAdmin username or something. 
             // These are public pages
-            .antMatchers("/resources/**", "/error", "/api/**", "/test").permitAll()
+            .antMatchers("/resources/**", "/error", "/user").permitAll()
             // These can be reachable for only Admin roles
-            .antMatchers("/users/**").hasAnyRole("ADMIN", "SUPERADMIN")
+            .antMatchers("/api/**").hasAnyRole("USER", "ADMIN", "SUPERADMIN")
             .antMatchers("/security/**").hasRole("SUPERADMIN")
             // All remaining paths should need authentication
             .anyRequest().authenticated();
