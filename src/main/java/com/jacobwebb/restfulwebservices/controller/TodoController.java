@@ -38,7 +38,7 @@ public class TodoController {
 	 * Create a new Todo
 	 */
 	@PostMapping("/api/todos/{email}")
-	public ResponseEntity<Void> createTodo(
+	public ResponseEntity<Long> createTodo(
 			@PathVariable String email, @RequestBody Todo todo) {
 		
 		// if user exists
@@ -46,16 +46,18 @@ public class TodoController {
 		if (user != null) {
 			todo.setUser(user);
 			Todo createdTodo = todoJpaRepository.save(todo);
-			System.out.println("Created todo id" + createdTodo.getId());
 			
 			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
 					path("/{id}").buildAndExpand(createdTodo.getId()).toUri();
+			
+				return new ResponseEntity<Long>(createdTodo.getId(), HttpStatus.OK);
 				
-				return ResponseEntity.created(uri).build();
+				//return ResponseEntity.created(uri).build();
 		}
 		
 		// Otherwise, return Not Found (404)
-		return ResponseEntity.notFound().build();
+		//return ResponseEntity.notFound().build();
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	/*
