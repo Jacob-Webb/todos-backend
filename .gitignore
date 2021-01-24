@@ -2,6 +2,6 @@
 #/target/
 /target/
 /pom.xml
-**/*.properties
-**/resources/
-**/*.class
+# **/*.properties
+# **/resources/
+# **/*.class
