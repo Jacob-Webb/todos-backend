@@ -1,7 +1,7 @@
 .vscode/
 #/target/
 /target/
-/pom.xml
+# /pom.xml
 # **/*.properties
 # **/resources/
-# **/*.class
+**/*.class
