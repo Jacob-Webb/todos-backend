@@ -114,7 +114,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     	mailMessage.setFrom("${spring.mail.username}");
     	mailMessage.setText(
     			"Thank you for registering. Please click on the below link to activate your account.\n\n" + 
-    					emailSenderService.getFrontendUrl() + "/login/" + token);
+    					emailSenderService.getFrontendUrl() + "/login?token=" + token);
 
     	emailSenderService.sendEmail(mailMessage);
     }
