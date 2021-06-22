@@ -54,6 +54,7 @@ public class UserUtilityController {
      */
   	@PostMapping("/user/register") 
   	public ResponseEntity<?> registerUser(@RequestBody User user) {
+  		System.out.println("We made it to the register");
 
 		// Check if the username is taken before creating a new user
 		if (userRepository.findByEmail(user.getEmail()) != null) {
