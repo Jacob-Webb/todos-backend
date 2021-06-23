@@ -67,6 +67,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	}
     
     public void signupUser(User user) {
+    	System.out.println("Inside signupUser");
     	
 		// Encrypt user password
 		user.setPassword(passwordEncoderBean().encode(user.getPassword()));
