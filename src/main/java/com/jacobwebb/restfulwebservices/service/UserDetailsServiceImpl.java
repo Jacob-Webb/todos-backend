@@ -67,13 +67,13 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	}
     
     public void signupUser(User user) {
-    	System.out.println("Inside signupUser");
     	
 		// Encrypt user password
 		user.setPassword(passwordEncoderBean().encode(user.getPassword()));
 		
 		final ConfirmationToken confirmationToken = new ConfirmationToken(user);
 		
+		System.out.println("Before sendConfirmationEmail");
 		sendConfirmationEmail(user.getEmail(), confirmationToken.getConfirmationToken());
 		
 		userRepository.save(user);
@@ -116,7 +116,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     	mailMessage.setText(
     			"Thank you for registering. Please click on the below link to activate your account.\n\n" + 
     					emailSenderService.getFrontendUrl() + "/login?token=" + token);
-
+    	System.out.println("Before sendEmail");
     	emailSenderService.sendEmail(mailMessage);
     }
     
