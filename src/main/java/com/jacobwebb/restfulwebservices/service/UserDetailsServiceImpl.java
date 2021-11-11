@@ -118,7 +118,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     }
     
     public SimpleMailMessage constructResetTokenEmail(String token, User user) {
-    	String url = emailSenderService.getFrontendUrl() + "/resetPassword/changePassword?token=" + token;
+    	String url = emailSenderService.getFrontendUrl() + "/?changePasswordToken=" + token;
         String message = "Reset your password";
         
         return constructEmail("Reset Password", message + " \r\n" + url, user);
